@@ -74,7 +74,7 @@ module Sawmill
         elsif destination_.respond_to?(:close) && destination_.respond_to?(:write)
           @io = destination_
         else
-          raise ArgumentError, "Unknown destination type"
+          raise ::ArgumentError, "Unknown destination type"
         end
         @include_id = opts_[:include_id]
         @fractional_second_digits = (opts_[:fractional_second_digits] || 2).to_i

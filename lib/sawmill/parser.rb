@@ -74,7 +74,7 @@ module Sawmill
       elsif processor_.respond_to?(:begin_record) && processor_.respond_to?(:end_record)
         @processor = processor_
       end
-      @levels = opts_[:levels] || ::Sawmill::STANDARD_LEVELS
+      @levels = opts_[:levels] || STANDARD_LEVELS
       @emit_incomplete_records_at_eof = opts_[:emit_incomplete_records_at_eof]
       @current_record_id = nil
       @parser_directives = {}

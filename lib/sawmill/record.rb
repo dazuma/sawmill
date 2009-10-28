@@ -142,9 +142,9 @@ module Sawmill
         when :append
           val_ = @attributes[entry_.key]
           case val_
-          when Array
+          when ::Array
             val_ << entry_.value
-          when String
+          when ::String
             @attributes[entry_.key] = [val_, entry_.value]
           when nil
             @attributes[entry_.key] = [entry_.value]

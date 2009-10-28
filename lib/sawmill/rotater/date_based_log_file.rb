@@ -82,8 +82,8 @@ module Sawmill
       
       def initialize(options_)
         @turnover_frequency = options_[:turnover_frequency] || :none
-        dirname_ = options_[:dirname] || Dir.getwd
-        @prefix = File.join(dirname_, options_[:prefix] || 'sawmill')
+        dirname_ = options_[:dirname] || ::Dir.getwd
+        @prefix = ::File.join(dirname_, options_[:prefix] || 'sawmill')
         @suffix = options_[:suffix] || '.log'
         @local_timezone = options_[:local_timezone]
         @date_pattern =
@@ -101,7 +101,7 @@ module Sawmill
       
       def preferred_handle
         if @date_pattern
-          time_ = Time.now
+          time_ = ::Time.now
           time_.utc unless @local_timezone
           time_.strftime(@date_pattern)
         else
@@ -118,7 +118,7 @@ module Sawmill
         else
           path_ = @prefix+@suffix
         end
-        file_ = File.open(path_, File::CREAT | File::WRONLY | File::APPEND)
+        file_ = ::File.open(path_, ::File::CREAT | ::File::WRONLY | ::File::APPEND)
         file_.sync = true
         file_
       end

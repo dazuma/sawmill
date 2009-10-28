@@ -63,7 +63,7 @@ module Sawmill
       # closed in the meantime.
       
       def open_handle(handle_)
-        STDOUT
+        ::STDOUT
       end
       
       

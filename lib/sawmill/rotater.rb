@@ -73,13 +73,13 @@ module Sawmill
     
     def initialize(io_manager_, opts_={})
       @omit_directives = opts_.delete(:omit_directives)
-      if io_manager_.kind_of?(Class)
+      if io_manager_.kind_of?(::Class)
         @io_manager = io_manager_.new(opts_)
       else
         @io_manager = io_manager_
       end
       @handles ||= {}
-      @mutex ||= Monitor.new
+      @mutex ||= ::Monitor.new
     end
     
     

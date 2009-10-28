@@ -61,9 +61,9 @@ module Sawmill
         @attributes.each do |key_, value_|
           record_value_ = record_.attribute(key_.to_s)
           case record_value_
-          when Array
+          when ::Array
             return false unless record_value_.find{ |rval_| value_ === rval_ }
-          when String
+          when ::String
             return false unless value_ === record_value_
           when nil
             return false unless value_.nil?

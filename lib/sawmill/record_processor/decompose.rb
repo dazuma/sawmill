@@ -49,7 +49,7 @@ module Sawmill
       
       def initialize(processor_, opts_={})
         @processor = processor_
-        @classifier = ::Sawmill::EntryClassifier.new(processor_)
+        @classifier = EntryClassifier.new(processor_)
       end
       
       

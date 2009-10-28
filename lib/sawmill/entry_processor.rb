@@ -130,12 +130,12 @@ module Sawmill
       
       def _interpret_processor(param_)  # :nodoc:
         case param_
-        when Class
+        when ::Class
           param_.new
         when Base
           param_
         else
-          raise ArgumentError, "Unknown processor object of type #{param_.class.name}"
+          raise ::ArgumentError, "Unknown processor object of type #{param_.class.name}"
         end
       end
       

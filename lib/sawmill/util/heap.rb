@@ -48,7 +48,7 @@ module Sawmill
       
       def initialize(data_=nil, &block_)
         @_heap = data_ || []
-        @_comparator = block_ || Proc.new{ |a_,b_| a_ <=> b_ }
+        @_comparator = block_ || ::Proc.new{ |a_,b_| a_ <=> b_ }
       end
       
       

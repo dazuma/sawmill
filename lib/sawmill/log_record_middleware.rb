@@ -62,7 +62,7 @@ module Sawmill
     
     def initialize(app_, logger_=nil, opts_={})
       @app = app_
-      @logger = logger_ || Logger.new(:progname => 'rack', :processor => ::Sawmill::Formatter.new(STDOUT))
+      @logger = logger_ || Logger.new(:progname => 'rack', :processor => Formatter.new(::STDOUT))
       @request_id_key = opts_[:request_id_key] || 'sawmill.request_id'
       @start_time_attribute = opts_[:start_time_attribute]
       @end_time_attribute = opts_[:end_time_attribute]
@@ -72,14 +72,14 @@ module Sawmill
     def call(env_)
       env_[@request_id_key] = @logger.begin_record
       if @start_time_attribute
-        time_ = Time.now.utc
+        time_ = ::Time.now.utc
         @logger.set_attribute(@start_time_attribute, time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % time_.usec) + 'Z')
       end
       begin
         return @app.call(env_)
       ensure
         if @end_time_attribute
-          time_ = Time.now.utc
+          time_ = ::Time.now.utc
           @logger.set_attribute(@end_time_attribute, time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % time_.usec) + 'Z')
         end
         @logger.end_record

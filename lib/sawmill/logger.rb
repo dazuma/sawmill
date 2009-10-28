@@ -34,8 +34,9 @@
 ;
 
 
-if RUBY_VERSION >= '1.9'
+begin
   require 'securerandom'
+rescue ::LoadError
 end
 
 
@@ -80,7 +81,7 @@ module Sawmill
     #   If not specified, log entries are written out to STDOUT.
     
     def initialize(opts_={})
-      @levels = opts_[:levels] || ::Sawmill::STANDARD_LEVELS
+      @levels = opts_[:levels] || STANDARD_LEVELS
       @level = @levels.get(opts_[:level])
       if opts_.include?(:attribute_level)
         @attribute_level = @levels.get(opts_[:attribute_level])
@@ -89,8 +90,8 @@ module Sawmill
       end
       @progname = opts_[:progname] || 'sawmill'
       @record_progname = opts_[:record_progname] || @progname
-      @record_id_generator = opts_[:record_id_generator] || _get_default_record_id_generator
-      @processor = opts_[:processor] || ::Sawmill::Formatter.new(STDOUT)
+      @record_id_generator = opts_[:record_id_generator] || Logger._get_default_record_id_generator
+      @processor = opts_[:processor] || Formatter.new(::STDOUT)
       @current_record_id = nil
     end
     
@@ -122,7 +123,7 @@ module Sawmill
       else
         message_ = message_.inspect
       end
-      @processor.message(Entry::Message.new(level_obj_, Time.now, progname_, @current_record_id, message_))
+      @processor.message(Entry::Message.new(level_obj_, ::Time.now, progname_, @current_record_id, message_))
       true
     end
     alias_method :log, :add
@@ -161,7 +162,7 @@ module Sawmill
     def begin_record(id_=nil)
       end_record if @current_record_id
       @current_record_id = (id_ || @record_id_generator.call).to_s
-      @processor.begin_record(Entry::BeginRecord.new(@levels.highest, Time.now, @record_progname, @current_record_id))
+      @processor.begin_record(Entry::BeginRecord.new(@levels.highest, ::Time.now, @record_progname, @current_record_id))
       @current_record_id
     end
     
@@ -180,7 +181,7 @@ module Sawmill
     
     def end_record
       if @current_record_id
-        @processor.end_record(Entry::EndRecord.new(@levels.highest, Time.now, @record_progname, @current_record_id))
+        @processor.end_record(Entry::EndRecord.new(@levels.highest, ::Time.now, @record_progname, @current_record_id))
         id_ = @current_record_id
         @current_record_id = nil
         id_
@@ -209,7 +210,7 @@ module Sawmill
         end
       end
       return true if level_obj_ < @level
-      @processor.attribute(Entry::Attribute.new(level_obj_, Time.now, progname_ || @record_progname, @current_record_id, key_, value_, operation_))
+      @processor.attribute(Entry::Attribute.new(level_obj_, ::Time.now, progname_ || @record_progname, @current_record_id, key_, value_, operation_))
       true
     end
     
@@ -288,7 +289,7 @@ module Sawmill
     # a default generator which uses the variant 4 (random) UUID standard.
     
     def to_generate_record_id(&block_)
-      @record_id_generator = block_ || _get_default_record_id_generator
+      @record_id_generator = block_ || Logger._get_default_record_id_generator
     end
     
     
@@ -339,21 +340,23 @@ module Sawmill
     end
     
     
-    def _get_default_record_id_generator  # :nodoc:
-      if RUBY_VERSION >= '1.9'
-        lambda do
-          uuid_ = SecureRandom.hex(32)
-          uuid_[12] = '4'
-          uuid_[16] = (uuid_[16,1].to_i(16)&3|8).to_s(16)
-          uuid_.insert(8, '-')
-          uuid_.insert(13, '-')
-          uuid_.insert(18, '-')
-          uuid_.insert(23, '-')
-          uuid_
+    def self._get_default_record_id_generator  # :nodoc:
+      unless @_default_generator
+        if defined?(::SecureRandom)
+          def self._random_hex32
+            ::SecureRandom.hex(32)
+          end
+        elsif defined?(::ActiveSupport::SecureRandom)
+          def self._random_hex32
+            ::ActiveSupport::SecureRandom.hex(32)
+          end
+        else
+          def self._random_hex32
+            ::Kernel.rand(0x100000000000000000000000000000000).to_s(16).rjust(32, '0')
+          end
         end
-      else
-        lambda do
-          uuid_ = Kernel.rand(0x100000000000000000000000000000000).to_s(16).rjust(32, '0')
+        @_default_generator = ::Proc.new do
+          uuid_ = _random_hex32
           uuid_[12] = '4'
           uuid_[16] = (uuid_[16,1].to_i(16)&3|8).to_s(16)
           uuid_.insert(8, '-')
@@ -363,8 +366,8 @@ module Sawmill
           uuid_
         end
       end
+      @_default_generator
     end
-    private :_get_default_record_id_generator
     
     
   end

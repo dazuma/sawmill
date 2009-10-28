@@ -91,11 +91,11 @@ module Sawmill
         end
         @history_size = options_[:history_size].to_i
         @history_size = 1 if @history_size < 1 && (@max_logfile_size || @shift_period)
-        dirname_ = options_[:dirname] || Dir.getwd
-        @normal_path = File.join(dirname_, options_[:filename] || 'sawmill.log')
+        dirname_ = options_[:dirname] || ::Dir.getwd
+        @normal_path = ::File.join(dirname_, options_[:filename] || 'sawmill.log')
         @preferred_handle = 0
         @open_handles = {}
-        @last_shift = Time.now
+        @last_shift = ::Time.now
       end
       
       
@@ -114,7 +114,7 @@ module Sawmill
         else
           path_ = "#{@normal_path}.#{@preferred_handle-handle_-1}"
         end
-        file_ = File.open(path_, File::CREAT | File::WRONLY | File::APPEND)
+        file_ = ::File.open(path_, ::File::CREAT | ::File::WRONLY | ::File::APPEND)
         file_.sync = true
         @open_handles[handle_] = true
         file_
@@ -126,7 +126,7 @@ module Sawmill
       def close_handle(handle_, io_)
         io_.close
         if @preferred_handle - handle_ > @history_size
-          File.delete("#{@normal_path}.#{@preferred_handle-handle_-1}") rescue nil
+          ::File.delete("#{@normal_path}.#{@preferred_handle-handle_-1}") rescue nil
         end
         @open_handles.delete(handle_)
         nil
@@ -138,22 +138,22 @@ module Sawmill
       def before_write
         return unless @max_logfile_size || @shift_period
         turnover_ = false
-        if @max_logfile_size && File.file?(@normal_path) && File.size(@normal_path) > @max_logfile_size
+        if @max_logfile_size && ::File.file?(@normal_path) && ::File.size(@normal_path) > @max_logfile_size
           turnover_ = true
         end
-        if @shift_period && (Time.now - @last_shift) > @shift_period
+        if @shift_period && (::Time.now - @last_shift) > @shift_period
           turnover_ = true
         end
         if turnover_
           max_ = @preferred_handle - @open_handles.keys.min + 1
           max_ = @history_size if max_ < @history_size
-          File.delete("#{@normal_path}.#{max_-1}") rescue nil
+          ::File.delete("#{@normal_path}.#{max_-1}") rescue nil
           (max_-1).downto(1) do |index_|
-            File.rename("#{@normal_path}.#{index_-1}", "#{@normal_path}.#{index_}") rescue nil
+            ::File.rename("#{@normal_path}.#{index_-1}", "#{@normal_path}.#{index_}") rescue nil
           end
-          File.rename("#{@normal_path}", "#{@normal_path}.0") rescue nil
+          ::File.rename("#{@normal_path}", "#{@normal_path}.0") rescue nil
           @preferred_handle += 1
-          @last_shift = Time.now
+          @last_shift = ::Time.now
         end
       end
       

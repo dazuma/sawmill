@@ -119,7 +119,7 @@ module Sawmill
       def _check_filter(entry_)  # :nodoc:
         if @level
           level_ = entry_.level
-          if @level.kind_of?(::Sawmill::Level)
+          if @level.kind_of?(Level)
             check_level_ = @level
             if level_.group != check_level_.group
               return false unless @accept_incomparable_levels

@@ -80,7 +80,7 @@ gemspec_ = ::Gem::Specification.new do |s_|
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.description = 'Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities.'
-  s_.homepage = 'http://github.com/dazuma/sawmill'
+  s_.homepage = 'http://virtuoso.rubyforge.org/sawmill'
   s_.rubyforge_project = 'virtuoso'
   s_.required_ruby_version = '>= 1.8.6'
   s_.files = ::FileList['lib/**/*.rb', 'tests/**/*.rb', '*.rdoc', 'Rakefile'].to_a
@@ -88,8 +88,8 @@ gemspec_ = ::Gem::Specification.new do |s_|
   s_.has_rdoc = true
   s_.test_files = ::FileList['tests/tc_*.rb']
   s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.2.1')
-  s_.add_dependency('versionomy', '>= 0.1.1')
+  s_.add_dependency('blockenspiel', '>= 0.2.2')
+  s_.add_dependency('versionomy', '>= 0.1.2')
 end
 ::Rake::GemPackageTask.new(gemspec_) do |task_|
   task_.need_zip = false
