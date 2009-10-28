@@ -43,7 +43,7 @@ module Sawmill
   class Parser
     
     # :stopdoc:
-    LINE_REGEXP = /^\[\s*([[:graph:]]+)\s+(\d{4})-(\d{2})-(\d{2})(T|\s)(\d{2}):(\d{2}):(\d{2})(.(\d{1,6}))?Z?\s+([[:graph:]]+)(\s+([[:graph:]]+))?\s+([\^$.=])\]\s(.*)$/
+    LINE_REGEXP = /^\[\s*([[:graph:]]+)\s+(\d{4})-(\d{2})-(\d{2})(T|\s)(\d{2}):(\d{2}):(\d{2})(.(\d{1,6}))?Z?\s?([+-]\d{4})?\s+([[:graph:]]+)(\s+([[:graph:]]+))?\s+([\^$.=])\]\s(.*)$/
     DIRECTIVE_REGEXP = /^#\s+sawmill_format:\s+(\w+)=(.*)$/
     ATTRIBUTE_REGEXP = /^([[:graph:]]+)\s([=+\/-])\s/
     # :startdoc:
@@ -95,10 +95,21 @@ module Sawmill
           level_ = @levels.get(match_[1])
           timestamp_ = ::Time.utc(match_[2].to_i, match_[3].to_i, match_[4].to_i,
             match_[6].to_i, match_[7].to_i, match_[8].to_i, match_[10].to_s.ljust(6, '0').to_i)
-          progname_ = match_[11]
-          record_id_ = match_[13] || @current_record_id
-          type_code_ = match_[14]
-          str_ = match_[15]
+          offset_ = match_[11].to_i
+          if offset_ != 0
+            neg_ = offset_ < 0
+            offset_ = -offset_ if neg_
+            secs_ = offset_ / 100 * 3600 + offset_ % 100 * 60
+            if neg_
+              timestamp_ += secs_
+            else
+              timestamp_ -= secs_
+            end
+          end
+          progname_ = match_[12]
+          record_id_ = match_[14] || @current_record_id
+          type_code_ = match_[15]
+          str_ = match_[16]
           if str_ =~ /(\\+)$/
             count_ = $1.length
             str_ = $` + "\\"*(count_/2)
@@ -131,12 +142,7 @@ module Sawmill
               key_ = $1
               opcode_ = $2
               value_ = $'
-              operation_ = case opcode_
-                           when '=' then :set
-                           when '+' then :append
-                           when '-' then :remove
-                           when '/' then :unset
-                           end
+              operation_ = opcode_ == '+' ? :append : :set
               entry_ = Entry::Attribute.new(level_, timestamp_, progname_, record_id_, key_, value_, operation_)
               @processor.attribute(entry_) if @processor
             end

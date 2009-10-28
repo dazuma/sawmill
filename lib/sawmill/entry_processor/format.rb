@@ -59,6 +59,12 @@ module Sawmill
       #   Default is 2. Accepted values are 0 to 6.
       # <tt>:level_width</tt>::
       #   Column width of the level field.
+      # <tt>:local_time</tt>::
+      #   If true, outputs local time with the timezone offset indicator.
+      #   If false (the default), outputs UTC.
+      # <tt>:iso_8601_time</tt>::
+      #   If true, outputs time in strict ISO 8601 format.
+      #   If false (the default), outputs a slightly more readable format.
       
       def initialize(destination_, opts_={})
         if destination_.kind_of?(Rotater)
@@ -125,12 +131,7 @@ module Sawmill
       
       def attribute(entry_)
         return false unless @io || @rotater
-        opcode_ = case entry_.operation
-                  when :append then '+'
-                  when :remove then '-'
-                  when :unset then '/'
-                  else '='
-                  end
+        opcode_ = entry_.operation == :append ? '+' : '='
         str_ = _format_entry(entry_, '=', "#{entry_.key} #{opcode_} #{entry_.value}")
         _write_str(str_, entry_.record_id)
         true
@@ -181,9 +182,32 @@ module Sawmill
             line_
           end
         end.join("\\\n")
-        timestr_ = time_.strftime('%Y-%m-%d %H:%M:%S')
+        time_ = entry_.timestamp
+        if @local_time
+          time_ = time_.getlocal
+        else
+          time_ = time_.getutc
+        end
+        if @iso_8601_time
+          timestr_ = time_.strftime('%Y-%m-%dT%H:%M:%S')
+        else
+          timestr_ = time_.strftime('%Y-%m-%d %H:%M:%S')
+        end
         if @fractional_second_digits > 0
           timestr_ << (".%0#{@fractional_second_digits}d" % (time_.usec / @usec_factor))
+        end
+        if @local_time
+          offset_ = time_.utc_offset
+          neg_ = offset_ < 0
+          offset_ = -offset_ if neg_
+          offsetstr_ = "%s%02d%02d" % [(neg_ ? '-' : '+'), offset_ / 3600, (offset_ % 3600) / 60]
+          if @iso_8601_time
+            timestr_ << offsetstr_
+          else
+            timestr_ << ' ' << offsetstr_
+          end
+        elsif @iso_8601_time
+          timestr_ << 'Z'
         end
         levelstr_ = entry_.level.name.to_s
         levelstr_ = levelstr_.rjust(@level_width) if @level_width

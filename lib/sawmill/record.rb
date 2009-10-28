@@ -139,17 +139,6 @@ module Sawmill
           when nil
             @attributes[entry_.key] = [entry_.value]
           end
-        when :remove
-          val_ = @attributes[entry_.key]
-          case val_
-          when Array
-            val_.delete(entry_.value)
-            @attributes.delete(entry_.key) if val_.size == 0
-          when String
-            @attributes.delete(entry_.key) if val_ == entry_.value
-          end
-        when :unset
-          @attributes.delete(entry_.key)
         end
       when :message
         @message_count += 1
