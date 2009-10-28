@@ -73,6 +73,13 @@ module Sawmill
       end
       
       
+      # Return an array of the contents of the record queue, in order.
+      
+      def dequeue_all
+        @queue.dequeue_all
+      end
+      
+      
       # Return the number of records in the record queue.
       
       def size
@@ -85,6 +92,13 @@ module Sawmill
       
       def dequeue_extra_entry
         @extra_entries_queue.dequeue
+      end
+      
+      
+      # Return an array of the contents of the extra entry queue, in order.
+      
+      def dequeue_all_extra_entries
+        @extra_entries_queue.dequeue_all
       end
       
       

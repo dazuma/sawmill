@@ -89,6 +89,16 @@ module Sawmill
     end
     
     
+    def eql?(obj_)  # :nodoc:
+      return false unless obj_.kind_of?(Record)
+      return @entries == obj_.instance_variable_get(:@entries)
+    end
+    
+    def ==(obj_)  # :nodoc:
+      eql?(obj_)
+    end
+    
+    
     # Append a log entry to this record.
     # 
     # Entries must be added in order. Raises Errors::IllegalRecordError if

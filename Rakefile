@@ -106,8 +106,8 @@ task :publish_rdoc_to_rubyforge => [:rerdoc] do
 end
 
 
-# Publish gem
-task :publish_gem_to_rubyforge => [:package] do |t_|
+# Release gem ro rubyforge
+task :release_gem_to_rubyforge => [:package] do |t_|
   v_ = ::ENV["VERSION"]
   abort "Must supply VERSION=x.y.z" unless v_
   if v_ != ::Sawmill::VERSION_STRING
@@ -131,8 +131,8 @@ task :publish_gem_to_rubyforge => [:package] do |t_|
 end
 
 
-# Publish gem
-task :publish_gem_to_gemcutter => [:package] do |t_|
+# Release gem to gemcutter
+task :release_gem_to_gemcutter => [:package] do |t_|
   v_ = ::ENV["VERSION"]
   abort "Must supply VERSION=x.y.z" unless v_
   if v_ != ::Sawmill::VERSION_STRING
@@ -144,4 +144,4 @@ end
 
 
 # Publish everything
-task :publish => [:publish_gem_to_gemcutter, :publish_gem_to_rubyforge, :publish_rdoc_to_rubyforge]
+task :release => [:release_gem_to_gemcutter, :release_gem_to_rubyforge, :publish_rdoc_to_rubyforge]

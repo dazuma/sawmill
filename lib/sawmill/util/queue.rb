@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill entry stream processor interface
+# Sawmill queue utility
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -101,6 +101,7 @@ module Sawmill
         if @push_ptr
           if @pop_ptr
             object_ = @buffer[@pop_ptr]
+            @buffer[@pop_ptr] = nil
             @pop_ptr += 1
             @pop_ptr = 0 if @pop_ptr == @buffer.size
             @pop_ptr = nil if @pop_ptr == @push_ptr
@@ -110,6 +111,31 @@ module Sawmill
           end
         else
           @buffer.shift
+        end
+      end
+      
+      
+      # Return an array of the contents of the queue, in order.
+      
+      def dequeue_all
+        if @push_ptr
+          if @pop_ptr
+            if @pop_ptr < @push_ptr
+              ret_ = @buffer[@pop_ptr..@push_ptr-1]
+            else
+              ret_ = @buffer[@pop_ptr..-1] + @buffer[0..@push_ptr-1]
+            end
+            @buffer.fill(nil)
+            @push_ptr = 0
+            @pop_ptr = nil
+            ret_
+          else
+            []
+          end
+        else
+          ret_ = @buffer
+          @buffer = []
+          ret_
         end
       end
       

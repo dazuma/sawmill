@@ -49,6 +49,7 @@ dir_ = ::File.expand_path('sawmill', ::File.dirname(__FILE__))
 includes_ = [
  'version',
  'util/queue',
+ 'util/heap',
  'errors',
  'level',
  'entry',
@@ -68,6 +69,7 @@ includes_ = [
  'record_processor/decompose',
  'record_processor/format',
  'parser',
+ 'multi_parser',
  'logger',
  'rotater',
  'rotater/base',

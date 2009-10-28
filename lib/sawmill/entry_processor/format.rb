@@ -139,7 +139,7 @@ module Sawmill
       
       def unknown_data(entry_)
         return false unless @io || @rotater
-        _write_str(entry_.line+"\n", entry_.record_id)
+        _write_str(entry_.line+"\n", nil)
         true
       end
       

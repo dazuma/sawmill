@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill entry processor that queues entries
+# Sawmill heap utility
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -36,81 +36,112 @@
 
 module Sawmill
   
-  
-  module EntryProcessor
+  module Util
     
     
-    # This processor simply queues up log entries for later use.
+    # A simple heap class.
     
-    class SimpleQueue < Base
+    class Heap
       
       
-      # Create a queue.
-      # 
-      # Recognized options include:
-      # 
-      # <tt>:limit</tt>::
-      #   Size limit for the queue. If not specified, the queue can grow
-      #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
-      #   If set to true, then when an item is added to a full queue, the
-      #   oldest item is dropped. If set to false or not specified, then
-      #   the new item is not added.
+      # Create a new heap.
       
-      def initialize(opts_={})
-        @queue = Util::Queue.new(opts_)
-        @closed = false
+      def initialize(data_=nil, &block_)
+        @_heap = data_ || []
+        @_comparator = block_ || Proc.new{ |a_,b_| a_ <=> b_ }
       end
       
       
-      # Return the oldest entry in the queue, or nil if the queue is empty.
-      
-      def dequeue
-        @queue.dequeue
+      def merge(enum_)
+        enum_.each{ |value_| add(value_) }
+        self
       end
       
       
-      # Return an array of the contents of the queue, in order.
-      
-      def dequeue_all
-        @queue.dequeue_all
+      def add(value_)
+        @_heap << value_
+        _sift_up(@_heap.length-1)
+        self
       end
       
       
-      # Return the size of the queue, which is 0 if the queue is empty.
+      def <<(value_)
+        add(value_)
+      end
+      
+      
+      def remove
+        ret_ = @_heap[0]
+        if @_heap.length > 1
+          @_heap[0] = @_heap.pop
+          _sift_down(0)
+        else
+          @_heap.clear
+        end
+        ret_
+      end
+      
+      
+      def peek
+        @_heap[0]
+      end
+      
       
       def size
-        @queue.size
+        @_heap.size
       end
       
       
-      def begin_record(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
+      def empty?
+        @_heap.empty?
       end
       
-      def end_record(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
+      
+      def clear
+        @_heap.clear
       end
       
-      def message(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
+      
+      def each!
+        while !empty?
+          yield(remove)
+        end
       end
       
-      def attribute(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
+      
+      private
+      
+      def _sift_up(start_)  # :nodoc:
+        while start_ > 0
+          parent_ = (start_ + 1) / 2 - 1
+          if @_comparator.call(@_heap[start_], @_heap[parent_]) < 0
+            @_heap[start_], @_heap[parent_] = @_heap[parent_], @_heap[start_]
+            start_ = parent_
+          else
+            return start_
+          end
+        end
       end
       
-      def unknown_data(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
       
-      def close
-        @closed = true
+      def _sift_down(start_)  # :nodoc:
+        length_ = self.size
+        while length_ >= (child2_ = (start_ + 1) * 2)
+          child1_ = child2_-1
+          if length_ <= child2_
+            earliest_child_ = child1_
+          elsif @_comparator.call(@_heap[child1_], @_heap[child2_]) < 0
+            earliest_child_ = child1_
+          else
+            earliest_child_ = child2_
+          end
+          if @_comparator.call(@_heap[start_], @_heap[earliest_child_]) < 0
+            return start_
+          else
+            @_heap[start_], @_heap[earliest_child_] = @_heap[earliest_child_], @_heap[start_]
+            start_ = earliest_child_
+          end
+        end
       end
       
       
@@ -118,6 +149,5 @@ module Sawmill
     
     
   end
-  
   
 end

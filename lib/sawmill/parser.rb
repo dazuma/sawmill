@@ -62,13 +62,12 @@ module Sawmill
     # <tt>:levels</tt>
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_on_complete</tt>
+    # <tt>:emit_incomplete_records_at_eof</tt>
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached.
     
     def initialize(io_, processor_, opts_={})
       @io = io_
-      @record_processor = nil
       @processor = nil
       if processor_.respond_to?(:record) && processor_.respond_to?(:extra_entry)
         @processor = RecordBuilder.new(processor_)
@@ -76,7 +75,7 @@ module Sawmill
         @processor = processor_
       end
       @levels = opts_[:levels] || ::Sawmill::STANDARD_LEVELS
-      @emit_incomplete_records_on_complete = opts_[:emit_incomplete_records_on_complete]
+      @emit_incomplete_records_at_eof = opts_[:emit_incomplete_records_at_eof]
       @current_record_id = nil
       @parser_directives = {}
     end
@@ -155,11 +154,11 @@ module Sawmill
           if str_ =~ DIRECTIVE_REGEXP
             @parser_directives[$1] = $2
           end
-          entry_ = Entry::UnknownData.new(str_)
+          entry_ = Entry::UnknownData.new(str_.chomp)
           @processor.unknown_data(entry_) if @processor.respond_to?(:unknown_data)
         end
       else
-        if @emit_incomplete_records_on_complete && @processor.respond_to?(:emit_incomplete_records)
+        if @emit_incomplete_records_at_eof && @processor.respond_to?(:emit_incomplete_records)
           @processor.emit_incomplete_records
         end
       end
@@ -171,7 +170,7 @@ module Sawmill
     # entries to the processor.
     
     def parse_all
-      while process_one_entry; end
+      while parse_one_entry; end
     end
     
     
