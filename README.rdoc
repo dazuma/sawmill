@@ -1,0 +1,81 @@
+== Sawmill
+
+Sawmill is a logging and log analysis system for Ruby.
+It extends the basic Ruby logging facility with log records and logfile parsing features.
+
+=== What is it?
+
+A user reported a bug in your Rails application, and now you have to figure out what happened. You can spend hours poring over megabytes of text log files, stretching your grep-fu to its snapping point... or you can use Sawmill.
+
+Your CEO wants to know how many people viewed the new product pages last week. You can write yet another arcane sed script looking for that elusive pattern in the log files... or you can use Sawmill.
+
+Sawmill is an extension to the standard ruby Logger mechanism that enables automated log analysis. Designed especially for web applications using Ruby on Rails and similar frameworks, Sawmill originated in the source to www.geopage.com, where it has been analyzing the production Rails logs for more than three years.
+
+=== Feature list
+
+* Drop-in compatible with standard ruby Logger class
+* Custom log levels
+* Process log entries as objects
+* Group log entries into log records with unique record IDs and attributes
+* Filtering and analysis of log entries and log records
+* Write logfiles, optionally with one of several logfile rotation mechanisms
+* Parse logfiles back into log entries and log records
+* Log analysis framework
+* Rack middleware for quick setup of web service logs
+
+=== Requirements
+
+* Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby 1.4 or later.
+* versionomy gem.
+
+=== Installation
+
+ gem install sawmill
+
+=== Known issues and limitations
+
+Sawmill is currently under development, and some features are not yet complete or fully tested.
+
+=== Development and support
+
+Documentation is available at http://virtuoso.rubyforge.org/sawmill/README_rdoc.html
+
+Source code is hosted on Github at http://github.com/dazuma/sawmill
+
+Report bugs on Github issues at http://github.org/dazuma/sawmill/issues
+
+Contact the author at dazuma at gmail dot com.
+
+=== Author / Credits
+
+Lumber is written by Daniel Azuma (http://www.daniel-azuma.com/).
+
+== LICENSE:
+
+Copyright 2009 Daniel Azuma.
+
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice,
+  this list of conditions and the following disclaimer.
+* Redistributions in binary form must reproduce the above copyright notice,
+  this list of conditions and the following disclaimer in the documentation
+  and/or other materials provided with the distribution.
+* Neither the name of the copyright holder, nor the names of any other
+  contributors to this software, may be used to endorse or promote products
+  derived from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.
