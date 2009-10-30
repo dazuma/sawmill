@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill entry processor that queues entries
+# Sawmill tools for building processors
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -36,82 +36,30 @@
 
 module Sawmill
   
-  
-  module EntryProcessor
+  module Util
     
     
-    # This processor simply queues up log entries for later use.
+    # Some miscellaneous tools for building processors
     
-    class SimpleQueue < Base
+    module ProcessorTools
       
       
-      # Create a queue.
-      # 
-      # Recognized options include:
-      # 
-      # <tt>:limit</tt>::
-      #   Size limit for the queue. If not specified, the queue can grow
-      #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
-      #   If set to true, then when an item is added to a full queue, the
-      #   oldest item is dropped. If set to false or not specified, then
-      #   the new item is not added.
-      
-      def initialize(opts_={})
-        @queue = Util::Queue.new(opts_)
-        @closed = false
-      end
-      
-      
-      # Return the oldest entry in the queue, or nil if the queue is empty.
-      
-      def dequeue
-        @queue.dequeue
-      end
-      
-      
-      # Return an array of the contents of the queue, in order.
-      
-      def dequeue_all
-        @queue.dequeue_all
-      end
-      
-      
-      # Return the size of the queue, which is 0 if the queue is empty.
-      
-      def size
-        @queue.size
-      end
-      
-      
-      def begin_record(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
-      
-      def end_record(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
-      
-      def message(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
-      
-      def attribute(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
-      
-      def unknown_data(entry_)
-        @queue.enqueue(entry_) unless @closed
-        !@closed
-      end
-      
-      def finish
-        @closed = true
-        nil
+      def self.collect_finish_values(children_)
+        ret_ = nil
+        children_.each do |child_|
+          unless child_.nil?
+            val_ = child_.finish
+            unless val_.nil?
+              ret_ ||= []
+              if val_.kind_of?(::Array)
+                ret_.concat(val_)
+              else
+                ret_.push(val_)
+              end
+            end
+          end
+        end
+        ret_
       end
       
       
@@ -119,6 +67,5 @@ module Sawmill
     
     
   end
-  
   
 end

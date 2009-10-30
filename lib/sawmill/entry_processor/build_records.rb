@@ -49,15 +49,15 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:emit_incomplete_records_on_close</tt>::
-      #   When the processor is closed, any records that are still not
+      # <tt>:emit_incomplete_records_on_finish</tt>::
+      #   When the processor is finished, any records that are still not
       #   complete will be emitted to the record processor anyway, even
       #   in their incomplete state.
       
       def initialize(processor_, opts_={})
         @processor = processor_
         @records = {}
-        @emit_incomplete_records_on_close = opts_[:emit_incomplete_records_on_close]
+        @emit_incomplete_records_on_finish = opts_[:emit_incomplete_records_on_finish]
       end
       
       
@@ -135,11 +135,14 @@ module Sawmill
       end
       
       
-      def close
-        if @records && @emit_incomplete_records_on_close
-          emit_incomplete_records
+      def finish
+        if @records
+          emit_incomplete_records if @emit_incomplete_records_on_close
+          @records = nil
+          @processor.finish
+        else
+          nil
         end
-        @records = nil
       end
       
       

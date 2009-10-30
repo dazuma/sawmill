@@ -56,11 +56,12 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:dirname</tt>::
-      #   The directory for the logfiles to be output.
+      # <tt>:basedir</tt>::
+      #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
-      # <tt>:filename</tt>::
-      #   The logfile name.
+      # <tt>:filepath</tt>::
+      #   The path to the log file. This may be an absolute path or a
+      #   path relative to basedir.
       #   If not specified, defaults to "sawmill.log".
       # <tt>:max_logfile_size</tt>::
       #   A logfile will try to rotate once it has reached this size in
@@ -91,8 +92,8 @@ module Sawmill
         end
         @history_size = options_[:history_size].to_i
         @history_size = 1 if @history_size < 1 && (@max_logfile_size || @shift_period)
-        dirname_ = options_[:dirname] || ::Dir.getwd
-        @normal_path = ::File.join(dirname_, options_[:filename] || 'sawmill.log')
+        @normal_path = ::File.expand_path(options_[:filepath] || 'sawmill.log', 
+                                          options_[:basedir] || ::Dir.getwd)
         @preferred_handle = 0
         @open_handles = {}
         @last_shift = ::Time.now

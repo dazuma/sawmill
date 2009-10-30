@@ -84,9 +84,8 @@ module Sawmill
         end
       end
       
-      def close
-        @on_true.close
-        @on_false.close if @on_false
+      def finish
+        Util::ProcessorTools.collect_finish_values([@on_true, @on_false])
       end
       
       
@@ -122,8 +121,8 @@ module Sawmill
         !@child.extra_entry(record_)
       end
       
-      def close
-        @child.close
+      def finish
+        @child.finish
       end
       
       
@@ -170,8 +169,8 @@ module Sawmill
         true
       end
       
-      def close
-        @children.each{ |child_| child_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
       
       
@@ -218,8 +217,8 @@ module Sawmill
         false
       end
       
-      def close
-        @children.each{ |child_| child_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
       
       
@@ -271,8 +270,8 @@ module Sawmill
         end
       end
       
-      def close
-        @children.each{ |child_| child_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
       
       
@@ -317,8 +316,8 @@ module Sawmill
         end
       end
       
-      def close
-        @children.each{ |child_| child_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
       
       

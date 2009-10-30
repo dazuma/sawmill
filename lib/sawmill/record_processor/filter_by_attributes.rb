@@ -76,7 +76,8 @@ module Sawmill
         false
       end
       
-      def close
+      def finish
+        nil
       end
       
     end

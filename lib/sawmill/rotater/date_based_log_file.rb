@@ -65,27 +65,27 @@ module Sawmill
       #   How often the log files should turn over. Allowed values are:
       #   <tt>:yearly</tt>, <tt>:monthly</tt>, <tt>:daily</tt>, 
       #   <tt>:hourly</tt>, and <tt>:never</tt>.
-      # <tt>:dirname</tt>::
-      #   The directory for the logfiles to be output.
+      # <tt>:basedir</tt>::
+      #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
       # <tt>:prefix</tt>::
-      #   The logfile name prefix.
+      #   The logfile path prefix.
       #   In the filename "rails.2009-10-11.log", the prefix is "rails".
       #   If not specified, defaults to "sawmill".
       # <tt>:suffix</tt>::
       #   The logfile name prefix.
       #   In the filename "rails.2009-10-11.log", the suffix is ".log".
       #   If not specified, defaults to ".log".
-      # <tt>:local_timezone</tt>::
+      # <tt>:local_datestamps</tt>::
       #   If true, use the local timezone to create datestamps.
       #   The default is to use UTC.
       
       def initialize(options_)
         @turnover_frequency = options_[:turnover_frequency] || :none
-        dirname_ = options_[:dirname] || ::Dir.getwd
-        @prefix = ::File.join(dirname_, options_[:prefix] || 'sawmill')
+        @prefix = ::File.expand_path(options_[:prefix] || 'sawmill',
+                                     options_[:basedir] || options_[:dirname] || ::Dir.getwd)
         @suffix = options_[:suffix] || '.log'
-        @local_timezone = options_[:local_timezone]
+        @local_datestamps = options_[:local_datestamps]
         @date_pattern =
           case @turnover_frequency
           when :yearly then "%Y"
@@ -102,7 +102,7 @@ module Sawmill
       def preferred_handle
         if @date_pattern
           time_ = ::Time.now
-          time_.utc unless @local_timezone
+          time_.utc unless @local_datestamps
           time_.strftime(@date_pattern)
         else
           ''

@@ -76,8 +76,8 @@ module Sawmill
         true
       end
       
-      def close
-        @formatter.close
+      def finish
+        @formatter.finish
       end
       
     end

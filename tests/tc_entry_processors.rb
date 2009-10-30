@@ -53,7 +53,7 @@ module Sawmill
       
       def test_basic_level_filter
         processor_ = ::Sawmill::EntryProcessor::build do
-          If(FilterBasicFields(:level => :WARN), @entries)
+          If(FilterByBasicFields(:level => :WARN), @entries)
         end
         @logger = ::Sawmill::Logger.new(:processor => processor_)
         @logger.warn('Hello 1')
@@ -69,7 +69,7 @@ module Sawmill
       
       def test_basic_progname_filter
         processor_ = ::Sawmill::EntryProcessor::build do
-          If(FilterBasicFields(:progname => 'rails'), @entries)
+          If(FilterByBasicFields(:progname => 'rails'), @entries)
         end
         @logger = ::Sawmill::Logger.new(:processor => processor_)
         @logger.info('Hello 1')
@@ -84,8 +84,8 @@ module Sawmill
       
       def test_conjunction_and
         processor_ = ::Sawmill::EntryProcessor::build do
-          If(And(FilterBasicFields(:progname => 'rails'),
-                 FilterBasicFields(:level => :WARN)), @entries)
+          If(And(FilterByBasicFields(:progname => 'rails'),
+                 FilterByBasicFields(:level => :WARN)), @entries)
         end
         @logger = ::Sawmill::Logger.new(:processor => processor_)
         @logger.warn('Hello 1')
@@ -101,8 +101,8 @@ module Sawmill
       
       def test_conjunction_or
         processor_ = ::Sawmill::EntryProcessor::build do
-          If(Or(FilterBasicFields(:progname => 'rails'),
-                FilterBasicFields(:level => :WARN)), @entries)
+          If(Or(FilterByBasicFields(:progname => 'rails'),
+                FilterByBasicFields(:level => :WARN)), @entries)
         end
         @logger = ::Sawmill::Logger.new(:processor => processor_)
         @logger.warn('Hello 1')
@@ -120,7 +120,7 @@ module Sawmill
       
       def test_boolean_not
         processor_ = ::Sawmill::EntryProcessor::build do
-          If(Not(FilterBasicFields(:progname => 'rails')), @entries)
+          If(Not(FilterByBasicFields(:progname => 'rails')), @entries)
         end
         @logger = ::Sawmill::Logger.new(:processor => processor_)
         @logger.info('Hello 1')

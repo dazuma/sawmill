@@ -1,3 +1,17 @@
+=== 0.0.3 / 2009-10-31
+
+* API CHANGE: Renamed processor close methods to "finish" and introduced return value semantics for passing "final" information back up the processor tree.
+* API CHANGE: Renamed :dirname options to :basedir on both rotater strategies
+* API CHANGE: Renamed :filename option to :filepath on ShiftingLogFile
+* API CHANGE: Renamed :local_timezone option to :local_datestamps on DateBasedLogFile
+* API CHANGE: Renamed FilterBasicFields to FilterByBasicFields
+* Added FilterByBlock processors
+* Added CompileReport processors
+* Processors can now add custom methods to the processor building DSL.
+* Added a bunch of convenience methods to the toplevel Sawmill module.
+* Fixed a few more bugs related to processors.
+* More work on the RDocs
+
 === 0.0.2 / 2009-10-28
 
 * Added multi-parser utility.

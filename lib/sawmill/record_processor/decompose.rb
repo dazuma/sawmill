@@ -63,8 +63,8 @@ module Sawmill
         true
       end
       
-      def close
-        @processor.close
+      def finish
+        @processor.finish
       end
       
     end

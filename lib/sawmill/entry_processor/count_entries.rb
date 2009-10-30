@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill record processor queues log records
+# Sawmill entry processor that generates reports
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -36,90 +36,71 @@
 
 module Sawmill
   
-  
-  module RecordProcessor
+  module EntryProcessor
     
     
-    # This processor simply queues up log records for later use.
+    # This processor reports the number of entries processed.
     
-    class SimpleQueue < Base
+    class CountEntries < Base
       
       
-      # Create a queue. This processor actually maintains two separate
-      # queues, one for records and another for extra entries.
+      # Create a count-entries report.
       # 
       # Recognized options include:
       # 
-      # <tt>:limit</tt>::
-      #   Size limit for the queue. If not specified, the queue can grow
-      #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
-      #   If set to true, then when an item is added to a full queue, the
-      #   oldest item is dropped. If set to false or not specified, then
-      #   the new item is not added.
+      # <tt>:label</tt>::
+      #   Label to use for the report.
+      #   If provided, the report is returned as a string of the form
+      #   "#{label}#{value}"
+      #   If set to nil or absent, the report is returned as an integer.
+      # <tt>:omit_unknown_data</tt>::
+      #   If set to true, omits unknown_data from the count.
+      #   Default is false.
+      # <tt>:omit_attributes</tt>::
+      #   If set to true, omits attributes from the count.
+      #   Default is false.
+      # <tt>:omit_record_delimiters</tt>::
+      #   If set to true, omits begin_record and end_record from the count.
+      #   Default is false.
       
       def initialize(opts_={})
-        @queue = Util::Queue.new(opts_)
-        @extra_entries_queue = Util::Queue.new(opts_)
-        @closed = false
+        @label = opts_[:label]
+        @omit_unknown_data = opts_[:omit_unknown_data]
+        @omit_attributes = opts_[:omit_attributes]
+        @omit_record_delimiters = opts_[:omit_record_delimiters]
+        @finished = false
+        @count = 0
       end
       
       
-      # Return the oldest record in the record queue, or nil if the record
-      # queue is empty.
-      
-      def dequeue
-        @queue.dequeue
+      def begin_record(entry_)
+        @count += 1 unless @finished || @omit_record_delimiters
+        true
       end
       
-      
-      # Return an array of the contents of the record queue, in order.
-      
-      def dequeue_all
-        @queue.dequeue_all
+      def end_record(entry_)
+        @count += 1 unless @finished || @omit_record_delimiters
+        true
       end
       
-      
-      # Return the number of records in the record queue.
-      
-      def size
-        @queue.size
+      def message(entry_)
+        @count += 1 unless @finished
+        true
       end
       
-      
-      # Return the oldest entry in the extra entry queue, or nil if the
-      # extra entry queue is empty.
-      
-      def dequeue_extra_entry
-        @extra_entries_queue.dequeue
+      def attribute(entry_)
+        @count += 1 unless @finished || @omit_attributes
+        true
       end
       
-      
-      # Return an array of the contents of the extra entry queue, in order.
-      
-      def dequeue_all_extra_entries
-        @extra_entries_queue.dequeue_all
-      end
-      
-      
-      # Return the number of entries in the extra entry queue.
-      
-      def extra_entries_size
-        @extra_entries_queue.size
-      end
-      
-      
-      def record(record_)
-        @queue.enqueue(record_) unless @closed
-      end
-      
-      def extra_entry(entry_)
-        @extra_entries_queue.enqueue(entry_) unless @closed
+      def unknown_data(entry_)
+        @count += 1 unless @finished || @omit_unknown_data
+        true
       end
       
       def finish
-        @closed = true
-        nil
+        @finished = true
+        @label ? "#{@label}#{@count}" : @count
       end
       
       
@@ -127,6 +108,5 @@ module Sawmill
     
     
   end
-  
   
 end

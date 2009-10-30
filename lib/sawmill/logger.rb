@@ -89,7 +89,7 @@ module Sawmill
         @attribute_level = @levels.highest
       end
       @progname = opts_[:progname] || 'sawmill'
-      @record_progname = opts_[:record_progname] || @progname
+      @record_progname = opts_[:record_progname]
       @record_id_generator = opts_[:record_id_generator] || Logger._get_default_record_id_generator
       @processor = opts_[:processor] || Formatter.new(::STDOUT)
       @current_record_id = nil
@@ -162,7 +162,7 @@ module Sawmill
     def begin_record(id_=nil)
       end_record if @current_record_id
       @current_record_id = (id_ || @record_id_generator.call).to_s
-      @processor.begin_record(Entry::BeginRecord.new(@levels.highest, ::Time.now, @record_progname, @current_record_id))
+      @processor.begin_record(Entry::BeginRecord.new(@levels.highest, ::Time.now, @record_progname || @progname, @current_record_id))
       @current_record_id
     end
     
@@ -181,7 +181,7 @@ module Sawmill
     
     def end_record
       if @current_record_id
-        @processor.end_record(Entry::EndRecord.new(@levels.highest, ::Time.now, @record_progname, @current_record_id))
+        @processor.end_record(Entry::EndRecord.new(@levels.highest, ::Time.now, @record_progname || @progname, @current_record_id))
         id_ = @current_record_id
         @current_record_id = nil
         id_
@@ -210,7 +210,7 @@ module Sawmill
         end
       end
       return true if level_obj_ < @level
-      @processor.attribute(Entry::Attribute.new(level_obj_, ::Time.now, progname_ || @record_progname, @current_record_id, key_, value_, operation_))
+      @processor.attribute(Entry::Attribute.new(level_obj_, ::Time.now, progname_ || @record_progname || @progname, @current_record_id, key_, value_, operation_))
       true
     end
     
@@ -233,11 +233,12 @@ module Sawmill
     end
     
     
-    # Close the logger by closing the log entry processor to which it is
-    # emitting log entries.
+    # Close the logger by finishing the log entry processor to which it is
+    # emitting log entries. Returns the value returned by the processor's
+    # finish method.
     
     def close
-      @processor.close
+      @processor.finish
     end
     
     

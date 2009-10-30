@@ -60,6 +60,13 @@ module Sawmill
     end
     
     
+    # Tried to register a method with a processor building DSL
+    # where the method name was already taken.
+    
+    class DSLMethodError < SawmillError
+    end
+    
+    
   end
   
   

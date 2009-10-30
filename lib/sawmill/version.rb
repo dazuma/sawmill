@@ -34,12 +34,10 @@
 ;
 
 
-# This module is a namespace for Sawmill.
-
 module Sawmill
   
   # Current gem version, as a frozen string.
-  VERSION_STRING = '0.0.2'.freeze
+  VERSION_STRING = '0.0.3'.freeze
   
   # Current gem version, as a Versionomy::Value.
   VERSION = ::Versionomy.parse(VERSION_STRING, :standard)

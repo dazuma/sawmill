@@ -143,7 +143,7 @@ module Sawmill
         true
       end
       
-      def close
+      def finish
         if @rotater
           @default_channel.close
           @channels.values.each{ |channel_| channel_.close }
@@ -152,6 +152,7 @@ module Sawmill
           @io.close
           @io = nil
         end
+        nil
       end
       
       private

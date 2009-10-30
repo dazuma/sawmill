@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill record processor queues log records
+# Sawmill entry processor that calls a block
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -36,97 +36,61 @@
 
 module Sawmill
   
-  
-  module RecordProcessor
+  module EntryProcessor
     
     
-    # This processor simply queues up log records for later use.
+    # A entry filter that calls a block to perform its check.
+    # 
+    # This is a boolean processor, so it merely returns true or false based
+    # on the filter result. Use this in conjunction with an If processor to
+    # actually perform other actions based on the result.
     
-    class SimpleQueue < Base
+    class FilterByBlock < Base
       
       
-      # Create a queue. This processor actually maintains two separate
-      # queues, one for records and another for extra entries.
-      # 
-      # Recognized options include:
-      # 
-      # <tt>:limit</tt>::
-      #   Size limit for the queue. If not specified, the queue can grow
-      #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
-      #   If set to true, then when an item is added to a full queue, the
-      #   oldest item is dropped. If set to false or not specified, then
-      #   the new item is not added.
+      # Create a new filter. Provide the block, which should take an entry
+      # object as the parameter and return a boolean.
       
-      def initialize(opts_={})
-        @queue = Util::Queue.new(opts_)
-        @extra_entries_queue = Util::Queue.new(opts_)
-        @closed = false
+      def initialize(&block_)
+        to_filter_entry(&block_)
       end
       
       
-      # Return the oldest record in the record queue, or nil if the record
-      # queue is empty.
+      # Provide a block to filter entries. It should take an entry object
+      # as the parameter, and return a boolean.
       
-      def dequeue
-        @queue.dequeue
+      def to_filter_entry(&block_)
+        @block = block_ || Proc.new{ |entry_| false }
       end
       
       
-      # Return an array of the contents of the record queue, in order.
-      
-      def dequeue_all
-        @queue.dequeue_all
+      def begin_record(entry_)
+        @block.call(entry_)
       end
       
-      
-      # Return the number of records in the record queue.
-      
-      def size
-        @queue.size
+      def end_record(entry_)
+        @block.call(entry_)
       end
       
-      
-      # Return the oldest entry in the extra entry queue, or nil if the
-      # extra entry queue is empty.
-      
-      def dequeue_extra_entry
-        @extra_entries_queue.dequeue
+      def message(entry_)
+        @block.call(entry_)
       end
       
-      
-      # Return an array of the contents of the extra entry queue, in order.
-      
-      def dequeue_all_extra_entries
-        @extra_entries_queue.dequeue_all
+      def attribute(entry_)
+        @block.call(entry_)
       end
       
-      
-      # Return the number of entries in the extra entry queue.
-      
-      def extra_entries_size
-        @extra_entries_queue.size
-      end
-      
-      
-      def record(record_)
-        @queue.enqueue(record_) unless @closed
-      end
-      
-      def extra_entry(entry_)
-        @extra_entries_queue.enqueue(entry_) unless @closed
+      def unknown_data(entry_)
+        @block.call(entry_)
       end
       
       def finish
-        @closed = true
         nil
       end
-      
       
     end
     
     
   end
-  
   
 end

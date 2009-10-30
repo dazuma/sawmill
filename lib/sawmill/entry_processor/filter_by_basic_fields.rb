@@ -45,7 +45,7 @@ module Sawmill
     # on the filter result. Use this in conjunction with an If processor to
     # actually perform other actions based on the result.
     
-    class FilterBasicFields < Base
+    class FilterByBasicFields < Base
       
       
       # Create a new filter.
@@ -108,8 +108,8 @@ module Sawmill
         @accept_unknown
       end
       
-      
-      def close
+      def finish
+        nil
       end
       
       

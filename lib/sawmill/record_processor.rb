@@ -82,20 +82,71 @@ module Sawmill
       end
       
       
-      # Close down the processor. After this is called, the processor should
-      # ignore any further records.
+      # Close down the processor, perform any finishing tasks, and return
+      # any final calculated value.
+      # 
+      # After this is called, the processor should ignore any further entries.
+      # 
+      # The return value can be used to communicate a final computed value,
+      # analysis report, or other data back to the caller. It may also be
+      # nil, signalling no finish value.
+      # 
+      # Note that some processors function to multiplex other processors. In
+      # such a case, their finish value needs to be an aggregate of the
+      # values returned by their descendants. To handle these cases, we
+      # define a protocol for finish values. A finish value may be nil, an
+      # Array, or another kind of object. Nil means "no value" and thus can
+      # be ignored by a processor that aggregates other values. An Array
+      # indicates an aggregation; if finish returns an array, it is _always_
+      # an aggregation of actual values. Any other kind of object is to be
+      # interpreted as a single value. This means that if you want to
+      # actually return an array _as_ a value, you must wrap it in another
+      # array, indicating "an array of one finish value, and that finish
+      # value also happens to be an array itself".
       
-      def close
+      def finish
+        nil
       end
       
       
       def self.inherited(subclass_)  # :nodoc:
-        if subclass_.name =~ /^Sawmill::RecordProcessor::(.*)$/
+        if subclass_.name =~ /^Sawmill::RecordProcessor::([^:]+)$/
           name_ = $1
           Builder.class_eval do
             define_method(name_) do |*args_|
               subclass_.new(*args_)
             end
+          end
+        end
+      end
+      
+      
+      # Add a method to the processor building DSL. You may call this method
+      # in the DSL to create an instance of this record processor.
+      # You must pass a method name that begins with a lower-case letter or
+      # underscore.
+      # 
+      # Processors that subclass Sawmill::RecordProcessor::Base and live in
+      # the Sawmill::RecordProcessor namespace will have their class name
+      # automatically added to the DSL. This method is primarily for other
+      # processors that do not live in that module namespace.
+      # 
+      # See Sawmill::RecordProcessor#build for more information.
+      # 
+      # Raises Sawmill::Errors::DSLMethodError if the given name is already
+      # taken.
+      
+      def self.add_dsl_method(name_)
+        klass_ = self
+        if name_.to_s !~ /^[a-z_]/
+          raise ::ArgumentError, "Method name must begin with a lower-case letter or underscore"
+        end
+        if Builder.method_defined?(name_)
+          raise Errors::DSLMethodError, "Method #{name_} already defined"
+        end
+        Builder.class_eval do
+          define_method(name_) do |*args_|
+            klass_.new(*args_)
           end
         end
       end
@@ -125,6 +176,19 @@ module Sawmill
     # A convenience DSL for building sets of processors. This is typically
     # useful for constructing if-expressions using the boolean operation
     # processors.
+    # 
+    # Every record processor that lives in the Sawmill::RecordProcessor
+    # module and subclasses Sawmill::RecordProcessor::Base can be
+    # instantiated by using its name as a function call. Other processors
+    # may also add themselves to the DSL by calling
+    # Sawmill::RecordProcessor::Base#add_dsl_method.
+    # 
+    # For example:
+    # 
+    #  Sawmill::RecordProcessor.build do
+    #    If(Or(FilterByRecordId('12345678'), FilterByRecordId('abcdefg')),
+    #       Format(STDOUT))
+    #  end
     
     def self.build(&block_)
       ::Blockenspiel.invoke(block_, Builder.new)

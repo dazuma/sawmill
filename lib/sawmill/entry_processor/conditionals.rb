@@ -48,7 +48,7 @@ module Sawmill
     # to STDOUT only if their level is at least INFO:
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(FilterBasicFields(:level => :INFO), Format(STDOUT))
+    #    If(FilterByBasicFields(:level => :INFO), Format(STDOUT))
     #  end
     
     class If < Base
@@ -108,9 +108,8 @@ module Sawmill
         end
       end
       
-      def close
-        @on_true.close
-        @on_false.close if @on_false
+      def finish
+        Util::ProcessorTools.collect_finish_values([@on_true, @on_false])
       end
     
       
@@ -124,7 +123,7 @@ module Sawmill
     # to STDOUT only if their level is NOT at least INFO:
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(Not(FilterBasicFields(:level => :INFO)), Format(STDOUT))
+    #    If(Not(FilterByBasicFields(:level => :INFO)), Format(STDOUT))
     #  end
     
     class Not < Base
@@ -158,8 +157,8 @@ module Sawmill
         !@child.unknown_data(entry_)
       end
       
-      def close
-        @child.close
+      def finish
+        @child.finish
       end
     
       
@@ -176,8 +175,8 @@ module Sawmill
     # is "rails":
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(And(FilterBasicFields(:level => :INFO),
-    #           FilterBasicFields(:progname => 'rails')),
+    #    If(And(FilterByBasicFields(:level => :INFO),
+    #           FilterByBasicFields(:progname => 'rails')),
     #       Format(STDOUT))
     #  end
     
@@ -227,8 +226,8 @@ module Sawmill
         true
       end
       
-      def close
-        @children.each{ |forward_| forward_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
     
       
@@ -245,8 +244,8 @@ module Sawmill
     # "rails":
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(Or(FilterBasicFields(:level => :INFO),
-    #          FilterBasicFields(:progname => 'rails')),
+    #    If(Or(FilterByBasicFields(:level => :INFO),
+    #          FilterByBasicFields(:progname => 'rails')),
     #       Format(STDOUT))
     #  end
     
@@ -296,8 +295,8 @@ module Sawmill
         false
       end
       
-      def close
-        @children.each{ |forward_| forward_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
     
       
@@ -315,8 +314,8 @@ module Sawmill
     # "rails":
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(All(FilterBasicFields(:level => :INFO),
-    #           FilterBasicFields(:progname => 'rails')),
+    #    If(All(FilterByBasicFields(:level => :INFO),
+    #           FilterByBasicFields(:progname => 'rails')),
     #       Format(STDOUT))
     #  end
     # 
@@ -367,8 +366,8 @@ module Sawmill
         end
       end
       
-      def close
-        @children.each{ |forward_| forward_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
     
       
@@ -385,8 +384,8 @@ module Sawmill
     # "rails":
     # 
     #  processor = Sawmill::EntryProcessor.build do
-    #    If(Any(FilterBasicFields(:level => :INFO),
-    #           FilterBasicFields(:progname => 'rails')),
+    #    If(Any(FilterByBasicFields(:level => :INFO),
+    #           FilterByBasicFields(:progname => 'rails')),
     #       Format(STDOUT))
     #  end
     
@@ -431,8 +430,8 @@ module Sawmill
         end
       end
       
-      def close
-        @children.each{ |forward_| forward_.close }
+      def finish
+        Util::ProcessorTools.collect_finish_values(@children)
       end
     
       

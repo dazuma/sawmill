@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill record processor queues log records
+# Sawmill record processor that generates reports
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -40,86 +40,67 @@ module Sawmill
   module RecordProcessor
     
     
-    # This processor simply queues up log records for later use.
+    # This processor collects and formats reports from descendant
+    # record processors.
     
-    class SimpleQueue < Base
+    class CompileReport < All
       
       
-      # Create a queue. This processor actually maintains two separate
-      # queues, one for records and another for extra entries.
+      # Create a report collection.
       # 
       # Recognized options include:
       # 
-      # <tt>:limit</tt>::
-      #   Size limit for the queue. If not specified, the queue can grow
-      #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
-      #   If set to true, then when an item is added to a full queue, the
-      #   oldest item is dropped. If set to false or not specified, then
-      #   the new item is not added.
+      # <tt>:postprocessor</tt>::
+      #   Postprocessor proc for individual reports.
+      # <tt>:separator</tt>::
+      #   Separator string for reports. Default is a single newline.
+      # <tt>:header</tt>::
+      #   Header string for the final compiled report.
+      #   Default is the empty string.
+      # <tt>:footer</tt>::
+      #   Footer string for the final compiled report.
+      #   Default is the empty string.
       
-      def initialize(opts_={})
-        @queue = Util::Queue.new(opts_)
-        @extra_entries_queue = Util::Queue.new(opts_)
-        @closed = false
+      def initialize(*children_)
+        opts_ = children_.last.kind_of?(::Hash) ? children_.pop : {}
+        @postprocessor = opts_[:postprocessor]
+        @separator = opts_[:separator] || "\n"
+        @header = opts_[:header] || ''
+        @footer = opts_[:footer] || ''
+        super(*children_)
       end
       
       
-      # Return the oldest record in the record queue, or nil if the record
-      # queue is empty.
+      # Separator string to be inserted between individual reports.
+      attr_accessor :separator
       
-      def dequeue
-        @queue.dequeue
+      # Header string for the final compiled report.
+      attr_accessor :header
+      
+      # Footer string for the final compiled report.
+      attr_accessor :footer
+      
+      
+      # Provide a postprocessor block for individual report values.
+      # This block should take a single parameter and return a string
+      # that should be included in the compiled report. It may also
+      # return nil to indicate that the data should not be included.
+      
+      def to_postprocess_value(&block_)
+        @postprocessor = block_
       end
       
       
-      # Return an array of the contents of the record queue, in order.
-      
-      def dequeue_all
-        @queue.dequeue_all
-      end
-      
-      
-      # Return the number of records in the record queue.
-      
-      def size
-        @queue.size
-      end
-      
-      
-      # Return the oldest entry in the extra entry queue, or nil if the
-      # extra entry queue is empty.
-      
-      def dequeue_extra_entry
-        @extra_entries_queue.dequeue
-      end
-      
-      
-      # Return an array of the contents of the extra entry queue, in order.
-      
-      def dequeue_all_extra_entries
-        @extra_entries_queue.dequeue_all
-      end
-      
-      
-      # Return the number of entries in the extra entry queue.
-      
-      def extra_entries_size
-        @extra_entries_queue.size
-      end
-      
-      
-      def record(record_)
-        @queue.enqueue(record_) unless @closed
-      end
-      
-      def extra_entry(entry_)
-        @extra_entries_queue.enqueue(entry_) unless @closed
-      end
+      # On finish, this processor calls finish on its descendants, converts
+      # their values into strings and compiles them into a report. It then
+      # returns that report as a string.
       
       def finish
-        @closed = true
-        nil
+        values_ = super || []
+        values_ = [values_] unless values_.kind_of?(::Array)
+        values_.map!{ |val_| @postprocessor.call(val_) } if @postprocessor
+        values_.compact!
+        "#{@header}#{values_.join(@separator)}#{@footer}"
       end
       
       

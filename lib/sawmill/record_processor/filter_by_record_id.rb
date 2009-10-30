@@ -66,7 +66,8 @@ module Sawmill
         @record_id === id_
       end
       
-      def close
+      def finish
+        nil
       end
       
     end
