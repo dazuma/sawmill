@@ -309,8 +309,8 @@ module Sawmill
             io_array_ << io_
           end
         end
-        MultiParser.new(io_array_, processor_, opts_)
-      rescue
+        MultiParser.new(io_array_, processor_, opts_).parse_all
+      ensure
         io_array_.each do |io_|
           io_.close rescue nil
         end
