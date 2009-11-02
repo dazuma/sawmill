@@ -9,6 +9,9 @@
 * Added CompileReport processors
 * Processors can now add custom methods to the processor building DSL.
 * Added a bunch of convenience methods to the toplevel Sawmill module.
+* Entries can be truncated at a particular length when formatting.
+* Records can compute and cache values.
+* Support length limits when formatting entries.
 * Fixed a few more bugs related to processors.
 * More work on the RDocs
 

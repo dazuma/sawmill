@@ -72,6 +72,7 @@ module Sawmill
       @message_count = 0
       @entries = []
       @attributes = {}
+      @computations = {}
       if entries_ && entries_.size > 0
         entries_.each do |entry_|
           add_entry(entry_)
@@ -256,6 +257,19 @@ module Sawmill
     
     def attribute_keys
       @attributes.keys
+    end
+    
+    
+    # Compute and cache a value.
+    # This is a convenient way for RecordProcessor objects to share
+    # computed information about a record.
+    # 
+    # Returns the computed value with the given key.
+    # If the given key has not been computed yet, computes it by
+    # calling the given block and passing self.
+    
+    def compute(key_)
+      @computations[key_] ||= yield self
     end
     
     

@@ -65,6 +65,9 @@ module Sawmill
       # <tt>:iso_8601_time</tt>::
       #   If true, outputs time in strict ISO 8601 format.
       #   If false (the default), outputs a slightly more readable format.
+      # <tt>:length_limit</tt>::
+      #   Limit to the entry length. Entries are truncated to this length
+      #   when written. If not specified, entries are not truncated.
       
       def initialize(destination_, opts_={})
         if destination_.kind_of?(Rotater)
@@ -83,6 +86,7 @@ module Sawmill
         @usec_factor = 1
         (6 - @fractional_second_digits).times{ @usec_factor *= 10 }
         @level_width = opts_[:level_width]
+        @length_limit = opts_[:length_limit]
       end
       
       
@@ -212,6 +216,9 @@ module Sawmill
         end
         levelstr_ = entry_.level.name.to_s
         levelstr_ = levelstr_.rjust(@level_width) if @level_width
+        if @length_limit && @length_limit < str_.length
+          str_ = str_[0, @length_limit] + "... (and #{str_.length-@length_limit} more characters) ..."
+        end
         "[#{levelstr_} #{timestr_} #{entry_.progname}#{id_} #{marker_}] #{str_}\n"
       end
       

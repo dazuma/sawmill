@@ -59,8 +59,14 @@ module Sawmill
       #   Default is 2. Accepted values are 0 to 6.
       # <tt>:level_width</tt>::
       #   Column width of the level field.
+      # <tt>:entry_length_limit</tt>::
+      #   Limit to the entry length. Entries are truncated to this length
+      #   when written. If not specified, entries are not truncated.
       
       def initialize(destination_, opts_={})
+        if (entry_length_limit_ = opts_.delete(:entry_length_limit))
+          opts_ = opts_.merge(:length_limit => entry_length_limit_)
+        end
         @formatter = EntryProcessor::Format.new(destination_, opts_)
         @classifier = EntryClassifier.new(@formatter)
       end

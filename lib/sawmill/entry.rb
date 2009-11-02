@@ -103,12 +103,16 @@ module Sawmill
       
       # The log level as a Sawmill::Level object
       attr_reader :level
+      
       # The timestamp as a Time object
       attr_reader :timestamp
+      
       # The progname as a string
       attr_reader :progname
+      
       # The record ID as a string
       attr_reader :record_id
+      
       # The message as a string
       attr_reader :message
       
@@ -157,10 +161,13 @@ module Sawmill
       
       # The log level as a Sawmill::Level object
       attr_reader :level
+      
       # The timestamp as a Time object
       attr_reader :timestamp
+      
       # The progname as a string
       attr_reader :progname
+      
       # The record ID as a string
       attr_reader :record_id
       
@@ -207,10 +214,13 @@ module Sawmill
       
       # The log level as a Sawmill::Level object
       attr_reader :level
+      
       # The timestamp as a Time object
       attr_reader :timestamp
+      
       # The progname as a string
       attr_reader :progname
+      
       # The record ID as a string
       attr_reader :record_id
       
@@ -263,16 +273,22 @@ module Sawmill
       
       # The log level as a Sawmill::Level object
       attr_reader :level
+      
       # The timestamp as a Time object
       attr_reader :timestamp
+      
       # The progname as a string
       attr_reader :progname
+      
       # The record ID as a string
       attr_reader :record_id
-      # The operation, which can be :set, :append, :remove, :unset
+      
+      # The operation, which can currently be :set or :append
       attr_reader :operation
+      
       # The attribute key as a string
       attr_reader :key
+      
       # The attribute value as a string
       attr_reader :value
       

@@ -248,16 +248,16 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>
+    # <tt>:levels</tt>::
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>
+    # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     
-    def open_entries(glob_, opts_={}, &block_)
+    def open_entries(globs_, opts_={}, &block_)
       processor_ = EntryProcessor.build(&block_)
-      open_files(glob_, processor_, opts_.merge(:finish => true))
+      open_files(globs_, processor_, opts_.merge(:finish => true))
     end
     
     
@@ -268,16 +268,16 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>
+    # <tt>:levels</tt>::
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>
+    # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     
-    def open_records(glob_, opts_={}, &block_)
+    def open_records(globs_, opts_={}, &block_)
       processor_ = RecordProcessor.build(&block_)
-      open_files(glob_, processor_, opts_.merge(:finish => true))
+      open_files(globs_, processor_, opts_.merge(:finish => true))
     end
     
     
@@ -287,20 +287,27 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>
+    # <tt>:levels</tt>::
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>
+    # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
+    # <tt>:finish</tt>::
+    #   If set to true, the "finish" method is called on the processor
+    #   after all files have been parsed, and the return value is returned.
+    #   Otherwise, the processor is left open and nil is returned.
     
-    def open_files(glob_, processor_, opts_={})
+    def open_files(globs_, processor_, opts_={})
       io_array_ = []
+      globs_ = [globs_] unless globs_.kind_of?(::Array)
       begin
-        ::Dir.glob(glob_).each do |path_|
-          io_ = ::File.open(path_)
-          io_ = ::Zlib::GzipReader.new(io_) if path_ =~ /\.gz$/
-          io_array_ << io_
+        globs_.each do |glob_|
+          ::Dir.glob(glob_).each do |path_|
+            io_ = ::File.open(path_)
+            io_ = ::Zlib::GzipReader.new(io_) if path_ =~ /\.gz$/
+            io_array_ << io_
+          end
         end
         MultiParser.new(io_array_, processor_, opts_)
       rescue
