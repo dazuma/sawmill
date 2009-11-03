@@ -59,11 +59,11 @@ module Sawmill
       # <tt>:basedir</tt>::
       #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
-      # <tt>:filepath</tt>::
+      # <tt>:file_path</tt>::
       #   The path to the log file. This may be an absolute path or a
       #   path relative to basedir.
       #   If not specified, defaults to "sawmill.log".
-      # <tt>:max_logfile_size</tt>::
+      # <tt>:max_file_size</tt>::
       #   A logfile will try to rotate once it has reached this size in
       #   bytes. If not specified, the file size is not checked.
       # <tt>:shift_period</tt>::
@@ -76,9 +76,12 @@ module Sawmill
       #   The maximum number of old logfiles (files with indexes) to
       #   keep. Files beyond this history size will be automatically
       #   deleted. Default is 1. This value must be at least 1.
+      # <tt>:encoding</tt>::
+      #   Specify an encoding name for file data. (Ruby 1.9 only)
+      #   If not specified, uses the default external encoding.
       
       def initialize(options_)
-        @max_logfile_size = options_[:max_logfile_size]
+        @max_logfile_size = options_[:max_file_size] || options_[:max_logfile_size]
         @shift_period = options_[:shift_period]
         case @shift_period
         when :yearly
@@ -92,11 +95,15 @@ module Sawmill
         end
         @history_size = options_[:history_size].to_i
         @history_size = 1 if @history_size < 1 && (@max_logfile_size || @shift_period)
-        @normal_path = ::File.expand_path(options_[:filepath] || 'sawmill.log', 
+        @normal_path = ::File.expand_path(options_[:file_path] || options_[:filepath] || 'sawmill.log', 
                                           options_[:basedir] || ::Dir.getwd)
         @preferred_handle = 0
         @open_handles = {}
         @last_shift = ::Time.now
+        @mode = 'a'
+        if defined?(::Encoding) && (encoding_ = options_[:encoding])
+          @mode << ":#{encoding_}"
+        end
       end
       
       
@@ -115,7 +122,7 @@ module Sawmill
         else
           path_ = "#{@normal_path}.#{@preferred_handle-handle_-1}"
         end
-        file_ = ::File.open(path_, ::File::CREAT | ::File::WRONLY | ::File::APPEND)
+        file_ = ::File.open(path_, @mode)
         file_.sync = true
         @open_handles[handle_] = true
         file_

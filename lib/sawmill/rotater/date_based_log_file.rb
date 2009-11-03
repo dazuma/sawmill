@@ -68,23 +68,26 @@ module Sawmill
       # <tt>:basedir</tt>::
       #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
-      # <tt>:prefix</tt>::
+      # <tt>:path_prefix</tt>::
       #   The logfile path prefix.
       #   In the filename "rails.2009-10-11.log", the prefix is "rails".
       #   If not specified, defaults to "sawmill".
-      # <tt>:suffix</tt>::
+      # <tt>:path_suffix</tt>::
       #   The logfile name prefix.
       #   In the filename "rails.2009-10-11.log", the suffix is ".log".
       #   If not specified, defaults to ".log".
       # <tt>:local_datestamps</tt>::
       #   If true, use the local timezone to create datestamps.
       #   The default is to use UTC.
+      # <tt>:encoding</tt>::
+      #   Specify an encoding name for file data. (Ruby 1.9 only)
+      #   If not specified, uses the default external encoding.
       
       def initialize(options_)
         @turnover_frequency = options_[:turnover_frequency] || :none
-        @prefix = ::File.expand_path(options_[:prefix] || 'sawmill',
+        @prefix = ::File.expand_path(options_[:path_prefix] || options_[:prefix] || 'sawmill',
                                      options_[:basedir] || options_[:dirname] || ::Dir.getwd)
-        @suffix = options_[:suffix] || '.log'
+        @suffix = options_[:path_suffix] || options_[:suffix] || '.log'
         @local_datestamps = options_[:local_datestamps]
         @date_pattern =
           case @turnover_frequency
@@ -94,6 +97,10 @@ module Sawmill
           when :hourly then "%Y-%m-%d-%H"
           else nil
           end
+        @mode = 'a'
+        if defined?(::Encoding) && (encoding_ = options_[:encoding])
+          @mode << ":#{encoding_}"
+        end
       end
       
       
@@ -118,7 +125,7 @@ module Sawmill
         else
           path_ = @prefix+@suffix
         end
-        file_ = ::File.open(path_, ::File::CREAT | ::File::WRONLY | ::File::APPEND)
+        file_ = ::File.open(path_, @mode)
         file_.sync = true
         file_
       end

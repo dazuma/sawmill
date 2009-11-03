@@ -1,3 +1,9 @@
+=== 0.0.4 / 2009-??-??
+
+* API CHANGE: Renamed DateBasedLogFile options :prefix and :suffix to :path_prefix and :path_suffix
+* API CHANGE: Renamed ShiftingLogFile options :filepath and :max_logfile_size to :file_path and :max_file_size
+* Encoding can now be specified in file reading and writing methods (Rotaters and convenience interface methods)
+
 === 0.0.3 / 2009-10-31
 
 * API CHANGE: Renamed processor close methods to "finish" and introduced return value semantics for passing "final" information back up the processor tree.

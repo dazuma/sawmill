@@ -164,10 +164,13 @@ module Sawmill
     #   The maximum number of old logfiles (files with indexes) to
     #   keep. Files beyond this history size will be automatically
     #   deleted. Default is 1. This value must be at least 1.
+    # <tt>:encoding</tt>::
+    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   If not specified, uses the default external encoding.
     
     def shifting_logfile(filepath_, period_, max_size_, opts_={})
-      rotater_ = Rotater.new(Rotater::ShiftingLogFile, opts_.merge(:filepath => filepath_,
-        :max_logfile_size => max_size_, :shift_period => period_))
+      rotater_ = Rotater.new(Rotater::ShiftingLogFile, opts_.merge(:file_path => filepath_,
+        :max_file_size => max_size_, :shift_period => period_))
       processor_ = EntryProcessor::Format.new(rotater_, opts_)
       Logger.new(opts_.merge(:processor => processor_))
     end
@@ -225,16 +228,19 @@ module Sawmill
     # <tt>:basedir</tt>::
     #   The base directory used if the filepath is a relative path.
     #   If not specified, the current working directory is used.
-    # <tt>:suffix</tt>::
-    #   The logfile name prefix.
+    # <tt>:name_suffix</tt>::
+    #   The logfile name suffix.
     #   In the filename "rails.2009-10-11.log", the suffix is ".log".
     #   If not specified, defaults to ".log".
     # <tt>:local_datestamps</tt>::
     #   If true, use the local timezone to create datestamps.
     #   The default is to use UTC.
+    # <tt>:encoding</tt>::
+    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   If not specified, uses the default external encoding.
     
     def date_based_logfile(filepath_, frequency_, opts_={})
-      rotater_ = Rotater.new(Rotater::DateBasedLogFile, opts_.merge(:prefix => filepath_,
+      rotater_ = Rotater.new(Rotater::DateBasedLogFile, opts_.merge(:path_prefix => filepath_,
         :turnover_frequency => frequency_))
       processor_ = EntryProcessor::Format.new(rotater_, opts_)
       Logger.new(opts_.merge(:processor => processor_))
@@ -254,6 +260,17 @@ module Sawmill
     # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
+    # 
+    # Additionally, these options are recognized:
+    # 
+    # <tt>:encoding</tt>::
+    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   If not specified, uses the default external encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
+    # <tt>:internal_encoding</tt>::
+    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   If not specified, uses the default internal encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_entries(globs_, opts_={}, &block_)
       processor_ = EntryProcessor.build(&block_)
@@ -274,6 +291,17 @@ module Sawmill
     # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
+    # 
+    # Additionally, these options are recognized:
+    # 
+    # <tt>:encoding</tt>::
+    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   If not specified, uses the default external encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
+    # <tt>:internal_encoding</tt>::
+    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   If not specified, uses the default internal encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_records(globs_, opts_={}, &block_)
       processor_ = RecordProcessor.build(&block_)
@@ -293,20 +321,41 @@ module Sawmill
     # <tt>:emit_incomplete_records_at_eof</tt>::
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
+    # 
+    # Additionally, these options are recognized:
+    # 
     # <tt>:finish</tt>::
     #   If set to true, the "finish" method is called on the processor
     #   after all files have been parsed, and the return value is returned.
     #   Otherwise, the processor is left open and nil is returned.
+    # <tt>:encoding</tt>::
+    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   If not specified, uses the default external encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
+    # <tt>:internal_encoding</tt>::
+    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   If not specified, uses the default internal encoding.
+    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_files(globs_, processor_, opts_={})
       io_array_ = []
+      mode_ = 'r'
+      if defined?(::Encoding) && (encoding_ = opts_[:encoding])
+        mode_ << ":#{encoding_}"
+        if (encoding_ = opts_[:internal_encoding])
+          mode_ << ":#{encoding_}"
+        end
+      end
       globs_ = [globs_] unless globs_.kind_of?(::Array)
       begin
         globs_.each do |glob_|
           ::Dir.glob(glob_).each do |path_|
-            io_ = ::File.open(path_)
-            io_ = ::Zlib::GzipReader.new(io_) if path_ =~ /\.gz$/
-            io_array_ << io_
+            if path_ =~ /\.gz$/
+              io_ = ::File.open(path_, 'rb')
+              io_array_ << ::Zlib::GzipReader.new(io_)
+            else
+              io_array_ << ::File.open(path_, mode_)
+            end
           end
         end
         MultiParser.new(io_array_, processor_, opts_).parse_all
