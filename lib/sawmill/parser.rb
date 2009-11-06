@@ -78,6 +78,12 @@ module Sawmill
       @emit_incomplete_records_at_eof = opts_[:emit_incomplete_records_at_eof]
       @current_record_id = nil
       @parser_directives = {}
+      @encoding = opts_[:encoding]
+      @internal_encoding = opts_[:internal_encoding]
+      if defined?(::Encoding)
+        @encoding = ::Encoding.find(@encoding) if @encoding && !@encoding.kind_of?(::Encoding)
+        @internal_encoding = ::Encoding.find(@internal_encoding) if @internal_encoding && !@internal_encoding.kind_of?(::Encoding)
+      end
     end
     
     
@@ -86,7 +92,7 @@ module Sawmill
     # Returns nil if EOF has been reached.
     
     def parse_one_entry
-      str_ = @io.gets
+      str_ = _get_next_line
       entry_ = nil
       if str_
         match_ = LINE_REGEXP.match(str_)
@@ -113,7 +119,7 @@ module Sawmill
             count_ = $1.length
             str_ = $` + "\\"*(count_/2)
             while count_ % 2 == 1
-              str2_ = @io.gets
+              str2_ = _get_next_line
               if str2_ && str2_ =~ /(\\*)\n?$/
                 count_ = $1.length
                 str_ << "\n" << $` << "\\"*(count_/2)
@@ -171,6 +177,19 @@ module Sawmill
     
     def parse_all
       while parse_one_entry; end
+    end
+    
+    
+    private
+    
+    
+    def _get_next_line  # :nodoc:
+      str_ = @io.gets
+      if str_
+        str_.force_encoding(@encoding) if @encoding
+        str_.encode!(@internal_encoding) if @internal_encoding
+      end
+      str_
     end
     
     

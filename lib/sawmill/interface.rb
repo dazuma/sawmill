@@ -264,13 +264,13 @@ module Sawmill
     # Additionally, these options are recognized:
     # 
     # <tt>:encoding</tt>::
-    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   Specify an encoding for file data. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default external encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     # <tt>:internal_encoding</tt>::
-    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   Specify an encoding to transcode to. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default internal encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_entries(globs_, opts_={}, &block_)
       processor_ = EntryProcessor.build(&block_)
@@ -295,13 +295,13 @@ module Sawmill
     # Additionally, these options are recognized:
     # 
     # <tt>:encoding</tt>::
-    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   Specify an encoding for file data. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default external encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     # <tt>:internal_encoding</tt>::
-    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   Specify an encoding to transcode to. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default internal encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_records(globs_, opts_={}, &block_)
       processor_ = RecordProcessor.build(&block_)
@@ -329,42 +329,66 @@ module Sawmill
     #   after all files have been parsed, and the return value is returned.
     #   Otherwise, the processor is left open and nil is returned.
     # <tt>:encoding</tt>::
-    #   Specify an encoding name for file data. (Ruby 1.9 only)
+    #   Specify an encoding for file data. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default external encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     # <tt>:internal_encoding</tt>::
-    #   Specify an encoding name to transcode to. (Ruby 1.9 only)
+    #   Specify an encoding to transcode to. (Ruby 1.9 only.)
+    #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the default internal encoding.
-    #   BUG: does not have any effect when opening a gzipped file.
     
     def open_files(globs_, processor_, opts_={})
-      io_array_ = []
+      finish_opt_ = opts_.delete(:finish)
+      encoding_ = opts_.delete(:encoding)
+      internal_encoding_ = opts_.delete(:internal_encoding)
       mode_ = 'r'
-      if defined?(::Encoding) && (encoding_ = opts_[:encoding])
-        mode_ << ":#{encoding_}"
-        if (encoding_ = opts_[:internal_encoding])
-          mode_ << ":#{encoding_}"
+      if defined?(::Encoding)
+        if encoding_
+          encoding_ = ::Encoding.find(encoding_) unless encoding_.respond_to?(:name)
+          encoding_ = nil if encoding_ == ::Encoding.default_external
         end
+        if internal_encoding_
+          internal_encoding_ = ::Encoding.find(internal_encoding_) unless internal_encoding_.respond_to?(:name)
+          internal_encoding_ = nil if internal_encoding_ == ::Encoding.default_internal
+        end
+        if encoding_
+          mode_ << ":#{encoding_.name}"
+        elsif internal_encoding_
+          mode_ << ":#{::Encoding.default_external.name}"
+        end
+        mode_ << ":#{internal_encoding_.name}" if internal_encoding_
+      else
+        encoding_ = nil
+        internal_encoding_ = nil
       end
       globs_ = [globs_] unless globs_.kind_of?(::Array)
+      io_array_ = []
+      encoding_array_ = []
+      internal_encoding_array_ = []
       begin
         globs_.each do |glob_|
           ::Dir.glob(glob_).each do |path_|
             if path_ =~ /\.gz$/
               io_ = ::File.open(path_, 'rb')
               io_array_ << ::Zlib::GzipReader.new(io_)
+              encoding_array_ << encoding_
+              internal_encoding_array_ << internal_encoding_
             else
               io_array_ << ::File.open(path_, mode_)
+              encoding_array_ << nil
+              internal_encoding_array_ << nil
             end
           end
         end
+        opts_[:encoding_array] = encoding_array_ if encoding_array_.find{ |elem_| elem_ }
+        opts_[:internal_encoding_array] = internal_encoding_array_ if internal_encoding_array_.find{ |elem_| elem_ }
         MultiParser.new(io_array_, processor_, opts_).parse_all
       ensure
         io_array_.each do |io_|
           io_.close rescue nil
         end
       end
-      opts_[:finish] ? processor_.finish : nil
+      finish_opt_ ? processor_.finish : nil
     end
     
     

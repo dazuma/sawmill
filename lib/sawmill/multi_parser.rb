@@ -64,7 +64,14 @@ module Sawmill
       @emit_incomplete_records_at_eof = opts_.delete(:emit_incomplete_records_at_eof)
       @heap = Util::Heap.new{ |a_, b_| a_[1].timestamp <=> b_[1].timestamp }
       @queue = Util::Queue.new
-      io_array_.each{ |io_| _enqueue(Parser.new(io_, nil, opts_)) }
+      encoding_array_ = opts_.delete(:encoding_array)
+      internal_encoding_array_ = opts_.delete(:internal_encoding_array)
+      io_array_.each_with_index do |io_, index_|
+        opts2_ = opts_.dup
+        opts2_[:encoding] = encoding_array_[index_] if encoding_array_
+        opts2_[:internal_encoding] = internal_encoding_array_[index_] if internal_encoding_array_
+        _enqueue(Parser.new(io_, nil, opts2_))
+      end
       @processor = nil
       if processor_.respond_to?(:record) && processor_.respond_to?(:extra_entry)
         @processor = RecordBuilder.new(processor_)
