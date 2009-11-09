@@ -267,6 +267,8 @@ module Sawmill
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
+    #   Note that the encoding may also be modified by the file itself,
+    #   if an appropriate parser directive is encountered.
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
@@ -298,6 +300,8 @@ module Sawmill
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
+    #   Note that the encoding may also be modified by the file itself,
+    #   if an appropriate parser directive is encountered.
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
@@ -332,6 +336,8 @@ module Sawmill
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
+    #   Note that the encoding may also be modified by the file itself,
+    #   if an appropriate parser directive is encountered.
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
@@ -353,10 +359,7 @@ module Sawmill
         end
         if encoding_
           mode_ << ":#{encoding_.name}"
-        elsif internal_encoding_
-          mode_ << ":#{::Encoding.default_external.name}"
         end
-        mode_ << ":#{internal_encoding_.name}" if internal_encoding_
       else
         encoding_ = nil
         internal_encoding_ = nil
@@ -376,7 +379,7 @@ module Sawmill
             else
               io_array_ << ::File.open(path_, mode_)
               encoding_array_ << nil
-              internal_encoding_array_ << nil
+              internal_encoding_array_ << internal_encoding_
             end
           end
         end

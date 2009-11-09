@@ -59,6 +59,11 @@ module Sawmill
   
   class Rotater
     
+    # :stopdoc:
+    SUPPORTS_ENCODING = defined?(::Encoding)
+    ENCODING_OPTS = {:invalid => :replace, :undef => :replace}
+    # :startdoc:
+    
     
     # Create a rotater using the given rotation strategy.
     # See Sawmill::Rotater::DateBasedLogFile and
@@ -70,8 +75,26 @@ module Sawmill
     # 
     # <tt>:omit_directives</tt>::
     #   If true, omit standard logfile directives. Default is false.
+    # <tt>:concurrent_writes</tt>::
+    #   Set this to true if you expect multiple processes to attempt to
+    #   write to the same log file simultaneously. This option causes the
+    #   rotater to surround writes with an acquisition of the cooperative
+    #   filesystem lock (if available) for the logfile, in an attempt to
+    #   prevent lines from interleaving in one another. Default is false.
+    # <tt>:encoding</tt>::
+    #   Specify an encoding for file data. (Ruby 1.9 only).
+    #   You may pass either an encoding object or an encoding name.
+    #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
     
     def initialize(io_manager_, opts_={})
+      @omit_directives = opts_.delete(:omit_directives)
+      @concurrent_writes = opts_.delete(:concurrent_writes)
+      if SUPPORTS_ENCODING
+        @encoding = opts_.delete(:encoding)
+        if @encoding && !@encoding.respond_to?(:name)
+          @encoding = ::Encoding.find(@encoding)
+        end
+      end
       if io_manager_.kind_of?(::Class)
         @io_manager = io_manager_.new(opts_)
       else
@@ -98,6 +121,23 @@ module Sawmill
     end
     
     
+    def _write_to_stream(io_, str_)
+      if SUPPORTS_ENCODING && @encoding
+        str_ = str_.encode(@encoding, ENCODING_OPTS)
+      end
+      if @concurrent_writes
+        begin
+          io_.flock(::File::LOCK_EX)
+          io_.write(str_)
+        ensure
+          io_.flock(::File::LOCK_UN)
+        end
+      else
+        io_.write(str_)
+      end
+    end
+    
+    
     def _obtain_handle  # :nodoc:
       handle_ = @io_manager.preferred_handle
       if @handles.include?(handle_)
@@ -105,11 +145,11 @@ module Sawmill
       else
         io_ = @io_manager.open_handle(handle_)
         unless @omit_directives
-          io_.write("# sawmill_format: version=1\n")
+          _write_to_stream(io_, "# sawmill_format: version=1\n")
           if defined?(::Encoding)
             encoding_ = io_.encoding
             if encoding_
-              io_.write("# sawmill_format: encoding=#{encoding_.name}\n")
+              _write_to_stream(io_, "# sawmill_format: encoding=#{encoding_.name}\n")
             end
           end
         end
@@ -154,7 +194,7 @@ module Sawmill
           handle_ = _check_rotate_handle(handle_)
         end
         info_ = @handles[handle_]
-        info_[1].write(str_)
+        _write_to_stream(info_[1], str_)
         handle_
       end
     end

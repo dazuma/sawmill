@@ -47,6 +47,7 @@ module Sawmill
     DIRECTIVE_REGEXP = /^#\s+sawmill_format:\s+(\w+)=(.*)$/
     ATTRIBUTE_REGEXP = /^([[:graph:]]+)\s([=+\/-])\s/
     SUPPORTS_ENCODING = defined?(::Encoding)
+    ENCODING_OPTS = {:invalid => :replace, :undef => :replace}
     # :startdoc:
     
     
@@ -197,7 +198,7 @@ module Sawmill
       str_ = @io.gets
       if str_ && SUPPORTS_ENCODING
         str_.force_encoding(@encoding) if @encoding
-        str_.encode!(@internal_encoding) if @internal_encoding
+        str_.encode!(@internal_encoding, ENCODING_OPTS) if @internal_encoding
       end
       str_
     end

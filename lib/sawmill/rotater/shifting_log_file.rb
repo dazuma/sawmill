@@ -76,9 +76,6 @@ module Sawmill
       #   The maximum number of old logfiles (files with indexes) to
       #   keep. Files beyond this history size will be automatically
       #   deleted. Default is 1. This value must be at least 1.
-      # <tt>:encoding</tt>::
-      #   Specify an encoding name for file data. (Ruby 1.9 only).
-      #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
       
       def initialize(options_)
         @max_logfile_size = options_[:max_file_size] || options_[:max_logfile_size]
@@ -100,10 +97,6 @@ module Sawmill
         @preferred_handle = 0
         @open_handles = {}
         @last_shift = ::Time.now
-        @mode = 'a'
-        if defined?(::Encoding) && (encoding_ = options_[:encoding])
-          @mode << ":#{encoding_}"
-        end
       end
       
       
@@ -122,7 +115,7 @@ module Sawmill
         else
           path_ = "#{@normal_path}.#{@preferred_handle-handle_-1}"
         end
-        file_ = ::File.open(path_, @mode)
+        file_ = ::File.open(path_, 'a')
         file_.sync = true
         @open_handles[handle_] = true
         file_

@@ -79,9 +79,6 @@ module Sawmill
       # <tt>:local_datestamps</tt>::
       #   If true, use the local timezone to create datestamps.
       #   The default is to use UTC.
-      # <tt>:encoding</tt>::
-      #   Specify an encoding name for file data. (Ruby 1.9 only).
-      #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
       
       def initialize(options_)
         @turnover_frequency = options_[:turnover_frequency] || :none
@@ -97,10 +94,6 @@ module Sawmill
           when :hourly then "%Y-%m-%d-%H"
           else nil
           end
-        @mode = 'a'
-        if defined?(::Encoding) && (encoding_ = options_[:encoding])
-          @mode << ":#{encoding_}"
-        end
       end
       
       
@@ -125,7 +118,7 @@ module Sawmill
         else
           path_ = @prefix+@suffix
         end
-        file_ = ::File.open(path_, @mode)
+        file_ = ::File.open(path_, 'a')
         file_.sync = true
         file_
       end

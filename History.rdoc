@@ -1,6 +1,7 @@
 === 0.0.5 / 2009-11-08
 
 * API CHANGE: Reworked how string encoding is specified. Default encoding for both reading and writing is now ASCII-8BIT unless specified in the API or within the file as a parser directive.
+* Handle encoding errors more gracefully by replacing characters rather than raising exceptions.
 * Added a parser directive to set logfile encoding.
 * Versionomy is no longer a hard dependency-- it is now used only if available.
 
