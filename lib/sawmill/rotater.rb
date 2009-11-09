@@ -72,7 +72,6 @@ module Sawmill
     #   If true, omit standard logfile directives. Default is false.
     
     def initialize(io_manager_, opts_={})
-      @omit_directives = opts_.delete(:omit_directives)
       if io_manager_.kind_of?(::Class)
         @io_manager = io_manager_.new(opts_)
       else
@@ -107,6 +106,12 @@ module Sawmill
         io_ = @io_manager.open_handle(handle_)
         unless @omit_directives
           io_.write("# sawmill_format: version=1\n")
+          if defined?(::Encoding)
+            encoding_ = io_.encoding
+            if encoding_
+              io_.write("# sawmill_format: encoding=#{encoding_.name}\n")
+            end
+          end
         end
         @handles[handle_] = [handle_, io_, 1]
       end

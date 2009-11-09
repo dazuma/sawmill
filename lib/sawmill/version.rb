@@ -34,12 +34,19 @@
 ;
 
 
+begin
+  require 'versionomy'
+rescue ::LoadError
+end
+
+
 module Sawmill
   
   # Current gem version, as a frozen string.
-  VERSION_STRING = '0.0.4'.freeze
+  VERSION_STRING = '0.0.5'.freeze
   
-  # Current gem version, as a Versionomy::Value.
-  VERSION = ::Versionomy.parse(VERSION_STRING, :standard)
+  # Current gem version, as a Versionomy::Value if the versionomy library
+  # is available, or as a frozen string if not.
+  VERSION = defined?(::Versionomy) ? ::Versionomy.parse(VERSION_STRING, :standard) : VERSION_STRING
   
 end

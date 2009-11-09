@@ -266,11 +266,11 @@ module Sawmill
     # <tt>:encoding</tt>::
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default external encoding.
+    #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default internal encoding.
+    #   If not specified, uses the encoding as read from the file.
     
     def open_entries(globs_, opts_={}, &block_)
       processor_ = EntryProcessor.build(&block_)
@@ -297,11 +297,11 @@ module Sawmill
     # <tt>:encoding</tt>::
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default external encoding.
+    #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default internal encoding.
+    #   If not specified, uses the encoding as read from the file.
     
     def open_records(globs_, opts_={}, &block_)
       processor_ = RecordProcessor.build(&block_)
@@ -331,11 +331,11 @@ module Sawmill
     # <tt>:encoding</tt>::
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default external encoding.
+    #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     # <tt>:internal_encoding</tt>::
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
-    #   If not specified, uses the default internal encoding.
+    #   If not specified, uses the encoding as read from the file.
     
     def open_files(globs_, processor_, opts_={})
       finish_opt_ = opts_.delete(:finish)
@@ -343,13 +343,13 @@ module Sawmill
       internal_encoding_ = opts_.delete(:internal_encoding)
       mode_ = 'r'
       if defined?(::Encoding)
-        if encoding_
-          encoding_ = ::Encoding.find(encoding_) unless encoding_.respond_to?(:name)
-          encoding_ = nil if encoding_ == ::Encoding.default_external
+        if !encoding_
+          encoding_ = ::Encoding::ASCII_8BIT
+        elsif encoding_ && !encoding_.respond_to?(:name)
+          encoding_ = ::Encoding.find(encoding_)
         end
-        if internal_encoding_
-          internal_encoding_ = ::Encoding.find(internal_encoding_) unless internal_encoding_.respond_to?(:name)
-          internal_encoding_ = nil if internal_encoding_ == ::Encoding.default_internal
+        if internal_encoding_ && !internal_encoding_.respond_to?(:name)
+          internal_encoding_ = ::Encoding.find(internal_encoding_)
         end
         if encoding_
           mode_ << ":#{encoding_.name}"

@@ -34,14 +34,7 @@
 ;
 
 
-begin
-  require 'blockenspiel'
-  require 'versionomy'
-rescue ::LoadError
-  require 'rubygems'
-  require 'blockenspiel'
-  require 'versionomy'
-end
+require 'blockenspiel'
 
 
 dir_ = ::File.expand_path('sawmill', ::File.dirname(__FILE__))

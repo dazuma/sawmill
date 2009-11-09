@@ -46,6 +46,7 @@ module Sawmill
     LINE_REGEXP = /^\[\s*([[:graph:]]+)\s+(\d{4})-(\d{2})-(\d{2})(T|\s)(\d{2}):(\d{2}):(\d{2})(.(\d{1,6}))?Z?\s?([+-]\d{4})?\s+([[:graph:]]+)(\s+([[:graph:]]+))?\s+([\^$.=])\]\s(.*)$/
     DIRECTIVE_REGEXP = /^#\s+sawmill_format:\s+(\w+)=(.*)$/
     ATTRIBUTE_REGEXP = /^([[:graph:]]+)\s([=+\/-])\s/
+    SUPPORTS_ENCODING = defined?(::Encoding)
     # :startdoc:
     
     
@@ -65,6 +66,16 @@ module Sawmill
     # <tt>:emit_incomplete_records_at_eof</tt>
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached.
+    # <tt>:encoding</tt>
+    #   Overrides the IO encoding. (Ruby 1.9 only). If specified, lines
+    #   read from the stream are assumed to be in this encoding. If not
+    #   specified, the IO's default encoding is honored.
+    #   Note that the encoding may also be modified by the stream itself,
+    #   if an appropriate parser directive is encountered.
+    # <tt>:internal_encoding</tt>
+    #   Transcodes strings as they are read. (Ruby 1.9 only). If specified,
+    #   lines are transcoded into this encoding after they are read from
+    #   the stream. If not specified, no post-transcoding is done.
     
     def initialize(io_, processor_, opts_={})
       @io = io_
@@ -77,11 +88,10 @@ module Sawmill
       @levels = opts_[:levels] || STANDARD_LEVELS
       @emit_incomplete_records_at_eof = opts_[:emit_incomplete_records_at_eof]
       @current_record_id = nil
-      @parser_directives = {}
-      @encoding = opts_[:encoding]
-      @internal_encoding = opts_[:internal_encoding]
-      if defined?(::Encoding)
+      if SUPPORTS_ENCODING
+        @encoding = opts_[:encoding]
         @encoding = ::Encoding.find(@encoding) if @encoding && !@encoding.kind_of?(::Encoding)
+        @internal_encoding = opts_[:internal_encoding]
         @internal_encoding = ::Encoding.find(@internal_encoding) if @internal_encoding && !@internal_encoding.kind_of?(::Encoding)
       end
     end
@@ -158,7 +168,7 @@ module Sawmill
           end
         else
           if str_ =~ DIRECTIVE_REGEXP
-            @parser_directives[$1] = $2
+            _set_parser_directive($1, $2)
           end
           entry_ = Entry::UnknownData.new(str_.chomp)
           @processor.unknown_data(entry_) if @processor.respond_to?(:unknown_data)
@@ -185,11 +195,22 @@ module Sawmill
     
     def _get_next_line  # :nodoc:
       str_ = @io.gets
-      if str_
+      if str_ && SUPPORTS_ENCODING
         str_.force_encoding(@encoding) if @encoding
         str_.encode!(@internal_encoding) if @internal_encoding
       end
       str_
+    end
+    
+    
+    def _set_parser_directive(key_, value_)  # :nodoc:
+      case key_
+      when 'encoding'
+        if SUPPORTS_ENCODING
+          encoding_ = ::Encoding.find(value_) rescue nil
+          @encoding = encoding_ if encoding_
+        end
+      end
     end
     
     

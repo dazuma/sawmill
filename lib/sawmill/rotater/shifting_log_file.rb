@@ -77,8 +77,8 @@ module Sawmill
       #   keep. Files beyond this history size will be automatically
       #   deleted. Default is 1. This value must be at least 1.
       # <tt>:encoding</tt>::
-      #   Specify an encoding name for file data. (Ruby 1.9 only)
-      #   If not specified, uses the default external encoding.
+      #   Specify an encoding name for file data. (Ruby 1.9 only).
+      #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
       
       def initialize(options_)
         @max_logfile_size = options_[:max_file_size] || options_[:max_logfile_size]

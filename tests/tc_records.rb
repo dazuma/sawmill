@@ -33,7 +33,9 @@
 # -----------------------------------------------------------------------------
 
 
+require 'rubygems'
 require 'test/unit'
+require 'set'
 require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 
@@ -108,7 +110,7 @@ module Sawmill
         record_ = @records.dequeue
         assert_equal(0, record_.message_count)
         assert_equal(5, record_.entry_count)
-        assert_equal(Set.new(['color', 'size']), Set.new(record_.attribute_keys))
+        assert_equal(::Set.new(['color', 'size']), ::Set.new(record_.attribute_keys))
         assert_equal('small', record_.attribute('size'))
         assert_equal('red', record_.attribute('color'))
       end
@@ -125,7 +127,7 @@ module Sawmill
         record_ = @records.dequeue
         assert_equal(0, record_.message_count)
         assert_equal(5, record_.entry_count)
-        assert_equal(Set.new(['color', 'size']), Set.new(record_.attribute_keys))
+        assert_equal(::Set.new(['color', 'size']), ::Set.new(record_.attribute_keys))
         assert_equal(['small'], record_.attribute('size'))
         assert_equal(['blue', 'red'], record_.attribute('color'))
       end

@@ -1,4 +1,10 @@
-=== 0.0.4 / 2009-??-??
+=== 0.0.5 / 2009-11-08
+
+* API CHANGE: Reworked how string encoding is specified. Default encoding for both reading and writing is now ASCII-8BIT unless specified in the API or within the file as a parser directive.
+* Added a parser directive to set logfile encoding.
+* Versionomy is no longer a hard dependency-- it is now used only if available.
+
+=== 0.0.4 / 2009-11-06
 
 * API CHANGE: Renamed DateBasedLogFile options :prefix and :suffix to :path_prefix and :path_suffix
 * API CHANGE: Renamed ShiftingLogFile options :filepath and :max_logfile_size to :file_path and :max_file_size

@@ -80,8 +80,8 @@ module Sawmill
       #   If true, use the local timezone to create datestamps.
       #   The default is to use UTC.
       # <tt>:encoding</tt>::
-      #   Specify an encoding name for file data. (Ruby 1.9 only)
-      #   If not specified, uses the default external encoding.
+      #   Specify an encoding name for file data. (Ruby 1.9 only).
+      #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
       
       def initialize(options_)
         @turnover_frequency = options_[:turnover_frequency] || :none
