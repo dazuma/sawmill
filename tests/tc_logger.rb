@@ -185,6 +185,7 @@ module Sawmill
       
       def test_record_delimiters_auto_id
         id_ = @logger.begin_record
+        assert_match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, id_)
         @logger.info('Hello 1')
         @logger.end_record
         entry_ = @entries.dequeue

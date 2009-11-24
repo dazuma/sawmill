@@ -1,3 +1,7 @@
+=== 0.0.6 / 2009-11-23
+
+* In some cases (notably under Ruby 1.9), the default record ID generator created UUIDs that were twice as long as they should have been. Fixed.
+
 === 0.0.5 / 2009-11-08
 
 * API CHANGE: Reworked how string encoding is specified. Default encoding for both reading and writing is now ASCII-8BIT unless specified in the API or within the file as a parser directive.

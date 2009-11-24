@@ -345,11 +345,11 @@ module Sawmill
       unless @_default_generator
         if defined?(::SecureRandom)
           def self._random_hex32
-            ::SecureRandom.hex(32)
+            ::SecureRandom.hex(16)
           end
         elsif defined?(::ActiveSupport::SecureRandom)
           def self._random_hex32
-            ::ActiveSupport::SecureRandom.hex(32)
+            ::ActiveSupport::SecureRandom.hex(16)
           end
         else
           def self._random_hex32
