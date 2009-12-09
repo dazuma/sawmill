@@ -146,11 +146,9 @@ module Sawmill
         io_ = @io_manager.open_handle(handle_)
         unless @omit_directives
           _write_to_stream(io_, "# sawmill_format: version=1\n")
-          if defined?(::Encoding)
-            encoding_ = io_.encoding
-            if encoding_
-              _write_to_stream(io_, "# sawmill_format: encoding=#{encoding_.name}\n")
-            end
+          if SUPPORTS_ENCODING
+            encoding_ = @encoding || ::Encoding.default_external
+            _write_to_stream(io_, "# sawmill_format: encoding=#{@encoding.name}\n")
           end
         end
         @handles[handle_] = [handle_, io_, 1]

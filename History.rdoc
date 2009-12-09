@@ -1,3 +1,7 @@
+=== 0.0.7 / 2009-12-09
+
+* The rotater crashed when obtaining an IO handle under Ruby 1.9. Fixed.
+
 === 0.0.6 / 2009-11-23
 
 * In some cases (notably under Ruby 1.9), the default record ID generator created UUIDs that were twice as long as they should have been. Fixed.

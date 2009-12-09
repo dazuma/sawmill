@@ -217,7 +217,6 @@ module Sawmill
     
     # Emits a set-attribute log entry in the current record.
     # You must specify a key and a value as strings.
-
     
     def set_attribute(key_, value_)
       attribute(key_, value_, :set)
@@ -226,7 +225,6 @@ module Sawmill
     
     # Emits an append-attribute log entry in the current record.
     # You must specify a key and a value as strings.
-
     
     def append_attribute(key_, value_)
       attribute(key_, value_, :append)
