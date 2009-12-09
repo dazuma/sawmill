@@ -1,4 +1,4 @@
-=== 0.0.7 / 2009-12-09
+=== 0.0.8 / 2009-12-09
 
 * The rotater crashed when obtaining an IO handle under Ruby 1.9. Fixed.
 

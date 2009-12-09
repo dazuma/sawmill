@@ -148,7 +148,7 @@ module Sawmill
           _write_to_stream(io_, "# sawmill_format: version=1\n")
           if SUPPORTS_ENCODING
             encoding_ = @encoding || ::Encoding.default_external
-            _write_to_stream(io_, "# sawmill_format: encoding=#{@encoding.name}\n")
+            _write_to_stream(io_, "# sawmill_format: encoding=#{encoding_.name}\n")
           end
         end
         @handles[handle_] = [handle_, io_, 1]
