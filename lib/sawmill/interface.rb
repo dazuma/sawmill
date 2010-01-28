@@ -94,7 +94,7 @@ module Sawmill
       else
         raise ::ArgumentError, "You must pass a file path or an IO object"
       end
-      processor_ = EntryProcessor::Format.new(io_, opts_)
+      processor_ = EntryProcessor::Format.new(io_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
     
@@ -171,7 +171,7 @@ module Sawmill
     def shifting_logfile(filepath_, period_, max_size_, opts_={})
       rotater_ = Rotater.new(Rotater::ShiftingLogFile, opts_.merge(:file_path => filepath_,
         :max_file_size => max_size_, :shift_period => period_))
-      processor_ = EntryProcessor::Format.new(rotater_, opts_)
+      processor_ = EntryProcessor::Format.new(rotater_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
     
@@ -242,7 +242,7 @@ module Sawmill
     def date_based_logfile(filepath_, frequency_, opts_={})
       rotater_ = Rotater.new(Rotater::DateBasedLogFile, opts_.merge(:path_prefix => filepath_,
         :turnover_frequency => frequency_))
-      processor_ = EntryProcessor::Format.new(rotater_, opts_)
+      processor_ = EntryProcessor::Format.new(rotater_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
     

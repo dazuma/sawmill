@@ -54,7 +54,7 @@ module Sawmill
     # 
     # Supported options include:
     # 
-    # <tt>:levels</tt>::
+    # <tt>:level_group</tt>::
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
     # <tt>:level</tt>::
@@ -81,12 +81,12 @@ module Sawmill
     #   If not specified, log entries are written out to STDOUT.
     
     def initialize(opts_={})
-      @levels = opts_[:levels] || STANDARD_LEVELS
-      @level = @levels.get(opts_[:level])
+      @level_group = opts_[:level_group] || opts_[:levels] || STANDARD_LEVELS
+      @level = @level_group.get(opts_[:level])
       if opts_.include?(:attribute_level)
-        @attribute_level = @levels.get(opts_[:attribute_level])
+        @attribute_level = @level_group.get(opts_[:attribute_level])
       else
-        @attribute_level = @levels.highest
+        @attribute_level = @level_group.highest
       end
       @progname = opts_[:progname] || 'sawmill'
       @record_progname = opts_[:record_progname]
@@ -100,7 +100,7 @@ module Sawmill
     # corresponding method in ruby's logger class.
     
     def add(level_, message_=nil, progname_=nil, &block_)
-      level_obj_ = @levels.get(level_)
+      level_obj_ = @level_group.get(level_)
       if level_obj_.nil?
         raise Errors::UnknownLevelError, level_
       end
@@ -144,7 +144,7 @@ module Sawmill
     # because it bypasses the log formatting and parsing capability.
     
     def <<(message_)
-      add(@levels.default, message_)
+      add(@level_group.default, message_)
     end
     
     
@@ -162,7 +162,7 @@ module Sawmill
     def begin_record(id_=nil)
       end_record if @current_record_id
       @current_record_id = (id_ || @record_id_generator.call).to_s
-      @processor.begin_record(Entry::BeginRecord.new(@levels.highest, ::Time.now, @record_progname || @progname, @current_record_id))
+      @processor.begin_record(Entry::BeginRecord.new(@level_group.highest, ::Time.now, @record_progname || @progname, @current_record_id))
       @current_record_id
     end
     
@@ -181,7 +181,7 @@ module Sawmill
     
     def end_record
       if @current_record_id
-        @processor.end_record(Entry::EndRecord.new(@levels.highest, ::Time.now, @record_progname || @progname, @current_record_id))
+        @processor.end_record(Entry::EndRecord.new(@level_group.highest, ::Time.now, @record_progname || @progname, @current_record_id))
         id_ = @current_record_id
         @current_record_id = nil
         id_
@@ -204,7 +204,7 @@ module Sawmill
       if level_ == true
         level_obj_ = @attribute_level
       else
-        level_obj_ = @levels.get(level_)
+        level_obj_ = @level_group.get(level_)
         if level_obj_.nil?
           raise Errors::UnknownLevelError, level_
         end
@@ -270,7 +270,7 @@ module Sawmill
       if value_.kind_of?(Level)
         @level = value_
       else
-        level_obj_ = @levels.get(value_)
+        level_obj_ = @level_group.get(value_)
         if level_obj_.nil?
           raise Errors::UnknownLevelError, value_
         end
@@ -280,6 +280,14 @@ module Sawmill
     
     alias_method :sev_threshold=, :level=
     alias_method :sev_threshold, :level
+    
+    
+    # Get the LevelGroup in use by this Logger. This setting cannot be
+    # changed once the logger is constructed.
+    
+    def level_group
+      @level_group
+    end
     
     
     # Provide a block that generates and returns a unique record ID string.
@@ -329,7 +337,7 @@ module Sawmill
       method_name_ = method_.to_s
       question_ = method_name_[-1..-1] == '?'
       method_name_ = method_name_[0..-2] if question_
-      level_ = @levels.lookup_method(method_name_)
+      level_ = @level_group.lookup_method(method_name_)
       return super(method_, *args_, &block_) unless level_
       if question_
         level_ >= @level
@@ -342,20 +350,20 @@ module Sawmill
     def self._get_default_record_id_generator  # :nodoc:
       unless @_default_generator
         if defined?(::SecureRandom)
-          def self._random_hex32
+          _random_hex32 = ::Proc.new do
             ::SecureRandom.hex(16)
           end
         elsif defined?(::ActiveSupport::SecureRandom)
-          def self._random_hex32
+          _random_hex32 = ::Proc.new do
             ::ActiveSupport::SecureRandom.hex(16)
           end
         else
-          def self._random_hex32
+          _random_hex32 = ::Proc.new do
             ::Kernel.rand(0x100000000000000000000000000000000).to_s(16).rjust(32, '0')
           end
         end
         @_default_generator = ::Proc.new do
-          uuid_ = _random_hex32
+          uuid_ = _random_hex32.call
           uuid_[12] = '4'
           uuid_[16] = (uuid_[16,1].to_i(16)&3|8).to_s(16)
           uuid_.insert(8, '-')

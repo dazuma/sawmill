@@ -121,7 +121,7 @@ module Sawmill
     end
     
     
-    def _write_to_stream(io_, str_)
+    def _write_to_stream(io_, str_)  # :nodoc:
       if SUPPORTS_ENCODING && @encoding
         str_ = str_.encode(@encoding, ENCODING_OPTS)
       end

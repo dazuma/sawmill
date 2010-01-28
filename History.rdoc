@@ -1,3 +1,8 @@
+=== 0.0.9 / 2010-01-28
+
+* Some minor documentation cleanup.
+* Added Logger#level_group.
+
 === 0.0.8 / 2009-12-09
 
 * The rotater crashed when obtaining an IO handle under Ruby 1.9. Fixed.
