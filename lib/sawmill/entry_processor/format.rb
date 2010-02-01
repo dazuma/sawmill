@@ -95,6 +95,7 @@ module Sawmill
         record_id_ = entry_.record_id
         if @rotater
           if @standby_channel
+            @standby_channel.check_rotate
             io_ = @standby_channel
             @standby_channel = nil
           else
@@ -168,8 +169,8 @@ module Sawmill
             io_.write(str_)
           else
             @standby_channel ||= @rotater.create_channel
-            @standby_channel.write(str_)
             @standby_channel.check_rotate
+            @standby_channel.write(str_)
           end
         else
           @io.write(str_)
