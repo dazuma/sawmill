@@ -1,3 +1,7 @@
+=== 0.0.10 / 2010-01-31
+
+* Fixed a rotater issue that sometimes caused rotation to occur one record too late.
+
 === 0.0.9 / 2010-01-28
 
 * Some minor documentation cleanup.
