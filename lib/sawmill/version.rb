@@ -43,7 +43,7 @@ end
 module Sawmill
   
   # Current gem version, as a frozen string.
-  VERSION_STRING = '0.0.10'.freeze
+  VERSION_STRING = ::File.read(::File.dirname(__FILE__)+'/../../Version').strip.freeze
   
   # Current gem version, as a Versionomy::Value if the versionomy library
   # is available, or as a frozen string if not.

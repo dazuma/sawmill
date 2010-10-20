@@ -33,114 +33,126 @@
 # -----------------------------------------------------------------------------
 
 
-require 'rake'
-require 'rake/clean'
-require 'rake/gempackagetask'
-require 'rake/testtask'
-require 'rake/rdoctask'
-require 'rdoc/generator/darkfish'
 
-require ::File.expand_path("#{::File.dirname(__FILE__)}/lib/sawmill.rb")
+require 'rubygems'
 
 
-# Configuration
-extra_rdoc_files_ = ['README.rdoc', 'History.rdoc']
-
-
-# Default task
-task :default => [:clean, :rdoc, :package, :test]
-
-
-# Clean task
-CLEAN.include(['doc', 'pkg'])
-
-
-# Test task
-::Rake::TestTask.new('test') do |task_|
-  task_.pattern = 'tests/tc_*.rb'
+module RAKEFILE
+  
+  DLEXT = ::Config::CONFIG['DLEXT']
+  PLATFORM =
+    case ::RUBY_DESCRIPTION
+    when /^jruby\s/ then :jruby
+    when /^ruby\s/ then :mri
+    when /^rubinius\s/ then :rubinius
+    else :unknown
+    end
+  PLATFORM_SUFFIX =
+    case PLATFORM
+    when :mri
+      if ::RUBY_VERSION =~ /^1\.8\..*$/
+        'mri18'
+      elsif ::RUBY_VERSION =~ /^1\.9\..*$/
+        'mri19'
+      else
+        raise "Unknown version of Matz Ruby Interpreter (#{::RUBY_VERSION})"
+      end
+    when :rubinius then 'rbx'
+    when :jruby then 'jruby'
+    else 'unknown'
+    end
+  
+  PRODUCT_NAME = 'sawmill'
+  PRODUCT_VERSION = ::File.read(::File.dirname(__FILE__)+'/Version').strip.freeze
+  RUBYFORGE_PROJECT = 'virtuoso'
+  
+  SOURCE_FILES = ::Dir.glob('lib/**/*.rb')
+  
+  EXTRA_RDOC_FILES = ::Dir.glob('*.rdoc')
+  ALL_RDOC_FILES = SOURCE_FILES + EXTRA_RDOC_FILES
+  MAIN_RDOC_FILE = 'README.rdoc'
+  RDOC_TITLE = 'Sawmill #{PRODUCT_VERSION} Documentation'
+  
+  TEST_FILES = ::Dir.glob('tests/**/*.rb')
+  
+  DOC_DIRECTORY = 'doc'
+  PKG_DIRECTORY = 'pkg'
+  
+  CLEAN_PATTERNS = [DOC_DIRECTORY, PKG_DIRECTORY, 'tmp', '**/*.rbc']
+  
+  GEMSPEC = ::Gem::Specification.new do |s_|
+    s_.name = PRODUCT_NAME
+    s_.summary = "Sawmill is a logging and log analysis system for Ruby."
+    s_.description = "Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities."
+    s_.version = "#{PRODUCT_VERSION}"
+    s_.author = 'Daniel Azuma'
+    s_.email = 'dazuma@gmail.com'
+    s_.homepage = "http://#{RUBYFORGE_PROJECT}.rubyforge.org/#{PRODUCT_NAME}"
+    s_.rubyforge_project = RUBYFORGE_PROJECT
+    s_.required_ruby_version = '>= 1.8.7'
+    s_.files = SOURCE_FILES + EXTRA_RDOC_FILES + TEST_FILES + ['Version']
+    s_.extra_rdoc_files = EXTRA_RDOC_FILES
+    s_.has_rdoc = true
+    s_.test_files = TEST_FILES
+    s_.platform = ::Gem::Platform::RUBY
+    s_.add_dependency('blockenspiel', '>= 0.4.1')
+  end
+  
 end
 
 
-# RDoc task
-::Rake::RDocTask.new do |task_|
-  task_.main = 'README.rdoc'
-  task_.rdoc_files.include(*extra_rdoc_files_)
-  task_.rdoc_files.include('lib/sawmill/**/*.rb')
-  task_.rdoc_dir = 'doc'
-  task_.title = "Sawmill #{::Sawmill::VERSION_STRING} documentation"
-  task_.options << '-f' << 'darkfish'
+task :clean do
+  ::RAKEFILE::CLEAN_PATTERNS.each do |pattern_|
+    ::Dir.glob(pattern_) do |path_|
+      rm_r path_ rescue nil
+    end
+  end
 end
 
 
-# Gem task
-gemspec_ = ::Gem::Specification.new do |s_|
-  s_.name = 'sawmill'
-  s_.summary = 'Sawmill is a logging and log analysis system for Ruby.'
-  s_.version = ::Sawmill::VERSION_STRING
-  s_.author = 'Daniel Azuma'
-  s_.email = 'dazuma@gmail.com'
-  s_.description = 'Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities.'
-  s_.homepage = 'http://virtuoso.rubyforge.org/sawmill'
-  s_.rubyforge_project = 'virtuoso'
-  s_.required_ruby_version = '>= 1.8.6'
-  s_.files = ::FileList['lib/**/*.rb', 'tests/**/*.rb', '*.rdoc', 'Rakefile'].to_a
-  s_.extra_rdoc_files = extra_rdoc_files_
-  s_.has_rdoc = true
-  s_.test_files = ::FileList['tests/tc_*.rb']
-  s_.platform = ::Gem::Platform::RUBY
-  s_.add_dependency('blockenspiel', '>= 0.3.1')
-end
-::Rake::GemPackageTask.new(gemspec_) do |task_|
-  task_.need_zip = false
-  task_.need_tar = true
+task :build_rdoc => "#{::RAKEFILE::DOC_DIRECTORY}/index.html"
+file "#{::RAKEFILE::DOC_DIRECTORY}/index.html" => ::RAKEFILE::ALL_RDOC_FILES do
+  rm_r ::RAKEFILE::DOC_DIRECTORY rescue nil
+  args_ = []
+  args_ << '-o' << ::RAKEFILE::DOC_DIRECTORY
+  args_ << '--main' << ::RAKEFILE::MAIN_RDOC_FILE
+  args_ << '--title' << ::RAKEFILE::RDOC_TITLE
+  args_ << '-f' << 'darkfish'
+  require 'rdoc'
+  require 'rdoc/rdoc'
+  require 'rdoc/generator/darkfish'
+  ::RDoc::RDoc.new.document(args_ + ::RAKEFILE::ALL_RDOC_FILES)
 end
 
 
-# Publish RDocs
-desc 'Publishes RDocs to RubyForge'
-task :publish_rdoc_to_rubyforge => [:rerdoc] do
+task :publish_rdoc => :build_rdoc do
   config_ = ::YAML.load(::File.read(::File.expand_path("~/.rubyforge/user-config.yml")))
   username_ = config_['username']
-  sh "rsync -av --delete doc/ #{username_}@rubyforge.org:/var/www/gforge-projects/virtuoso/sawmill"
+  sh "rsync -av --delete #{::RAKEFILE::DOC_DIRECTORY}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{::RAKEFILE::RUBYFORGE_PROJECT}/#{::RAKEFILE::PRODUCT_NAME}"
 end
 
 
-# Release gem ro rubyforge
-task :release_gem_to_rubyforge => [:package] do |t_|
-  v_ = ::ENV["VERSION"]
-  abort "Must supply VERSION=x.y.z" unless v_
-  if v_ != ::Sawmill::VERSION_STRING
-    abort "Versions don't match: #{v_} vs #{::Sawmill::VERSION_STRING}"
+task :build_gem do
+  ::Gem::Builder.new(::RAKEFILE::GEMSPEC).build
+  mkdir_p ::RAKEFILE::PKG_DIRECTORY
+  mv "#{::RAKEFILE::PRODUCT_NAME}-#{::RAKEFILE::PRODUCT_VERSION}.gem", "#{::RAKEFILE::PKG_DIRECTORY}/"
+end
+
+
+task :release_gem => [:build_gem] do
+  ::Dir.chdir(::RAKEFILE::PKG_DIRECTORY) do
+    sh "#{::RbConfig::TOPDIR}/bin/gem push #{::RAKEFILE::PRODUCT_NAME}-#{::RAKEFILE::PRODUCT_VERSION}.gem"
   end
-  gem_pkg_ = "pkg/sawmill-#{v_}.gem"
-  tgz_pkg_ = "pkg/sawmill-#{v_}.tgz"
-  release_notes_ = ::File.read("README.rdoc").split(/^(==.*)/)[2].strip
-  release_changes_ = ::File.read("History.rdoc").split(/^(===.*)/)[1..2].join.strip
-  
-  require 'rubyforge'
-  rf_ = ::RubyForge.new.configure
-  puts "Logging in to RubyForge"
-  rf_.login
-  config_ = rf_.userconfig
-  config_["release_notes"] = release_notes_
-  config_["release_changes"] = release_changes_
-  config_["preformatted"] = true
-  puts "Releasing sawmill #{v_} to RubyForge"
-  rf_.add_release('virtuoso', 'sawmill', v_, gem_pkg_, tgz_pkg_)
 end
 
 
-# Release gem to gemcutter
-task :release_gem_to_gemcutter => [:package] do |t_|
-  v_ = ::ENV["VERSION"]
-  abort "Must supply VERSION=x.y.z" unless v_
-  if v_ != ::Sawmill::VERSION_STRING
-    abort "Versions don't match: #{v_} vs #{::Sawmill::VERSION_STRING}"
+task :test do
+  $:.unshift(::File.expand_path('lib', ::File.dirname(__FILE__)))
+  ::RAKEFILE::TEST_FILES.each do |path_|
+    load path_
+    puts "Loaded testcase #{path_}"
   end
-  puts "Releasing sawmill #{v_} to GemCutter"
-  `cd pkg && gem push sawmill-#{v_}.gem`
 end
 
 
-# Publish everything
-task :release => [:release_gem_to_gemcutter, :release_gem_to_rubyforge, :publish_rdoc_to_rubyforge]
+task :default => [:clean, :build_rdoc, :build_gem, :test]

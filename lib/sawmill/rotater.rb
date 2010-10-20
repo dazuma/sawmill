@@ -34,7 +34,7 @@
 ;
 
 
-require 'thread'
+require 'monitor'
 
 
 module Sawmill
