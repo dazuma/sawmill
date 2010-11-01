@@ -34,10 +34,7 @@
 ;
 
 
-begin
-  require 'securerandom'
-rescue ::LoadError
-end
+require 'securerandom'
 
 
 module Sawmill
@@ -254,6 +251,20 @@ module Sawmill
     end
     
     
+    # Get the current record progname setting for this logger
+    
+    def record_progname
+      @record_progname
+    end
+    
+    
+    # Set the current record progname setting for this logger
+    
+    def record_progname=(value_)
+      @record_progname = value_.to_s.gsub(/\s+/, '')
+    end
+    
+    
     # Get the current level setting for this logger as a Sawmill::Level.
     
     def level
@@ -280,6 +291,32 @@ module Sawmill
     
     alias_method :sev_threshold=, :level=
     alias_method :sev_threshold, :level
+    
+    
+    # Get the current attribute level setting for this logger as a
+    # Sawmill::Level.
+    
+    def attribute_level
+      @attribute_level
+    end
+    
+    
+    # Set the current attribute level setting for this logger.
+    # You may specify the level as a string, a symbol, an integer, or a
+    # Sawmill::Level. Ruby's logger constants such as ::Logger::INFO
+    # will also work.
+    
+    def attribute_level=(value_)
+      if value_.kind_of?(Level)
+        @attribute_level = value_
+      else
+        level_obj_ = @level_group.get(value_)
+        if level_obj_.nil?
+          raise Errors::UnknownLevelError, value_
+        end
+        @attribute_level = level_obj_
+      end
+    end
     
     
     # Get the LevelGroup in use by this Logger. This setting cannot be
@@ -348,32 +385,16 @@ module Sawmill
     
     
     def self._get_default_record_id_generator  # :nodoc:
-      unless @_default_generator
-        if defined?(::SecureRandom)
-          _random_hex32 = ::Proc.new do
-            ::SecureRandom.hex(16)
-          end
-        elsif defined?(::ActiveSupport::SecureRandom)
-          _random_hex32 = ::Proc.new do
-            ::ActiveSupport::SecureRandom.hex(16)
-          end
-        else
-          _random_hex32 = ::Proc.new do
-            ::Kernel.rand(0x100000000000000000000000000000000).to_s(16).rjust(32, '0')
-          end
-        end
-        @_default_generator = ::Proc.new do
-          uuid_ = _random_hex32.call
-          uuid_[12] = '4'
-          uuid_[16] = (uuid_[16,1].to_i(16)&3|8).to_s(16)
-          uuid_.insert(8, '-')
-          uuid_.insert(13, '-')
-          uuid_.insert(18, '-')
-          uuid_.insert(23, '-')
-          uuid_
-        end
+      @_default_generator ||= ::Proc.new do
+        uuid_ = ::SecureRandom.hex(16)
+        uuid_[12] = '4'
+        uuid_[16] = (uuid_[16,1].to_i(16)&3|8).to_s(16)
+        uuid_.insert(8, '-')
+        uuid_.insert(13, '-')
+        uuid_.insert(18, '-')
+        uuid_.insert(23, '-')
+        uuid_
       end
-      @_default_generator
     end
     
     

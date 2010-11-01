@@ -22,11 +22,12 @@ Sawmill is an extension to the standard ruby Logger mechanism that enables autom
 * Parse logfiles back into log entries and log records
 * Log analysis framework
 * Rack middleware for quick setup of web service logs
+* Railtie for Rails 3 integration
 
 === Requirements
 
-* Ruby 1.8.6 or later (1.8.7 recommended), Ruby 1.9.1 or later, or JRuby 1.4 or later.
-* Blockenspiel 0.3.1 or later.
+* Ruby 1.8.7 or later (Ruby 1.9.2 or later recommended), or JRuby 1.4 or later.
+* Blockenspiel 0.4.1 or later.
 
 === Installation
 
@@ -48,11 +49,13 @@ Contact the author at dazuma at gmail dot com.
 
 === Author / Credits
 
-Lumber is written by Daniel Azuma (http://www.daniel-azuma.com/).
+Sawmill is written by Daniel Azuma (http://www.daniel-azuma.com/).
 
-== LICENSE:
+Development of Sawmill is sponsored by GeoPage (http://www.geopage.com/).
 
-Copyright 2009 Daniel Azuma.
+=== License
+
+Copyright 2009-2010 Daniel Azuma.
 
 All rights reserved.
 

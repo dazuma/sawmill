@@ -67,6 +67,12 @@ module Sawmill
     end
     
     
+    # Could not open a log file because a uniquifier failed.
+    
+    class NoUniqueLogFileError < SawmillError
+    end
+    
+    
   end
   
   

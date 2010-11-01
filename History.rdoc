@@ -1,3 +1,13 @@
+=== 0.1.12 / 2010-11-01
+
+* A date-based rotater can now force log files to be written to by only one process. Useful in environments where you have an unknown number of processes(i.e. a Passenger-based deployment), each of which needs a separate log file.
+* Provided a Railtie for easy integration into a Rails 3 application.
+* The record_progname and attribute_level can now be set on a logger after creation.
+
+=== 0.1.11 / 2010-10-19
+
+* Fixed a missing require.
+
 === 0.0.10 / 2010-01-31
 
 * Fixed a rotater issue that sometimes caused rotation to occur one record too late.
