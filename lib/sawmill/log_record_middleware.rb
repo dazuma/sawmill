@@ -50,13 +50,13 @@ module Sawmill
     # 
     # Recognized options include:
     # 
-    # <tt>:request_id_key</tt>::
+    # [<tt>:request_id_key</tt>]
     #   The name of a rack environment key where the record ID should be
     #   stored. If not specified, defaults to "sawmill.request_id".
-    # <tt>:start_time_attribute</tt>::
+    # [<tt>:start_time_attribute</tt>]
     #   If present, logs an attribute with this name with the starting
     #   timestamp for the request. If absent, does not log this attribute.
-    # <tt>:end_time_attribute</tt>::
+    # [<tt>:end_time_attribute</tt>]
     #   If present, logs an attribute with this name with the ending
     #   timestamp for the request. If absent, does not log this attribute.
     

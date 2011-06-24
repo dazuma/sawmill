@@ -50,39 +50,39 @@ module Sawmill
     # You may pass the same options taken by Sawmill::Logger#new and
     # Sawmill::EntryProcessor::Format#new, which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
-    # <tt>:level</tt>::
+    # [<tt>:level</tt>]
     #   Default level to use for log messages when no level is explicitly
     #   provided. By default, this is set to the level group's default,
     #   which in the case of the standard levels is :INFO.
-    # <tt>:attribute_level</tt>::
+    # [<tt>:attribute_level</tt>]
     #   Default level to use for attributes when no level is explicitly
     #   provided. By default, this is set to the level group's highest,
     #   level, which in the case of the standard levels is :ANY.
-    # <tt>:progname</tt>::
+    # [<tt>:progname</tt>]
     #   Progname to use in log messages. Default is "sawmill".
-    # <tt>:record_progname</tt>::
+    # [<tt>:record_progname</tt>]
     #   Progname to use in special log entries dealing with log records
     #   (i.e. record delimiters and attribute messages). Default is the
     #   same as the normal progname setting.
-    # <tt>:record_id_generator</tt>::
+    # [<tt>:record_id_generator</tt>]
     #   A proc that generates and returns a new record ID if one is not
     #   explicitly passed into begin_record. If you do not provide a
     #   generator, the default one is used, which generates an ID using the
     #   variant 4 (random) UUID standard.
-    # <tt>:include_id</tt>::
+    # [<tt>:include_id</tt>]
     #   Write the record ID in every log entry. Default is false.
-    # <tt>:fractional_second_digits</tt>::
+    # [<tt>:fractional_second_digits</tt>]
     #   Number of digits of fractional seconds to write in timestamps.
     #   Default is 2. Accepted values are 0 to 6.
-    # <tt>:level_width</tt>::
+    # [<tt>:level_width</tt>]
     #   Column width of the level field.
-    # <tt>:local_time</tt>::
+    # [<tt>:local_time</tt>]
     #   If true, outputs local time with the timezone offset indicator.
     #   If false (the default), outputs UTC.
-    # <tt>:iso_8601_time</tt>::
+    # [<tt>:iso_8601_time</tt>]
     #   If true, outputs time in strict ISO 8601 format.
     #   If false (the default), outputs a slightly more readable format.
     
@@ -120,51 +120,51 @@ module Sawmill
     # Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
     # Sawmill::Rotater::ShiftingLogFile#new, which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
-    # <tt>:level</tt>::
+    # [<tt>:level</tt>]
     #   Default level to use for log messages when no level is explicitly
     #   provided. By default, this is set to the level group's default,
     #   which in the case of the standard levels is :INFO.
-    # <tt>:attribute_level</tt>::
+    # [<tt>:attribute_level</tt>]
     #   Default level to use for attributes when no level is explicitly
     #   provided. By default, this is set to the level group's highest,
     #   level, which in the case of the standard levels is :ANY.
-    # <tt>:progname</tt>::
+    # [<tt>:progname</tt>]
     #   Progname to use in log messages. Default is "sawmill".
-    # <tt>:record_progname</tt>::
+    # [<tt>:record_progname</tt>]
     #   Progname to use in special log entries dealing with log records
     #   (i.e. record delimiters and attribute messages). Default is the
     #   same as the normal progname setting.
-    # <tt>:record_id_generator</tt>::
+    # [<tt>:record_id_generator</tt>]
     #   A proc that generates and returns a new record ID if one is not
     #   explicitly passed into begin_record. If you do not provide a
     #   generator, the default one is used, which generates an ID using the
     #   variant 4 (random) UUID standard.
-    # <tt>:include_id</tt>::
+    # [<tt>:include_id</tt>]
     #   Write the record ID in every log entry. Default is false.
-    # <tt>:fractional_second_digits</tt>::
+    # [<tt>:fractional_second_digits</tt>]
     #   Number of digits of fractional seconds to write in timestamps.
     #   Default is 2. Accepted values are 0 to 6.
-    # <tt>:level_width</tt>::
+    # [<tt>:level_width</tt>]
     #   Column width of the level field.
-    # <tt>:local_time</tt>::
+    # [<tt>:local_time</tt>]
     #   If true, outputs local time with the timezone offset indicator.
     #   If false (the default), outputs UTC.
-    # <tt>:iso_8601_time</tt>::
+    # [<tt>:iso_8601_time</tt>]
     #   If true, outputs time in strict ISO 8601 format.
     #   If false (the default), outputs a slightly more readable format.
-    # <tt>:omit_directives</tt>::
+    # [<tt>:omit_directives</tt>]
     #   If true, omit standard logfile directives. Default is false.
-    # <tt>:basedir</tt>::
+    # [<tt>:basedir</tt>]
     #   The base directory used if the filepath is a relative path.
     #   If not specified, the current working directory is used.
-    # <tt>:history_size</tt>::
+    # [<tt>:history_size</tt>]
     #   The maximum number of old logfiles (files with indexes) to
     #   keep. Files beyond this history size will be automatically
     #   deleted. Default is 1. This value must be at least 1.
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding name for file data. (Ruby 1.9 only)
     #   If not specified, uses the default external encoding.
     
@@ -188,54 +188,54 @@ module Sawmill
     # Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
     # Sawmill::Rotater::DateBasedLogFile#new, which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
-    # <tt>:level</tt>::
+    # [<tt>:level</tt>]
     #   Default level to use for log messages when no level is explicitly
     #   provided. By default, this is set to the level group's default,
     #   which in the case of the standard levels is :INFO.
-    # <tt>:attribute_level</tt>::
+    # [<tt>:attribute_level</tt>]
     #   Default level to use for attributes when no level is explicitly
     #   provided. By default, this is set to the level group's highest,
     #   level, which in the case of the standard levels is :ANY.
-    # <tt>:progname</tt>::
+    # [<tt>:progname</tt>]
     #   Progname to use in log messages. Default is "sawmill".
-    # <tt>:record_progname</tt>::
+    # [<tt>:record_progname</tt>]
     #   Progname to use in special log entries dealing with log records
     #   (i.e. record delimiters and attribute messages). Default is the
     #   same as the normal progname setting.
-    # <tt>:record_id_generator</tt>::
+    # [<tt>:record_id_generator</tt>]
     #   A proc that generates and returns a new record ID if one is not
     #   explicitly passed into begin_record. If you do not provide a
     #   generator, the default one is used, which generates an ID using the
     #   variant 4 (random) UUID standard.
-    # <tt>:include_id</tt>::
+    # [<tt>:include_id</tt>]
     #   Write the record ID in every log entry. Default is false.
-    # <tt>:fractional_second_digits</tt>::
+    # [<tt>:fractional_second_digits</tt>]
     #   Number of digits of fractional seconds to write in timestamps.
     #   Default is 2. Accepted values are 0 to 6.
-    # <tt>:level_width</tt>::
+    # [<tt>:level_width</tt>]
     #   Column width of the level field.
-    # <tt>:local_time</tt>::
+    # [<tt>:local_time</tt>]
     #   If true, outputs local time with the timezone offset indicator.
     #   If false (the default), outputs UTC.
-    # <tt>:iso_8601_time</tt>::
+    # [<tt>:iso_8601_time</tt>]
     #   If true, outputs time in strict ISO 8601 format.
     #   If false (the default), outputs a slightly more readable format.
-    # <tt>:omit_directives</tt>::
+    # [<tt>:omit_directives</tt>]
     #   If true, omit standard logfile directives. Default is false.
-    # <tt>:basedir</tt>::
+    # [<tt>:basedir</tt>]
     #   The base directory used if the filepath is a relative path.
     #   If not specified, the current working directory is used.
-    # <tt>:name_suffix</tt>::
+    # [<tt>:name_suffix</tt>]
     #   The logfile name suffix.
     #   In the filename "rails.2009-10-11.log", the suffix is ".log".
     #   If not specified, defaults to ".log".
-    # <tt>:local_datestamps</tt>::
+    # [<tt>:local_datestamps</tt>]
     #   If true, use the local timezone to create datestamps.
     #   The default is to use UTC.
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding name for file data. (Ruby 1.9 only)
     #   If not specified, uses the default external encoding.
     
@@ -254,22 +254,22 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>::
+    # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     # 
     # Additionally, these options are recognized:
     # 
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     #   Note that the encoding may also be modified by the file itself,
     #   if an appropriate parser directive is encountered.
-    # <tt>:internal_encoding</tt>::
+    # [<tt>:internal_encoding</tt>]
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.
@@ -287,22 +287,22 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>::
+    # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     # 
     # Additionally, these options are recognized:
     # 
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     #   Note that the encoding may also be modified by the file itself,
     #   if an appropriate parser directive is encountered.
-    # <tt>:internal_encoding</tt>::
+    # [<tt>:internal_encoding</tt>]
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.
@@ -319,26 +319,26 @@ module Sawmill
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
     # 
-    # <tt>:levels</tt>::
+    # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>::
+    # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     # 
     # Additionally, these options are recognized:
     # 
-    # <tt>:finish</tt>::
+    # [<tt>:finish</tt>]
     #   If set to true, the "finish" method is called on the processor
     #   after all files have been parsed, and the return value is returned.
     #   Otherwise, the processor is left open and nil is returned.
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, reads raw bytes (e.g. defaults to 'ASCII-8BIT').
     #   Note that the encoding may also be modified by the file itself,
     #   if an appropriate parser directive is encountered.
-    # <tt>:internal_encoding</tt>::
+    # [<tt>:internal_encoding</tt>]
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.

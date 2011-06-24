@@ -48,7 +48,7 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:label</tt>::
+      # [<tt>:label</tt>]
       #   Label to use for the report.
       #   If provided, the report is returned as a string of the form
       #   "#{label}#{value}"

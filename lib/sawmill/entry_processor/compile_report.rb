@@ -50,16 +50,16 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:postprocessor</tt>::
+      # [<tt>:postprocessor</tt>]
       #   Postprocessor proc for individual reports.
       #   See to_postprocess_value.
-      # <tt>:separator</tt>::
+      # [<tt>:separator</tt>]
       #   Separator string to be inserted between individual reports.
       #   Default is a single newline.
-      # <tt>:header</tt>::
+      # [<tt>:header</tt>]
       #   Header string for the final compiled report.
       #   Default is the empty string.
-      # <tt>:footer</tt>::
+      # [<tt>:footer</tt>]
       #   Footer string for the final compiled report.
       #   Default is the empty string.
       

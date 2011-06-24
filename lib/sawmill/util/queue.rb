@@ -46,10 +46,10 @@ module Sawmill
       
       # Recognized options include:
       # 
-      # <tt>:limit</tt>::
+      # [<tt>:limit</tt>]
       #   Size limit for the queue. If not specified, the queue can grow
       #   arbitrarily large.
-      # <tt>:drop_oldest</tt>::
+      # [<tt>:drop_oldest</tt>]
       #   If set to true, then when an item is added to a full queue, the
       #   oldest item is dropped. If set to false or not specified, then
       #   the new item is not added.

@@ -49,7 +49,7 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:emit_incomplete_records_on_finish</tt>::
+      # [<tt>:emit_incomplete_records_on_finish</tt>]
       #   When the processor is finished, any records that are still not
       #   complete will be emitted to the record processor anyway, even
       #   in their incomplete state.

@@ -1,9 +1,11 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill record processor that formats for log files
+# Sawmill gemspec
+# 
+# This file contains the gemspec for Sawmill.
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2009 Daniel Azuma
+# Copyright 2011 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -34,61 +36,22 @@
 ;
 
 
-module Sawmill
-  
-  module RecordProcessor
-    
-    
-    # This processor formats log records and writes them to a destination.
-    
-    class Format < Base
-      
-      
-      # Create a formatter.
-      # 
-      # The destination can be a ruby IO object, a Sawmill::Rotater, or any
-      # object that responds to the "write" and "close" methods as defined
-      # by the ruby IO class.
-      # 
-      # Recognized options include:
-      # 
-      # [<tt>:include_id</tt>]
-      #   Include the record ID in every log entry. Default is false.
-      # [<tt>:fractional_second_digits</tt>]
-      #   Number of digits of fractional seconds to display in timestamps.
-      #   Default is 2. Accepted values are 0 to 6.
-      # [<tt>:level_width</tt>]
-      #   Column width of the level field.
-      # [<tt>:entry_length_limit</tt>]
-      #   Limit to the entry length. Entries are truncated to this length
-      #   when written. If not specified, entries are not truncated.
-      
-      def initialize(destination_, opts_={})
-        if (entry_length_limit_ = opts_.delete(:entry_length_limit))
-          opts_ = opts_.merge(:length_limit => entry_length_limit_)
-        end
-        @formatter = EntryProcessor::Format.new(destination_, opts_)
-        @classifier = EntryClassifier.new(@formatter)
-      end
-      
-      
-      def record(record_)
-        record_.each_entry{ |entry_| @classifier.entry(entry_) }
-        true
-      end
-      
-      def extra_entry(entry_)
-        @classifier.entry(entry_)
-        true
-      end
-      
-      def finish
-        @formatter.finish
-      end
-      
-    end
-    
-    
-  end
-  
+::Gem::Specification.new do |s_|
+  s_.name = 'sawmill'
+  s_.summary = 'Sawmill is a logging and log analysis system for Ruby.'
+  s_.description = "Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities."
+  s_.version = "#{::File.read('Version').strip}.build#{::Time.now.utc.strftime('%Y%m%d%H%M%S')}"
+  s_.author = 'Daniel Azuma'
+  s_.email = 'dazuma@gmail.com'
+  s_.homepage = 'http://virtuoso.rubyforge.org/sawmill'
+  s_.rubyforge_project = 'virtuoso'
+  s_.required_ruby_version = '>= 1.8.7'
+  s_.files = ::Dir.glob("lib/**/*.rb") +
+    ::Dir.glob("test/**/*.rb") +
+    ::Dir.glob("*.rdoc") +
+    ['Version']
+  s_.extra_rdoc_files = ::Dir.glob("*.rdoc")
+  s_.test_files = ::Dir.glob("test/**/tc_*.rb")
+  s_.platform = ::Gem::Platform::RUBY
+  s_.add_dependency('blockenspiel', '>= 0.4.3')
 end

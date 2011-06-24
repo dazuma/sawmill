@@ -231,9 +231,9 @@ module Sawmill
       # 
       # You may also provide these options:
       # 
-      # <tt>:default</tt>::
+      # [<tt>:default</tt>]
       #   If set to true, this level is made the default.
-      # <tt>:methods</tt>::
+      # [<tt>:methods</tt>]
       #   If set to an array of strings or methods, those method names are
       #   mapped to this level. You may then use those methods in the
       #   Sawmill::Logger class as a shortcut for creating log messages with

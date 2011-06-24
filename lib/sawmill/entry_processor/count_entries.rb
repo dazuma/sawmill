@@ -48,18 +48,18 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:label</tt>::
+      # [<tt>:label</tt>]
       #   Label to use for the report.
       #   If provided, the report is returned as a string of the form
       #   "#{label}#{value}"
       #   If set to nil or absent, the report is returned as an integer.
-      # <tt>:omit_unknown_data</tt>::
+      # [<tt>:omit_unknown_data</tt>]
       #   If set to true, omits unknown_data from the count.
       #   Default is false.
-      # <tt>:omit_attributes</tt>::
+      # [<tt>:omit_attributes</tt>]
       #   If set to true, omits attributes from the count.
       #   Default is false.
-      # <tt>:omit_record_delimiters</tt>::
+      # [<tt>:omit_record_delimiters</tt>]
       #   If set to true, omits begin_record and end_record from the count.
       #   Default is false.
       

@@ -56,23 +56,23 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:basedir</tt>::
+      # [<tt>:basedir</tt>]
       #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
-      # <tt>:file_path</tt>::
+      # [<tt>:file_path</tt>]
       #   The path to the log file. This may be an absolute path or a
       #   path relative to basedir.
       #   If not specified, defaults to "sawmill.log".
-      # <tt>:max_file_size</tt>::
+      # [<tt>:max_file_size</tt>]
       #   A logfile will try to rotate once it has reached this size in
       #   bytes. If not specified, the file size is not checked.
-      # <tt>:shift_period</tt>::
+      # [<tt>:shift_period</tt>]
       #   A logfile will try to rotate once it has been in service for
       #   this many seconds. This parameter also recognizes the values
       #   <tt>:yearly</tt>, <tt>:monthly</tt>, <tt>:daily</tt>, 
       #   and <tt>:hourly</tt>. If not specified, the file's age is
       #   not checked.
-      # <tt>:history_size</tt>::
+      # [<tt>:history_size</tt>]
       #   The maximum number of old logfiles (files with indexes) to
       #   keep. Files beyond this history size will be automatically
       #   deleted. Default is 1. This value must be at least 1.

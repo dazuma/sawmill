@@ -3,7 +3,7 @@
 # Sawmill Rakefile
 # 
 # -----------------------------------------------------------------------------
-# Copyright 2009 Daniel Azuma
+# Copyright 2009-2011 Daniel Azuma
 # 
 # All rights reserved.
 # 
@@ -33,126 +33,189 @@
 # -----------------------------------------------------------------------------
 
 
+# Gemspec
 
 require 'rubygems'
+gemspec_file_ = ::File.read(::Dir.glob('*.gemspec').first)
+gemspec_ = eval(gemspec_file_)
+release_gemspec_ = eval(gemspec_file_)
+release_gemspec_.version = gemspec_.version.to_s.sub(/\.build\d+$/, '')
+::RAKEFILE_CONFIG = {} unless defined?(::RAKEFILE_CONFIG)
 
 
-module RAKEFILE
-  
-  DLEXT = ::Config::CONFIG['DLEXT']
-  PLATFORM =
-    case ::RUBY_DESCRIPTION
-    when /^jruby\s/ then :jruby
-    when /^ruby\s/ then :mri
-    when /^rubinius\s/ then :rubinius
-    else :unknown
+# Platform info
+
+dlext_ = ::RbConfig::CONFIG['DLEXT']
+
+platform_ =
+  case ::RUBY_DESCRIPTION
+  when /^jruby\s/ then :jruby
+  when /^ruby\s/ then :mri
+  when /^rubinius\s/ then :rubinius
+  else :unknown
+  end
+
+platform_suffix_ =
+  case platform_
+  when :mri
+    if ::RUBY_VERSION =~ /^1\.8\..*$/
+      'mri18'
+    elsif ::RUBY_VERSION =~ /^1\.9\..*$/
+      'mri19'
+    else
+      raise "Unknown version of Matz Ruby Interpreter (#{::RUBY_VERSION})"
     end
-  PLATFORM_SUFFIX =
-    case PLATFORM
-    when :mri
-      if ::RUBY_VERSION =~ /^1\.8\..*$/
-        'mri18'
-      elsif ::RUBY_VERSION =~ /^1\.9\..*$/
-        'mri19'
-      else
-        raise "Unknown version of Matz Ruby Interpreter (#{::RUBY_VERSION})"
+  when :rubinius then 'rbx'
+  when :jruby then 'jruby'
+  else 'unknown'
+  end
+
+
+# Directories
+
+doc_directory_ = ::RAKEFILE_CONFIG[:doc_directory] || 'doc'
+pkg_directory_ = ::RAKEFILE_CONFIG[:pkg_directory] || 'pkg'
+tmp_directory_ = ::RAKEFILE_CONFIG[:tmp_directory] || 'tmp'
+
+
+# Build tasks
+
+internal_ext_info_ = gemspec_.extensions.map do |extconf_path_|
+  source_dir_ = ::File.dirname(extconf_path_)
+  name_ = ::File.basename(source_dir_)
+  {
+    :name => name_,
+    :source_dir => source_dir_,
+    :extconf_path => extconf_path_,
+    :source_glob => "#{source_dir_}/*.{c,h}",
+    :obj_glob => "#{source_dir_}/*.{o,dSYM}",
+    :suffix_makefile_path => "#{source_dir_}/Makefile_#{platform_suffix_}",
+    :built_lib_path => "#{source_dir_}/#{name_}.#{dlext_}",
+    :staged_lib_path => "#{source_dir_}/#{name_}_#{platform_suffix_}.#{dlext_}",
+  }
+end
+internal_ext_info_ = [] if platform_ == :jruby
+
+internal_ext_info_.each do |info_|
+  file info_[:staged_lib_path] => [info_[:suffix_makefile_path]] + ::Dir.glob(info_[:source_glob]) do
+    ::Dir.chdir(info_[:source_dir]) do
+      cp "Makefile_#{platform_suffix_}", 'Makefile'
+      sh 'make'
+      rm 'Makefile'
+    end
+    mv info_[:built_lib_path], info_[:staged_lib_path]
+    rm_r ::Dir.glob(info_[:obj_glob])
+  end
+  file info_[:suffix_makefile_path] => info_[:extconf_path] do
+    ::Dir.chdir(info_[:source_dir]) do
+      ruby 'extconf.rb'
+      mv 'Makefile', "Makefile_#{platform_suffix_}"
+    end
+  end
+end
+
+task :build_ext => internal_ext_info_.map{ |info_| info_[:staged_lib_path] } do
+  internal_ext_info_.each do |info_|
+    target_prefix_ = target_name_ = nil
+    ::Dir.chdir(info_[:source_dir]) do
+      ruby 'extconf.rb'
+      ::File.open('Makefile') do |file_|
+        file_.each do |line_|
+          if line_ =~ /^target_prefix\s*=\s*(\S+)\s/
+            target_prefix_ = $1
+          elsif line_ =~ /^TARGET\s*=\s*(\S+)\s/
+            target_name_ = $1
+          end
+        end
       end
-    when :rubinius then 'rbx'
-    when :jruby then 'jruby'
-    else 'unknown'
+      rm 'Makefile'
     end
-  
-  PRODUCT_NAME = 'sawmill'
-  PRODUCT_VERSION = ::File.read(::File.dirname(__FILE__)+'/Version').strip.freeze
-  RUBYFORGE_PROJECT = 'virtuoso'
-  
-  SOURCE_FILES = ::Dir.glob('lib/**/*.rb')
-  
-  EXTRA_RDOC_FILES = ::Dir.glob('*.rdoc')
-  ALL_RDOC_FILES = SOURCE_FILES + EXTRA_RDOC_FILES
-  MAIN_RDOC_FILE = 'README.rdoc'
-  RDOC_TITLE = "Sawmill #{PRODUCT_VERSION} Documentation"
-  
-  TEST_FILES = ::Dir.glob('tests/**/*.rb')
-  
-  DOC_DIRECTORY = 'doc'
-  PKG_DIRECTORY = 'pkg'
-  
-  CLEAN_PATTERNS = [DOC_DIRECTORY, PKG_DIRECTORY, 'tmp', '**/*.rbc']
-  
-  GEMSPEC = ::Gem::Specification.new do |s_|
-    s_.name = PRODUCT_NAME
-    s_.summary = "Sawmill is a logging and log analysis system for Ruby."
-    s_.description = "Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities."
-    s_.version = "#{PRODUCT_VERSION}"
-    s_.author = 'Daniel Azuma'
-    s_.email = 'dazuma@gmail.com'
-    s_.homepage = "http://#{RUBYFORGE_PROJECT}.rubyforge.org/#{PRODUCT_NAME}"
-    s_.rubyforge_project = RUBYFORGE_PROJECT
-    s_.required_ruby_version = '>= 1.8.7'
-    s_.files = SOURCE_FILES + EXTRA_RDOC_FILES + TEST_FILES + ['Version']
-    s_.extra_rdoc_files = EXTRA_RDOC_FILES
-    s_.has_rdoc = true
-    s_.test_files = TEST_FILES
-    s_.platform = ::Gem::Platform::RUBY
-    s_.add_dependency('blockenspiel', '>= 0.4.1')
+    raise "Could not find target_prefix in makefile for #{info_[:name]}" unless target_prefix_
+    raise "Could not find TARGET in makefile for #{info_[:name]}" unless target_name_
+    cp info_[:staged_lib_path], "lib#{target_prefix_}/#{target_name_}.#{dlext_}"
   end
-  
 end
 
 
+# Clean task
+
+clean_files_ = [doc_directory_, pkg_directory_, tmp_directory_] +
+  ::Dir.glob('ext/**/Makefile*') +
+  ::Dir.glob('ext/**/*.{o,class,log,dSYM}') +
+  ::Dir.glob("**/*.{bundle,so,dll,rbc,jar}") +
+  (::RAKEFILE_CONFIG[:extra_clean_files] || [])
 task :clean do
-  ::RAKEFILE::CLEAN_PATTERNS.each do |pattern_|
-    ::Dir.glob(pattern_) do |path_|
-      rm_r path_ rescue nil
-    end
-  end
+  clean_files_.each{ |path_| rm_rf path_ }
 end
 
 
-task :build_rdoc => "#{::RAKEFILE::DOC_DIRECTORY}/index.html"
-file "#{::RAKEFILE::DOC_DIRECTORY}/index.html" => ::RAKEFILE::ALL_RDOC_FILES do
-  rm_r ::RAKEFILE::DOC_DIRECTORY rescue nil
+# RDoc tasks
+
+task :build_rdoc => "#{doc_directory_}/index.html"
+all_rdoc_files_ = ::Dir.glob("lib/**/*.rb") + gemspec_.extra_rdoc_files
+main_rdoc_file_ = ::RAKEFILE_CONFIG[:main_rdoc_file]
+main_rdoc_file_ = 'README.rdoc' if !main_rdoc_file_ && ::File.readable?('README.rdoc')
+main_rdoc_file_ = ::Dir.glob("*.rdoc").first unless main_rdoc_file_
+file "#{doc_directory_}/index.html" => all_rdoc_files_ do
+  rm_r doc_directory_ rescue nil
   args_ = []
-  args_ << '-o' << ::RAKEFILE::DOC_DIRECTORY
-  args_ << '--main' << ::RAKEFILE::MAIN_RDOC_FILE
-  args_ << '--title' << ::RAKEFILE::RDOC_TITLE
+  args_ << '-o' << doc_directory_
+  args_ << '--main' << main_rdoc_file_ if main_rdoc_file_
+  args_ << '--title' << "#{::RAKEFILE_CONFIG[:product_visible_name] || gemspec_.name.capitalize} #{release_gemspec_.version} Documentation"
   args_ << '-f' << 'darkfish'
-  require 'rdoc'
+  args_ << '--verbose' if ::ENV['VERBOSE']
+  gem 'rdoc'
   require 'rdoc/rdoc'
-  require 'rdoc/generator/darkfish'
-  ::RDoc::RDoc.new.document(args_ + ::RAKEFILE::ALL_RDOC_FILES)
+  ::RDoc::RDoc.new.document(args_ + all_rdoc_files_)
 end
-
 
 task :publish_rdoc => :build_rdoc do
+  require 'yaml'
   config_ = ::YAML.load(::File.read(::File.expand_path("~/.rubyforge/user-config.yml")))
   username_ = config_['username']
-  sh "rsync -av --delete #{::RAKEFILE::DOC_DIRECTORY}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{::RAKEFILE::RUBYFORGE_PROJECT}/#{::RAKEFILE::PRODUCT_NAME}"
+  sh "rsync -av --delete #{doc_directory_}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{gemspec_.rubyforge_project}/#{gemspec_.name}"
 end
 
 
-task :build_gem do
-  ::Gem::Builder.new(::RAKEFILE::GEMSPEC).build
-  mkdir_p ::RAKEFILE::PKG_DIRECTORY
-  mv "#{::RAKEFILE::PRODUCT_NAME}-#{::RAKEFILE::PRODUCT_VERSION}.gem", "#{::RAKEFILE::PKG_DIRECTORY}/"
+# Gem release tasks
+
+task :build_other
+
+task :build_gem => :build_other do
+  ::Gem::Builder.new(gemspec_).build
+  mkdir_p(pkg_directory_)
+  mv "#{gemspec_.name}-#{gemspec_.version}.gem", "#{pkg_directory_}/"
 end
 
+task :build_release => :build_other do
+  ::Gem::Builder.new(release_gemspec_).build
+  mkdir_p(pkg_directory_)
+  mv "#{release_gemspec_.name}-#{release_gemspec_.version}.gem", "#{pkg_directory_}/"
+end
 
-task :release_gem => [:build_gem] do
-  ::Dir.chdir(::RAKEFILE::PKG_DIRECTORY) do
-    sh "#{::RbConfig::TOPDIR}/bin/gem push #{::RAKEFILE::PRODUCT_NAME}-#{::RAKEFILE::PRODUCT_VERSION}.gem"
+task :release_gem => :build_release do
+  ::Dir.chdir(pkg_directory_) do
+    sh "#{::RbConfig::TOPDIR}/bin/gem push #{release_gemspec_.name}-#{release_gemspec_.version}.gem"
   end
 end
 
 
-task :test do
+# Unit test task
+
+task :test => [:build_ext, :build_other] do
   $:.unshift(::File.expand_path('lib', ::File.dirname(__FILE__)))
-  ::RAKEFILE::TEST_FILES.each do |path_|
+  if ::ENV['TESTCASE']
+    test_files_ = ::Dir.glob("test/#{::ENV['TESTCASE']}.rb")
+  else
+    test_files_ = ::Dir.glob("test/**/tc_*.rb")
+  end
+  test_files_.each do |path_|
     load path_
     puts "Loaded testcase #{path_}"
   end
 end
 
+
+# Default task
 
 task :default => [:clean, :build_rdoc, :build_gem, :test]

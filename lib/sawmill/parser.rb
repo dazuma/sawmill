@@ -61,19 +61,19 @@ module Sawmill
     # 
     # Recognized options include:
     # 
-    # <tt>:levels</tt>
+    # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>
+    # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached.
-    # <tt>:encoding</tt>
+    # [<tt>:encoding</tt>]
     #   Overrides the IO encoding. (Ruby 1.9 only). If specified, lines
     #   read from the stream are assumed to be in this encoding. If not
     #   specified, the IO's default encoding is honored.
     #   Note that the encoding may also be modified by the stream itself,
     #   if an appropriate parser directive is encountered.
-    # <tt>:internal_encoding</tt>
+    # [<tt>:internal_encoding</tt>]
     #   Transcodes strings as they are read. (Ruby 1.9 only). If specified,
     #   lines are transcoded into this encoding after they are read from
     #   the stream. If not specified, no post-transcoding is done.

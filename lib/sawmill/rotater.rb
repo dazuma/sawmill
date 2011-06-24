@@ -73,15 +73,15 @@ module Sawmill
     # set of options that will be used to instantiate the strategy.
     # In addition to those options, the following options are recognized:
     # 
-    # <tt>:omit_directives</tt>::
+    # [<tt>:omit_directives</tt>]
     #   If true, omit standard logfile directives. Default is false.
-    # <tt>:concurrent_writes</tt>::
+    # [<tt>:concurrent_writes</tt>]
     #   Set this to true if you expect multiple processes to attempt to
     #   write to the same log file simultaneously. This option causes the
     #   rotater to surround writes with an acquisition of the cooperative
     #   filesystem lock (if available) for the logfile, in an attempt to
     #   prevent lines from interleaving in one another. Default is false.
-    # <tt>:encoding</tt>::
+    # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only).
     #   You may pass either an encoding object or an encoding name.
     #   If not specified, writes raw bytes (e.g. defaults to ASCII-8BIT).
@@ -110,7 +110,7 @@ module Sawmill
     # 
     # The following options are recognized:
     # 
-    # <tt>:auto_rotate</tt>::
+    # [<tt>:auto_rotate</tt>]
     #   Put the channel in auto-rotate mode. In this mode, the rotater is
     #   allowed to rotate the logfile at any time for that channel. It is
     #   the equivalent of calling check_rotate on the channel after every

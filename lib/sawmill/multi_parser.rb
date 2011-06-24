@@ -53,10 +53,10 @@ module Sawmill
     # 
     # Recognized options include:
     # 
-    # <tt>:levels</tt>
+    # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
-    # <tt>:emit_incomplete_records_at_eof</tt>
+    # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
     

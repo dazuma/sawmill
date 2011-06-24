@@ -1,3 +1,8 @@
+=== 0.1.13 / 2011-06-23
+
+* A .gemspec file is now available for gem building and bundler git integration.
+* Cleaned up docs a little
+
 === 0.1.12 / 2010-11-01
 
 * A date-based rotater can now force log files to be written to by only one process. Useful in environments where you have an unknown number of processes(i.e. a Passenger-based deployment), each of which needs a separate log file.

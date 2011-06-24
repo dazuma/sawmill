@@ -52,29 +52,29 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:level</tt>::
+      # [<tt>:level</tt>]
       #   Lowest level that will be accepted. This should be either a
       #   Sawmill::Level object or an integer value or string/symbol that
       #   represents a level. If set to nil or not specified, this filter
       #   does not check the level.
-      # <tt>:progname</tt>::
+      # [<tt>:progname</tt>]
       #   Progname filter. This can be either a string or a Regexp. If set
       #   to nil or not specified, this filter does not check the progname.
-      # <tt>:accept_record_delimiters</tt>::
+      # [<tt>:accept_record_delimiters</tt>]
       #   If set to true, accepts all begin_record and end_record entries
       #   regardless of the level or progname. If set to false, accepts no
       #   such entries. Otherwise, if not specified, those entries are
       #   subject to the usual level and progname filters.
-      # <tt>:accept_attributes</tt>::
+      # [<tt>:accept_attributes</tt>]
       #   If set to true, accepts all attribute and multi_attribute entries
       #   regardless of the level or progname. If set to false, accepts no
       #   such entries. Otherwise, if not specified, those entries are
       #   subject to the usual level and progname filters.
-      # <tt>:accept_incomparable_levels</tt>::
+      # [<tt>:accept_incomparable_levels</tt>]
       #   If set to true, accepts entries whose level is not comparable to
       #   the given <tt>:level</tt> setting. Otherwise, rejects all such
       #   entries.
-      # <tt>:accept_unknown</tt>::
+      # [<tt>:accept_unknown</tt>]
       #   If set to true, accepts all entries of type :unknown_data.
       #   Otherwise, rejects all such entries.
       

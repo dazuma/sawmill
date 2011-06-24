@@ -52,20 +52,20 @@ module Sawmill
       # 
       # Recognized options include:
       # 
-      # <tt>:include_id</tt>::
+      # [<tt>:include_id</tt>]
       #   Include the record ID in every log entry. Default is false.
-      # <tt>:fractional_second_digits</tt>::
+      # [<tt>:fractional_second_digits</tt>]
       #   Number of digits of fractional seconds to display in timestamps.
       #   Default is 2. Accepted values are 0 to 6.
-      # <tt>:level_width</tt>::
+      # [<tt>:level_width</tt>]
       #   Column width of the level field.
-      # <tt>:local_time</tt>::
+      # [<tt>:local_time</tt>]
       #   If true, outputs local time with the timezone offset indicator.
       #   If false (the default), outputs UTC.
-      # <tt>:iso_8601_time</tt>::
+      # [<tt>:iso_8601_time</tt>]
       #   If true, outputs time in strict ISO 8601 format.
       #   If false (the default), outputs a slightly more readable format.
-      # <tt>:length_limit</tt>::
+      # [<tt>:length_limit</tt>]
       #   Limit to the entry length. Entries are truncated to this length
       #   when written. If not specified, entries are not truncated.
       
