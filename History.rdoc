@@ -1,5 +1,7 @@
-=== 0.1.13 / 2011-06-23
+=== 0.1.13 / 2011-07-16
 
+* Rack middleware supports elapsed time attribute.
+* Rack middleware can run pre-request and post-request logging tasks.
 * A .gemspec file is now available for gem building and bundler git integration.
 * Cleaned up docs a little
 
