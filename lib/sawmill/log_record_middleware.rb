@@ -59,6 +59,15 @@ module Sawmill
     # [<tt>:end_time_attribute</tt>]
     #   If present, logs an attribute with this name with the ending
     #   timestamp for the request. If absent, does not log this attribute.
+    # [<tt>:elapsed_time_attribute</tt>]
+    #   If present, logs an attribute with this name with the elapsed time
+    #   for the request, in seconds. If absent, does not log this attribute.
+    # [<tt>:pre_logger</tt>]
+    #   A proc that is called at the start of the request, and passed the
+    #   logger and the rack environment. Optional.
+    # [<tt>:post_logger</tt>]
+    #   A proc that is called at the end of the request, and passed the
+    #   logger and the rack environment. Optional.
     
     def initialize(app_, logger_=nil, opts_={})
       @app = app_
@@ -66,21 +75,33 @@ module Sawmill
       @request_id_key = opts_[:request_id_key] || 'sawmill.request_id'
       @start_time_attribute = opts_[:start_time_attribute]
       @end_time_attribute = opts_[:end_time_attribute]
+      @elapsed_time_attribute = opts_[:elapsed_time_attribute]
+      @pre_logger = opts_[:pre_logger]
+      @post_logger = opts_[:post_logger]
     end
     
     
     def call(env_)
       env_[@request_id_key] = @logger.begin_record
+      start_time_ = ::Time.now.utc
       if @start_time_attribute
-        time_ = ::Time.now.utc
-        @logger.set_attribute(@start_time_attribute, time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % time_.usec) + 'Z')
+        @logger.set_attribute(@start_time_attribute, start_time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % start_time_.usec) + 'Z')
+      end
+      if @pre_logger
+        @pre_logger.call(@logger, env_)
       end
       begin
         return @app.call(env_)
       ensure
+      if @post_logger
+        @post_logger.call(@logger, env_)
+      end
+        end_time_ = ::Time.now.utc
         if @end_time_attribute
-          time_ = ::Time.now.utc
-          @logger.set_attribute(@end_time_attribute, time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % time_.usec) + 'Z')
+          @logger.set_attribute(@end_time_attribute, end_time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % end_time_.usec) + 'Z')
+        end
+        if @elapsed_time_attribute
+          @logger.set_attribute(@elapsed_time_attribute, '%.6f' % (end_time_ - start_time_))
         end
         @logger.end_record
       end

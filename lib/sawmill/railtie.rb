@@ -80,6 +80,9 @@ module Sawmill
         @request_id_key = 'sawmill.request_id'
         @start_time_attribute = nil
         @end_time_attribute = nil
+        @elapsed_time_attribute = nil
+        @pre_logger = nil
+        @post_logger = nil
       end
       
       # The log file to write to. This should be either an IO object, or
@@ -116,6 +119,28 @@ module Sawmill
       attr_accessor :start_time_attribute
       # This option is passed to Sawmill::LogRecordMiddleware::new
       attr_accessor :end_time_attribute
+      # This option is passed to Sawmill::LogRecordMiddleware::new
+      attr_accessor :elapsed_time_attribute
+      
+      def pre_logger(proc_=false, &block_)
+        if block_
+          @pre_logger = block_
+        elsif proc_ != false
+          @pre_logger = proc_
+        end
+        @pre_logger
+      end
+      attr_writer :pre_logger
+      
+      def post_logger(proc_=false, &block_)
+        if block_
+          @post_logger = block_
+        elsif proc_ != false
+          @post_logger = proc_
+        end
+        @post_logger
+      end
+      attr_writer :post_logger
       
     end
     
@@ -143,7 +168,10 @@ module Sawmill
                                   ::Sawmill::LogRecordMiddleware, logger_,
                                   :request_id_key => myconfig_.request_id_key,
                                   :start_time_attribute => myconfig_.start_time_attribute,
-                                  :end_time_attribute => myconfig_.end_time_attribute)
+                                  :end_time_attribute => myconfig_.end_time_attribute,
+                                  :elapsed_time_attribute => myconfig_.elapsed_time_attribute,
+                                  :pre_logger => myconfig_.pre_logger,
+                                  :post_logger => myconfig_.post_logger)
     end
     
     
