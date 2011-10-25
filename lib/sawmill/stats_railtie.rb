@@ -70,11 +70,11 @@ module Sawmill
         @length_limit = nil
         @level = :ANY
         @progname = 'rails'
-        @stats_data_key = 'sawmill.stats_hash'
+        @stats_data_key = 'sawmill.stats_data'
         @start_time_stat = nil
         @end_time_stat = nil
         @elapsed_time_stat = nil
-        @log_record_id_stat = nil
+        @request_id_stat = nil
         @pre_logger = nil
         @post_logger = nil
         @generated_logger = nil
@@ -109,7 +109,7 @@ module Sawmill
       # This option is passed to Sawmill::StatsMiddleware::new
       attr_accessor :elapsed_time_stat
       # This option is passed to Sawmill::StatsMiddleware::new
-      attr_accessor :log_record_id_stat
+      attr_accessor :request_id_stat
       
       # Access the logger after it is generated
       attr_reader :generated_logger
@@ -162,8 +162,8 @@ module Sawmill
       stats_config_._set_generated_logger(logger_)
       app_.config.middleware.insert_after(::Rack::Runtime,
         ::Sawmill::StatsMiddleware, logger_, stats_config_.level,
-        :log_record_id_stat => sawmill_config_ && stats_config_.log_record_id_stat ?
-          stats_config_.log_record_id_stat : nil,
+        :request_id_stat => sawmill_config_ && stats_config_.request_id_stat ?
+          stats_config_.request_id_stat : nil,
         :stats_data_key => stats_config_.stats_data_key,
         :start_time_stat => stats_config_.start_time_stat,
         :end_time_stat => stats_config_.end_time_stat,

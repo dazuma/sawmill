@@ -55,9 +55,9 @@ module Sawmill
     # [<tt>:stats_data_key</tt>]
     #   The name of a rack environment key where the stats data should
     #   be stored. If not specified, defaults to "sawmill.stats_data".
-    # [<tt>:record_id_key</tt>]
-    #   The name of a rack environment key where the record ID can be
-    #   obtained. If not specified, defaults to "sawmill.record_id".
+    # [<tt>:request_id_key</tt>]
+    #   The name of a rack environment key where the request ID can be
+    #   obtained. If not specified, defaults to "sawmill.request_id".
     # [<tt>:start_time_stat</tt>]
     #   If present, stores the starting timestamp for the request in the
     #   given stat key. If absent, does not store this information.
@@ -67,8 +67,8 @@ module Sawmill
     # [<tt>:elapsed_time_stat</tt>]
     #   If present, stores the elapsed time for the request in the
     #   given stat key. If absent, does not store this information.
-    # [<tt>:log_record_id_stat</tt>]
-    #   If present, stores the log record ID for the request in the
+    # [<tt>:request_id_stat</tt>]
+    #   If present, stores the request ID for the request in the
     #   given stat key. If absent, does not store this information.
     # [<tt>:pre_logger</tt>]
     #   A proc that is called at the start of the request, and passed the
@@ -87,11 +87,11 @@ module Sawmill
       @logger = logger_ || Logger.new(:progname => 'stats', :processor => Formatter.new(::STDOUT))
       @level = level_ || :ANY
       @stats_data_key = opts_[:stats_data_key] || 'sawmill.stats_data'
-      @record_id_key = opts_[:record_id_key] || 'sawmill.record_id'
+      @request_id_key = opts_[:request_id_key] || 'sawmill.request_id'
       @start_time_stat = opts_[:start_time_stat]
       @end_time_stat = opts_[:end_time_stat]
       @elapsed_time_stat = opts_[:elapsed_time_stat]
-      @log_record_id_stat = opts_[:log_record_id_stat]
+      @request_id_stat = opts_[:request_id_stat]
       @pre_logger = opts_[:pre_logger]
       @post_logger = opts_[:post_logger]
     end
@@ -111,8 +111,8 @@ module Sawmill
         return @app.call(env_)
       ensure
         if enable_log_
-          if @log_record_id_stat
-            stats_data_[@log_record_id_stat.to_s] = env_[@record_id_key]
+          if @request_id_stat
+            stats_data_[@request_id_stat.to_s] = env_[@request_id_key]
           end
           if @post_logger
             enable_log_ &&= @post_logger.call(stats_data_, env_)

@@ -1,3 +1,7 @@
+=== 0.1.15 / 2011-10-24
+
+* 0.1.14 was inadvertently released before testing was complete. Fixed several stats logs issues.
+
 === 0.1.14 / 2011-10-24
 
 * Support for stats logs.
