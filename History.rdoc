@@ -1,3 +1,7 @@
+=== 0.1.14 / 2011-10-24
+
+* Support for stats logs.
+
 === 0.1.13 / 2011-07-16
 
 * Rack middleware supports elapsed time attribute.

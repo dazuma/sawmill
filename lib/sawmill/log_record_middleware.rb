@@ -93,9 +93,9 @@ module Sawmill
       begin
         return @app.call(env_)
       ensure
-      if @post_logger
-        @post_logger.call(@logger, env_)
-      end
+        if @post_logger
+          @post_logger.call(@logger, env_)
+        end
         end_time_ = ::Time.now.utc
         if @end_time_attribute
           @logger.set_attribute(@end_time_attribute, end_time_.strftime('%Y-%m-%dT%H:%M:%S.') + ('%06d' % end_time_.usec) + 'Z')

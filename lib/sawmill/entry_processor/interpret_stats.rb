@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 # 
-# Sawmill entry point
+# Sawmill entry processor that interprets a stats log
 # 
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
@@ -34,49 +34,46 @@
 ;
 
 
-require 'blockenspiel'
-
-
 module Sawmill
+  
+  module EntryProcessor
+    
+    
+    # This processor interprets a stats log.
+    
+    class InterpretStats < Base
+      
+      
+      # Create a stats log interpreter.
+      
+      def initialize(opts_={}, &block_)
+        @handler = opts_[:handler] || block_ || method(:handle_data)
+      end
+      
+      
+      def message(entry_)
+        data_ = ::JSON.parse(entry_.message) rescue nil
+        if data_.is_a?(::Hash)
+          @handler.call(data_)
+        else
+          nil
+        end
+      end
+      
+      
+      def handle_data(data_)
+        true
+      end
+      
+      
+      def finish
+        @handler.call(nil)
+      end
+      
+      
+    end
+    
+    
+  end
+  
 end
-
-
-require 'sawmill/version'
-require 'sawmill/util/queue'
-require 'sawmill/util/heap'
-require 'sawmill/util/processor_tools'
-require 'sawmill/errors'
-require 'sawmill/level'
-require 'sawmill/entry'
-require 'sawmill/entry_classifier'
-require 'sawmill/entry_processor'
-require 'sawmill/entry_processor/conditionals'
-require 'sawmill/entry_processor/simple_queue'
-require 'sawmill/entry_processor/filter_by_basic_fields'
-require 'sawmill/entry_processor/filter_by_block'
-require 'sawmill/entry_processor/build_records'
-require 'sawmill/entry_processor/format'
-require 'sawmill/entry_processor/count_entries'
-require 'sawmill/entry_processor/compile_report'
-require 'sawmill/entry_processor/interpret_stats'
-require 'sawmill/record'
-require 'sawmill/record_processor'
-require 'sawmill/record_processor/conditionals'
-require 'sawmill/record_processor/filter_by_record_id'
-require 'sawmill/record_processor/filter_by_attributes'
-require 'sawmill/record_processor/filter_by_block'
-require 'sawmill/record_processor/simple_queue'
-require 'sawmill/record_processor/decompose'
-require 'sawmill/record_processor/format'
-require 'sawmill/record_processor/count_records'
-require 'sawmill/record_processor/compile_report'
-require 'sawmill/parser'
-require 'sawmill/multi_parser'
-require 'sawmill/logger'
-require 'sawmill/rotater'
-require 'sawmill/rotater/base'
-require 'sawmill/rotater/date_based_log_file'
-require 'sawmill/rotater/shifting_log_file'
-require 'sawmill/log_record_middleware'
-require 'sawmill/stats_middleware'
-require 'sawmill/interface'

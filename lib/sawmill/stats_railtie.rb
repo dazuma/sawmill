@@ -41,54 +41,49 @@ require 'rails/railtie'
 module Sawmill
   
   
-  # Railtie that replaces the default Rails logger with a Sawmill logger.
-  # Sets the Rails logger to a Sawmill::Logger, and installs a
-  # Sawmill::LogRecordMiddleware to enable record-based logging.
+  # Railtie that sets up a stats logger. Installs a
+  # Sawmill::StatsMiddleware to enable a stats log.
   # 
   # To install into a Rails app, include this line in your
   # config/application.rb:
-  #   require 'sawmill/railtie'
+  #   require 'sawmill/stats_railtie'
   # It should appear before your application configuration.
   # 
-  # You can then configure sawmill using the standard rails configuration
-  # mechanism. The sawmill configuration lives in the config.sawmill
-  # configuration namespace. See Sawmill::Railtie::Configuration for the
-  # configuration options.
+  # You can then configure the stats logs using the standard rails
+  # configuration mechanism. The configuration lives in the
+  # config.sawmill_stats configuration namespace. See
+  # Sawmill::StatsRailtie::Configuration for the list of options.
   
-  class Railtie < ::Rails::Railtie
+  class StatsRailtie < ::Rails::Railtie
     
     
-    # Configuration options. These are attributes of config.sawmill.
+    # Configuration options. These are attributes of config.sawmill_stats.
     
     class Configuration
       
       def initialize  # :nodoc:
         @logfile = ::STDERR
-        @include_id = false
         @fractional_second_digits = 2
         @level_width = nil
         @local_time = false
         @iso_8601_time = false
         @length_limit = nil
-        @level = :INFO
-        @attribute_level = nil
+        @level = :ANY
         @progname = 'rails'
-        @record_progname = nil
-        @record_id_generator = nil
-        @request_id_key = 'sawmill.request_id'
-        @start_time_attribute = nil
-        @end_time_attribute = nil
-        @elapsed_time_attribute = nil
+        @stats_data_key = 'sawmill.stats_hash'
+        @start_time_stat = nil
+        @end_time_stat = nil
+        @elapsed_time_stat = nil
+        @log_record_id_stat = nil
         @pre_logger = nil
         @post_logger = nil
+        @generated_logger = nil
       end
       
       # The log file to write to. This should be either an IO object, or
       # a Sawmill::Rotater. Default is STDERR.
       attr_accessor :logfile
       
-      # This option is passed to Sawmill::EntryProcessor::Format::new
-      attr_accessor :include_id
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :fractional_second_digits
       # This option is passed to Sawmill::EntryProcessor::Format::new
@@ -103,22 +98,21 @@ module Sawmill
       # This option is passed to Sawmill::Logger::new
       attr_accessor :level
       # This option is passed to Sawmill::Logger::new
-      attr_accessor :attribute_level
-      # This option is passed to Sawmill::Logger::new
       attr_accessor :progname
-      # This option is passed to Sawmill::Logger::new
-      attr_accessor :record_progname
-      # This option is passed to Sawmill::Logger::new
-      attr_accessor :record_id_generator
       
-      # This option is passed to Sawmill::LogRecordMiddleware::new
-      attr_accessor :request_id_key
-      # This option is passed to Sawmill::LogRecordMiddleware::new
-      attr_accessor :start_time_attribute
-      # This option is passed to Sawmill::LogRecordMiddleware::new
-      attr_accessor :end_time_attribute
-      # This option is passed to Sawmill::LogRecordMiddleware::new
-      attr_accessor :elapsed_time_attribute
+      # This option is passed to Sawmill::StatsMiddleware::new
+      attr_accessor :stats_data_key
+      # This option is passed to Sawmill::StatsMiddleware::new
+      attr_accessor :start_time_stat
+      # This option is passed to Sawmill::StatsMiddleware::new
+      attr_accessor :end_time_stat
+      # This option is passed to Sawmill::StatsMiddleware::new
+      attr_accessor :elapsed_time_stat
+      # This option is passed to Sawmill::StatsMiddleware::new
+      attr_accessor :log_record_id_stat
+      
+      # Access the logger after it is generated
+      attr_reader :generated_logger
       
       
       def pre_logger(proc_=false, &block_)
@@ -141,37 +135,41 @@ module Sawmill
       end
       attr_writer :post_logger
       
+      def _set_generated_logger(logger_)  # :nodoc:
+        @generated_logger = logger_
+      end
+      
     end
     
     
-    config.sawmill = Configuration.new
+    config.sawmill_stats = Configuration.new
     
     
-    initializer :initialize_sawmill, :before => :initialize_logger do |app_|
-      myconfig_ = app_.config.sawmill
-      formatter_ = Formatter.new(myconfig_.logfile || ::STDERR,
-        :include_id => myconfig_.include_id,
-        :fractional_second_digits => myconfig_.fractional_second_digits,
-        :level_width => myconfig_.level_width,
-        :local_time => myconfig_.local_time,
-        :iso_8601_time => myconfig_.iso_8601_time,
-        :length_limit => myconfig_.length_limit)
+    initializer :initialize_sawmill_stats, :before => :initialize_logger do |app_|
+      main_config_ = app_.config
+      stats_config_ = main_config_.sawmill_stats
+      sawmill_config_ = main_config_.respond_to?(:sawmill) ? main_config_.sawmill : nil
+      formatter_ = Formatter.new(stats_config_.logfile || ::STDERR,
+        :fractional_second_digits => stats_config_.fractional_second_digits,
+        :level_width => stats_config_.level_width,
+        :local_time => stats_config_.local_time,
+        :iso_8601_time => stats_config_.iso_8601_time,
+        :length_limit => stats_config_.length_limit)
       logger_ = Logger.new(
         :processor => formatter_,
-        :level => myconfig_.level,
-        :attribute_level  => myconfig_.attribute_level,
-        :progname => myconfig_.progname,
-        :record_progname => myconfig_.record_progname,
-        :record_id_generator => myconfig_.record_id_generator)
-      app_.config.logger = logger_
-      app_.config.middleware.swap(::Rails::Rack::Logger,
-        ::Sawmill::LogRecordMiddleware, logger_,
-        :request_id_key => myconfig_.request_id_key,
-        :start_time_attribute => myconfig_.start_time_attribute,
-        :end_time_attribute => myconfig_.end_time_attribute,
-        :elapsed_time_attribute => myconfig_.elapsed_time_attribute,
-        :pre_logger => myconfig_.pre_logger,
-        :post_logger => myconfig_.post_logger)
+        :level => stats_config_.level,
+        :progname => stats_config_.progname)
+      stats_config_._set_generated_logger(logger_)
+      app_.config.middleware.insert_after(::Rack::Runtime,
+        ::Sawmill::StatsMiddleware, logger_, stats_config_.level,
+        :log_record_id_stat => sawmill_config_ && stats_config_.log_record_id_stat ?
+          stats_config_.log_record_id_stat : nil,
+        :stats_data_key => stats_config_.stats_data_key,
+        :start_time_stat => stats_config_.start_time_stat,
+        :end_time_stat => stats_config_.end_time_stat,
+        :elapsed_time_stat => stats_config_.elapsed_time_stat,
+        :pre_logger => stats_config_.pre_logger,
+        :post_logger => stats_config_.post_logger)
     end
     
     
