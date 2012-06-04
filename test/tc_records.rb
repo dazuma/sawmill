@@ -102,7 +102,7 @@ module Sawmill
       # Test record attributes
       
       def test_attributes
-        id_ = @logger.begin_record
+        @logger.begin_record
         @logger.attribute('color', 'blue')
         @logger.attribute('size', 'small')
         @logger.attribute(:color, 'red')
@@ -119,7 +119,7 @@ module Sawmill
       # Test record multi-attributes
       
       def test_multi_attributes
-        id_ = @logger.begin_record
+        @logger.begin_record
         @logger.append_attribute('color', 'blue')
         @logger.append_attribute('size', 'small')
         @logger.append_attribute(:color, 'red')

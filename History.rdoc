@@ -1,3 +1,10 @@
+=== 0.1.16 / 2012-06-04
+
+* The :local_time and :iso_8601_time arguments to Sawmill::EntryProcessor::Format didn't have their advertised effect. Fixed.
+* The :emit_incomplete_records_on_finish argument to Sawmill::EntryProcessor::BuildRecords didn't have its advertised effect. Fixed.
+* Fixed a few warnings.
+* Travis CI integration.
+
 === 0.1.15 / 2011-10-24
 
 * 0.1.14 was inadvertently released before testing was complete. Fixed several stats logs issues.

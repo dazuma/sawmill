@@ -61,8 +61,8 @@ module Sawmill
         assert_equal(expected_, formatted_string_)
         stringio_ = ::StringIO.new(formatted_string_)
         parser_ = ::Sawmill::Parser.new(stringio_, nil)
-        @entries.each do |expected_|
-          assert_equal(expected_, parser_.parse_one_entry)
+        @entries.each do |entry_|
+          assert_equal(entry_, parser_.parse_one_entry)
         end
       end
       

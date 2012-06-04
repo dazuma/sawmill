@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
-# Sawmill Rakefile
-# 
+#
+# Generic Gem Rakefile
+#
 # -----------------------------------------------------------------------------
-# Copyright 2009-2011 Daniel Azuma
-# 
+# Copyright 2010-2012 Daniel Azuma
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -31,16 +31,22 @@
 # ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 # POSSIBILITY OF SUCH DAMAGE.
 # -----------------------------------------------------------------------------
+;
+
+
+# Load config if present
+
+config_path_ = ::File.expand_path('rakefile_config.rb', ::File.dirname(__FILE__))
+load(config_path_) if ::File.exists?(config_path_)
+RAKEFILE_CONFIG = {} unless defined?(::RAKEFILE_CONFIG)
 
 
 # Gemspec
 
 require 'rubygems'
-gemspec_file_ = ::File.read(::Dir.glob('*.gemspec').first)
-gemspec_ = eval(gemspec_file_)
-release_gemspec_ = eval(gemspec_file_)
+gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
+release_gemspec_ = eval(::File.read(::Dir.glob('*.gemspec').first))
 release_gemspec_.version = gemspec_.version.to_s.sub(/\.build\d+$/, '')
-::RAKEFILE_CONFIG = {} unless defined?(::RAKEFILE_CONFIG)
 
 
 # Platform info
@@ -170,10 +176,11 @@ file "#{doc_directory_}/index.html" => all_rdoc_files_ do
 end
 
 task :publish_rdoc => :build_rdoc do
+  sh "rsync -rlv --delete #{doc_directory_}/ daniel-azuma.com:www-rdoc/#{gemspec_.name}"
   require 'yaml'
   config_ = ::YAML.load(::File.read(::File.expand_path("~/.rubyforge/user-config.yml")))
   username_ = config_['username']
-  sh "rsync -av --delete #{doc_directory_}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{gemspec_.rubyforge_project}/#{gemspec_.name}"
+  sh "rsync -rlv --delete #{doc_directory_}/ #{username_}@rubyforge.org:/var/www/gforge-projects/#{gemspec_.rubyforge_project}/#{gemspec_.name}"
 end
 
 
@@ -209,6 +216,7 @@ task :test => [:build_ext, :build_other] do
   else
     test_files_ = ::Dir.glob("test/**/tc_*.rb")
   end
+  $VERBOSE = true
   test_files_.each do |path_|
     load path_
     puts "Loaded testcase #{path_}"
@@ -218,4 +226,4 @@ end
 
 # Default task
 
-task :default => [:clean, :build_rdoc, :build_gem, :test]
+task :default => [:clean, :test]

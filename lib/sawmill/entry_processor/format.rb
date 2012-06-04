@@ -74,10 +74,13 @@ module Sawmill
           @rotater = destination_
           @channels = {}
           @standby_channel = nil
-        elsif destination_.respond_to?(:close) && destination_.respond_to?(:write)
-          @io = destination_
         else
-          raise ::ArgumentError, "Unknown destination type"
+          @rotater = nil
+          if destination_.respond_to?(:close) && destination_.respond_to?(:write)
+            @io = destination_
+          else
+            raise ::ArgumentError, "Unknown destination type"
+          end
         end
         @include_id = opts_[:include_id]
         @fractional_second_digits = (opts_[:fractional_second_digits] || 2).to_i
@@ -87,6 +90,8 @@ module Sawmill
         (6 - @fractional_second_digits).times{ @usec_factor *= 10 }
         @level_width = opts_[:level_width]
         @length_limit = opts_[:length_limit]
+        @local_time = opts_[:local_time]
+        @iso_8601_time = opts_[:iso_8601_time]
       end
       
       

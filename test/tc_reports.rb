@@ -42,7 +42,7 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 module Sawmill
   module Tests  # :nodoc:
     
-    class TestMultiParser < ::Test::Unit::TestCase  # :nodoc:
+    class TestReports < ::Test::Unit::TestCase  # :nodoc:
       
       
       def setup

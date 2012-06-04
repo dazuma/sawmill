@@ -137,7 +137,7 @@ module Sawmill
       
       def finish
         if @records
-          emit_incomplete_records if @emit_incomplete_records_on_close
+          emit_incomplete_records if @emit_incomplete_records_on_finish
           @records = nil
           @processor.finish
         else
