@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests on log record construction
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,19 +41,19 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestRecords < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @records = ::Sawmill::RecordProcessor::SimpleQueue.new
         @logger = ::Sawmill::Logger.new(:processor => ::Sawmill::RecordBuilder.new(@records))
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test basic record creation
-      
+
       def test_basic_create
         id_ = @logger.begin_record
         @logger.end_record
@@ -73,10 +73,10 @@ module Sawmill
         assert_equal('sawmill', entries_[1].progname)
         assert_equal(id_, entries_[1].record_id)
       end
-      
-      
+
+
       # Test record messages
-      
+
       def test_messages
         id_ = @logger.begin_record
         @logger.info('Hello 1')
@@ -97,10 +97,10 @@ module Sawmill
         assert_equal(id_, meessages_[1].record_id)
         assert_equal('Hello 2', meessages_[1].message)
       end
-      
-      
+
+
       # Test record attributes
-      
+
       def test_attributes
         @logger.begin_record
         @logger.attribute('color', 'blue')
@@ -114,10 +114,10 @@ module Sawmill
         assert_equal('small', record_.attribute('size'))
         assert_equal('red', record_.attribute('color'))
       end
-      
-      
+
+
       # Test record multi-attributes
-      
+
       def test_multi_attributes
         @logger.begin_record
         @logger.append_attribute('color', 'blue')
@@ -131,10 +131,10 @@ module Sawmill
         assert_equal(['small'], record_.attribute('size'))
         assert_equal(['blue', 'red'], record_.attribute('color'))
       end
-      
-      
+
+
       # Test record decomposition
-      
+
       def _test_decompose
         entries_ = ::Sawmill::EntryProcessor::SimpleQueue.new
         id_ = @logger.begin_record
@@ -149,60 +149,60 @@ module Sawmill
         record_ = @records.dequeue
         assert_equal(9, record_.entry_count)
         record_.decompose(entries_)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:begin_record, entry_.type)
         assert_equal(@levels.get(:ANY), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_equal(id_, entry_.record_id)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:message, entry_.type)
         assert_equal(@levels.get(:INFO), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_equal(id_, entry_.record_id)
         assert_equal('Hello 1', entry_.message)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:attribute, entry_.type)
         assert_equal('color', entry_.key)
         assert_equal('blue', entry_.value)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:attribute, entry_.type)
         assert_equal('size', entry_.key)
         assert_equal('small', entry_.value)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:multi_attribute, entry_.type)
         assert_equal('shape', entry_.key)
         assert_equal('round', entry_.value)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:message, entry_.type)
         assert_equal(@levels.get(:ERROR), entry_.level)
         assert_equal('rails', entry_.progname)
         assert_equal('Hello 2', entry_.message)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:attribute, entry_.type)
         assert_equal('color', entry_.key)
         assert_equal('red', entry_.value)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:multi_attribute, entry_.type)
         assert_equal('shape', entry_.key)
         assert_equal('pointy', entry_.value)
-        
+
         entry_ = entries_.dequeue
         assert_equal(:end_record, entry_.type)
         assert_equal(id_, entry_.record_id)
-        
+
         assert_equal(0, entries_.size)
       end
-      
-      
+
+
     end
-    
+
   end
 end

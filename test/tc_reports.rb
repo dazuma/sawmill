@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests reports
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,17 +41,17 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestReports < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test entry report.
-      
+
       def test_entry_report
         processor_ = EntryProcessor.build do
           CompileReport(If(FilterByBasicFields(:level => :WARN),
@@ -68,10 +68,10 @@ module Sawmill
         logger_.info("hello 6")
         assert_equal("warn: 3\nerror: 2", logger_.close)
       end
-      
-      
+
+
       # Test record report.
-      
+
       def test_record_report
         processor_ = RecordProcessor.build do
           CompileReport(If(FilterByAttributes('user' => 'daniel'),
@@ -94,9 +94,9 @@ module Sawmill
         logger_.end_record
         assert_equal("daniel: 2\nseattle: 1", logger_.close)
       end
-      
-      
+
+
     end
-    
+
   end
 end

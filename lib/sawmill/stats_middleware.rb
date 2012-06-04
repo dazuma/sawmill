@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill stats middleware class
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,21 +35,21 @@
 
 
 module Sawmill
-  
-  
+
+
   # A Rack middleware that writes a stats log.
   # Insert this in your Rack stack to generate a stats log.
-  
+
   class StatsMiddleware
-    
-    
+
+
     # Create a middleware object for Rack.
-    # 
+    #
     # If you do not provide a logger object, one will be generated for you
     # that simply logs to STDOUT.
-    # 
+    #
     # Recognized options include:
-    # 
+    #
     # [<tt>:level</tt>]
     #   The level to log at. Default is <tt>:ANY</tt>.
     # [<tt>:stats_data_key</tt>]
@@ -81,7 +81,7 @@ module Sawmill
     #   logger and the rack environment. Optional.
     #   If a proc is provided and returns false, then stats logging is
     #   canceled for this request.
-    
+
     def initialize(app_, logger_=nil, level_=nil, opts_={})
       @app = app_
       @logger = logger_ || Logger.new(:progname => 'stats', :processor => Formatter.new(::STDOUT))
@@ -95,8 +95,8 @@ module Sawmill
       @pre_logger = opts_[:pre_logger]
       @post_logger = opts_[:post_logger]
     end
-    
-    
+
+
     def call(env_)
       env_[@stats_data_key] = stats_data_ = {}
       start_time_ = ::Time.now.utc
@@ -130,9 +130,9 @@ module Sawmill
         end
       end
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

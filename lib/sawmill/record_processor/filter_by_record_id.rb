@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill record processor that checks record IDs
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,44 +35,44 @@
 
 
 module Sawmill
-  
+
   module RecordProcessor
-    
-    
+
+
     # A record filter that checks record IDs.
-    # 
+    #
     # This is a boolean processor, so it merely returns true or false based
     # on the filter result. Use this in conjunction with an If processor to
     # actually perform other actions based on the result.
-    
+
     class FilterByRecordID < Base
-      
-      
+
+
       # Create a new filter that checks against the given record ID.
       # The given ID may be a string or a Regexp, in which case the filter
       # will check for equality or regular expression match, respectively.
-      
+
       def initialize(id_)
         @record_id = id_
       end
-      
-      
+
+
       def record(record_)
         @record_id === record_.record_id
       end
-      
+
       def extra_entry(entry_)
         id_ = entry_.respond_to?(:record_id) ? entry_.record_id : nil
         @record_id === id_
       end
-      
+
       def finish
         nil
       end
-      
+
     end
-    
-    
+
+
   end
-  
+
 end

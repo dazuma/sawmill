@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill stream parser utility
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,13 +35,13 @@
 
 
 module Sawmill
-  
-  
+
+
   # A logfile parser that parses log entries from a logfile and sends them
   # to an entry processor.
-  
+
   class Parser
-    
+
     # :stopdoc:
     LINE_REGEXP = /^\[\s*([[:graph:]]+)\s+(\d{4})-(\d{2})-(\d{2})(T|\s)(\d{2}):(\d{2}):(\d{2})(.(\d{1,6}))?Z?\s?([+-]\d{4})?\s+([[:graph:]]+)(\s+([[:graph:]]+))?\s+([\^$.=])\]\s(.*)$/
     DIRECTIVE_REGEXP = /^#\s+sawmill_format:\s+(\w+)=(.*)$/
@@ -49,18 +49,18 @@ module Sawmill
     SUPPORTS_ENCODING = defined?(::Encoding)
     ENCODING_OPTS = {:invalid => :replace, :undef => :replace}
     # :startdoc:
-    
-    
+
+
     # Create a new parser that reads from the given stream.
-    # 
+    #
     # You should provide a processor to receive the data from the logfile.
     # The processor may be either an entry processor or a record processor.
     # You may also pass nil for the processor. In this case, the generated
     # log entries will not be sent to a processor but will still be returned
     # by the parse_one_entry method.
-    # 
+    #
     # Recognized options include:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
@@ -77,7 +77,7 @@ module Sawmill
     #   Transcodes strings as they are read. (Ruby 1.9 only). If specified,
     #   lines are transcoded into this encoding after they are read from
     #   the stream. If not specified, no post-transcoding is done.
-    
+
     def initialize(io_, processor_, opts_={})
       @io = io_
       @processor = nil
@@ -96,12 +96,12 @@ module Sawmill
         @internal_encoding = ::Encoding.find(@internal_encoding) if @internal_encoding && !@internal_encoding.kind_of?(::Encoding)
       end
     end
-    
-    
+
+
     # Parse one log entry from the stream and emit it to the processor.
     # Also returns the log entry.
     # Returns nil if EOF has been reached.
-    
+
     def parse_one_entry
       str_ = _get_next_line
       entry_ = nil
@@ -181,19 +181,19 @@ module Sawmill
       end
       entry_
     end
-    
-    
+
+
     # Parse the rest of the stream until EOF is reached, and emit the log
     # entries to the processor.
-    
+
     def parse_all
       while parse_one_entry; end
     end
-    
-    
+
+
     private
-    
-    
+
+
     def _get_next_line  # :nodoc:
       str_ = @io.gets
       if str_ && SUPPORTS_ENCODING
@@ -202,8 +202,8 @@ module Sawmill
       end
       str_
     end
-    
-    
+
+
     def _set_parser_directive(key_, value_)  # :nodoc:
       case key_
       when 'encoding'
@@ -213,9 +213,9 @@ module Sawmill
         end
       end
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

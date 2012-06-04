@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill formatter utility
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,10 +35,10 @@
 
 
 module Sawmill
-  
+
   class Rotater
-    
-    
+
+
     # A rotation strategy that "shifts" log files by appending index numbers
     # to the filename when the file reaches a certain size or age. So when
     # the file "foo.log" is ready to rotate, it is renamed "foo.log.0", and
@@ -48,14 +48,14 @@ module Sawmill
     # logfile is always the one with the largest number suffix, and the
     # file currently being written to has no suffix.
     # This is a common rotation strategy for many unix tools.
-    
+
     class ShiftingLogFile
-      
-      
+
+
       # Create a new shifting log file rotation strategy.
-      # 
+      #
       # Recognized options include:
-      # 
+      #
       # [<tt>:basedir</tt>]
       #   The base directory used if the filepath is a relative path.
       #   If not specified, the current working directory is used.
@@ -69,14 +69,14 @@ module Sawmill
       # [<tt>:shift_period</tt>]
       #   A logfile will try to rotate once it has been in service for
       #   this many seconds. This parameter also recognizes the values
-      #   <tt>:yearly</tt>, <tt>:monthly</tt>, <tt>:daily</tt>, 
+      #   <tt>:yearly</tt>, <tt>:monthly</tt>, <tt>:daily</tt>,
       #   and <tt>:hourly</tt>. If not specified, the file's age is
       #   not checked.
       # [<tt>:history_size</tt>]
       #   The maximum number of old logfiles (files with indexes) to
       #   keep. Files beyond this history size will be automatically
       #   deleted. Default is 1. This value must be at least 1.
-      
+
       def initialize(options_)
         @max_logfile_size = options_[:max_file_size] || options_[:max_logfile_size]
         @shift_period = options_[:shift_period]
@@ -92,23 +92,23 @@ module Sawmill
         end
         @history_size = options_[:history_size].to_i
         @history_size = 1 if @history_size < 1 && (@max_logfile_size || @shift_period)
-        @normal_path = ::File.expand_path(options_[:file_path] || options_[:filepath] || 'sawmill.log', 
+        @normal_path = ::File.expand_path(options_[:file_path] || options_[:filepath] || 'sawmill.log',
                                           options_[:basedir] || ::Dir.getwd)
         @preferred_handle = 0
         @open_handles = {}
         @last_shift = ::Time.now
       end
-      
-      
+
+
       # Implements the rotation strategy contract.
-      
+
       def preferred_handle
         @preferred_handle
       end
-      
-      
+
+
       # Implements the rotation strategy contract.
-      
+
       def open_handle(handle_)
         if handle_ == @preferred_handle
           path_ = @normal_path
@@ -120,10 +120,10 @@ module Sawmill
         @open_handles[handle_] = true
         file_
       end
-      
-      
+
+
       # Implements the rotation strategy contract.
-      
+
       def close_handle(handle_, io_)
         io_.close
         if @preferred_handle - handle_ > @history_size
@@ -132,10 +132,10 @@ module Sawmill
         @open_handles.delete(handle_)
         nil
       end
-      
-      
+
+
       # Implements the rotation strategy contract.
-      
+
       def before_write
         return unless @max_logfile_size || @shift_period
         turnover_ = false
@@ -157,11 +157,11 @@ module Sawmill
           @last_shift = ::Time.now
         end
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
+
 end

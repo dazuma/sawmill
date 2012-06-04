@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill logger class
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,21 +35,21 @@
 
 
 module Sawmill
-  
-  
+
+
   # A Rack middleware that starts and ends a log record.
   # Insert this in your Rack stack to wrap requests in a log record.
-  
+
   class LogRecordMiddleware
-    
-    
+
+
     # Create a middleware object for Rack.
-    # 
+    #
     # If you do not provide a logger object, one will be generated for you
     # that simply logs to STDOUT.
-    # 
+    #
     # Recognized options include:
-    # 
+    #
     # [<tt>:request_id_key</tt>]
     #   The name of a rack environment key where the request ID should be
     #   stored. If not specified, defaults to "sawmill.request_id".
@@ -68,7 +68,7 @@ module Sawmill
     # [<tt>:post_logger</tt>]
     #   A proc that is called at the end of the request, and passed the
     #   logger and the rack environment. Optional.
-    
+
     def initialize(app_, logger_=nil, opts_={})
       @app = app_
       @logger = logger_ || Logger.new(:progname => 'rack', :processor => Formatter.new(::STDOUT))
@@ -79,8 +79,8 @@ module Sawmill
       @pre_logger = opts_[:pre_logger]
       @post_logger = opts_[:post_logger]
     end
-    
-    
+
+
     def call(env_)
       env_[@request_id_key] = @logger.begin_record
       start_time_ = ::Time.now.utc
@@ -106,9 +106,9 @@ module Sawmill
         @logger.end_record
       end
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

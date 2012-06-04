@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill entry processor interface
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,83 +35,83 @@
 
 
 module Sawmill
-  
-  
+
+
   # Entry processors are objects that receive a stream of log entries and
   # perform some action. Some processors perform their own action, while
   # others could filter entries and forward them to other processors.
-  # 
+  #
   # The API contract for an entry processor is specified by the class
   # Sawmill::EntryProcessor::Base. Processors could subclass that base
   # class, or could just duck-type the methods.
-  # 
+  #
   # Sawmill's basic entry processor classes live into this module's
   # namespace, but this is not a requirement for your own processors.
-  
+
   module EntryProcessor
-    
-    
+
+
     class Builder  # :nodoc:
       include ::Blockenspiel::DSL
     end
-    
-    
+
+
     # A base class for entry processors.
-    # 
+    #
     # Entry processors need not necessarily subclass this class, but should
     # at least duck-type the methods.
-    # 
+    #
     # If a class subclasses this class, *and* lives in the EntryProcessor
     # namespace, then it will automatically be available in the build
     # interface. See EntryProcessor#build.
-    
+
     class Base
-      
-      
+
+
       # Receive and process a Sawmill::Entry::BeginRecord.
-      
+
       def begin_record(entry_)
         true
       end
-      
-      
+
+
       # Receive and process a Sawmill::Entry::EndRecord.
-      
+
       def end_record(entry_)
         true
       end
-      
-      
+
+
       # Receive and process a Sawmill::Entry::Message.
-      
+
       def message(entry_)
         true
       end
-      
-      
+
+
       # Receive and process a Sawmill::Entry::Attribute.
-      
+
       def attribute(entry_)
         true
       end
-      
-      
+
+
       # Receive and process a Sawmill::Entry::UnknownData.
-      
+
       def unknown_data(entry_)
         true
       end
-      
-      
+
+
       # Close down the processor, perform any finishing tasks, and return
       # any final calculated value.
-      # 
+      #
       # After this is called, the processor should ignore any further entries.
-      # 
+      #
       # The return value can be used to communicate a final computed value,
       # analysis report, or other data back to the caller. It may also be
       # nil, signalling no finish value.
-      # 
+      #
       # Note that some processors function to multiplex other processors. In
       # such a case, their finish value needs to be an aggregate of the
       # values returned by their descendants. To handle these cases, we
@@ -124,12 +124,12 @@ module Sawmill
       # actually return an array _as_ a value, you must wrap it in another
       # array, indicating "an array of one finish value, and that finish
       # value also happens to be an array itself".
-      
+
       def finish
         nil
       end
-      
-      
+
+
       def self.inherited(subclass_)  # :nodoc:
         if subclass_.name =~ /^Sawmill::EntryProcessor::([^:]+)$/
           name_ = $1
@@ -140,23 +140,23 @@ module Sawmill
           end
         end
       end
-      
-      
+
+
       # Add a method to the processor building DSL. You may call this method
       # in the DSL to create an instance of this entry processor.
       # You must pass a method name that begins with a lower-case letter or
       # underscore.
-      # 
+      #
       # Processors that subclass Sawmill::EntryProcessor::Base and live in
       # the Sawmill::EntryProcessor namespace will have their class name
       # automatically added to the DSL. This method is primarily for other
       # processors that do not live in that module namespace.
-      # 
+      #
       # See Sawmill::EntryProcessor#build for more information.
-      # 
+      #
       # Raises Sawmill::Errors::DSLMethodError if the given name is already
       # taken.
-      
+
       def self.add_dsl_method(name_)
         klass_ = self
         if name_.to_s !~ /^[a-z_]/
@@ -171,14 +171,14 @@ module Sawmill
           end
         end
       end
-      
-      
+
+
       private
-      
+
       def _interpret_processor_array(param_)  # :nodoc:
         param_.flatten.map{ |processor_| _interpret_processor(processor_) }
       end
-      
+
       def _interpret_processor(param_)  # :nodoc:
         case param_
         when ::Class
@@ -189,33 +189,33 @@ module Sawmill
           raise ::ArgumentError, "Unknown processor object of type #{param_.class.name}"
         end
       end
-      
-      
+
+
     end
-    
-    
+
+
     # A convenience DSL for building sets of processors. This is typically
     # useful for constructing if-expressions using the boolean operation
     # processors.
-    # 
+    #
     # Every entry processor that lives in the Sawmill::EntryProcessor
     # module and subclasses Sawmill::EntryProcessor::Base can be
     # instantiated by using its name as a function call. Other processors
     # may also add themselves to the DSL by calling
     # Sawmill::EntryProcessor::Base#add_dsl_method.
-    # 
+    #
     # For example:
-    # 
+    #
     #  Sawmill::EntryProcessor.build do
     #    If(FilterByBasicFields(:level => :WARN), Format(STDOUT))
     #  end
-    
+
     def self.build(&block_)
       ::Blockenspiel.invoke(block_, Builder.new)
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

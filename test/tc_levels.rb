@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests on the levels mechanism
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -41,17 +41,17 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestLevels < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test equivalence of standard level names and legacy logger level constants
-      
+
       def test_standard_names_vs_legacy_constants
         assert_equal(@levels.get(:DEBUG), @levels.get(::Logger::DEBUG))
         assert_not_equal(@levels.get(:DEBUG), @levels.get(::Logger::INFO))
@@ -61,20 +61,20 @@ module Sawmill
         assert_equal(@levels.get(:FATAL), @levels.get(::Logger::FATAL))
         assert_equal(@levels.get(:ANY), @levels.get(::Logger::UNKNOWN))
       end
-      
-      
+
+
       # Test special levels in the standard set
-      
+
       def test_special_standard_levels
         assert_equal(@levels.get(:DEBUG), @levels.lowest)
         assert_equal(@levels.get(:INFO), @levels.default)
         assert_equal(@levels.get(:ANY), @levels.highest)
         assert_equal(@levels.get(nil), @levels.default)
       end
-      
-      
+
+
       # Test method lookup of standard levels
-      
+
       def test_standard_method_lookup
         assert_equal(@levels.get(:DEBUG), @levels.lookup_method(:debug))
         assert_equal(@levels.get(:INFO), @levels.lookup_method(:info))
@@ -84,20 +84,20 @@ module Sawmill
         assert_equal(@levels.get(:ANY), @levels.lookup_method(:any))
         assert_equal(@levels.get(:ANY), @levels.lookup_method(:unknown))
       end
-      
-      
+
+
       # Test comparison of standard levels
-      
+
       def test_standard_comparisons
         assert(@levels.get(:DEBUG) < @levels.get(:INFO))
         assert(@levels.get(:ANY) > @levels.get(:FATAL))
         assert(@levels.get(:ERROR) >= @levels.get(:DEBUG))
         assert(@levels.get(:WARN) >= @levels.get(:WARN))
       end
-      
-      
+
+
       # Test custom level group
-      
+
       def test_custom_group
         group_ = ::Sawmill::LevelGroup.new do |g_|
           g_.add(:LOW, :methods => 'low')
@@ -111,9 +111,9 @@ module Sawmill
         assert_equal(group_.highest, group_.get(3))
         assert_not_equal(@levels.lowest, group_.lowest)
       end
-      
-      
+
+
     end
-    
+
   end
 end

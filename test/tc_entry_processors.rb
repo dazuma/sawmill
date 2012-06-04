@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests on entry processors
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,18 +40,18 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestEntryProcessors < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @entries = ::Sawmill::EntryProcessor::SimpleQueue.new
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test a basic filter that checks the level
-      
+
       def test_basic_level_filter
         processor_ = ::Sawmill::EntryProcessor::build do
           If(FilterByBasicFields(:level => :WARN), @entries)
@@ -64,10 +64,10 @@ module Sawmill
         assert_equal('Hello 3', @entries.dequeue.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test a basic filter that checks the progname
-      
+
       def test_basic_progname_filter
         processor_ = ::Sawmill::EntryProcessor::build do
           If(FilterByBasicFields(:progname => 'rails'), @entries)
@@ -79,10 +79,10 @@ module Sawmill
         assert_equal('Hello 2', @entries.dequeue.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test an "AND" filter
-      
+
       def test_conjunction_and
         processor_ = ::Sawmill::EntryProcessor::build do
           If(And(FilterByBasicFields(:progname => 'rails'),
@@ -96,10 +96,10 @@ module Sawmill
         assert_equal('Hello 2', @entries.dequeue.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test an "OR" filter
-      
+
       def test_conjunction_or
         processor_ = ::Sawmill::EntryProcessor::build do
           If(Or(FilterByBasicFields(:progname => 'rails'),
@@ -115,10 +115,10 @@ module Sawmill
         assert_equal('Hello 3', @entries.dequeue.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test a "NOT" filter
-      
+
       def test_boolean_not
         processor_ = ::Sawmill::EntryProcessor::build do
           If(Not(FilterByBasicFields(:progname => 'rails')), @entries)
@@ -131,9 +131,9 @@ module Sawmill
         assert_equal('Hello 3', @entries.dequeue.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
     end
-    
+
   end
 end

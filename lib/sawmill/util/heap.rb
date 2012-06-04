@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill heap utility
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,41 +35,41 @@
 
 
 module Sawmill
-  
+
   module Util
-    
-    
+
+
     # A simple heap class.
-    
+
     class Heap
-      
-      
+
+
       # Create a new heap.
-      
+
       def initialize(data_=nil, &block_)
         @_heap = data_ || []
         @_comparator = block_ || ::Proc.new{ |a_,b_| a_ <=> b_ }
       end
-      
-      
+
+
       def merge(enum_)
         enum_.each{ |value_| add(value_) }
         self
       end
-      
-      
+
+
       def add(value_)
         @_heap << value_
         _sift_up(@_heap.length-1)
         self
       end
-      
-      
+
+
       def <<(value_)
         add(value_)
       end
-      
-      
+
+
       def remove
         ret_ = @_heap[0]
         if @_heap.length > 1
@@ -80,37 +80,37 @@ module Sawmill
         end
         ret_
       end
-      
-      
+
+
       def peek
         @_heap[0]
       end
-      
-      
+
+
       def size
         @_heap.size
       end
-      
-      
+
+
       def empty?
         @_heap.empty?
       end
-      
-      
+
+
       def clear
         @_heap.clear
       end
-      
-      
+
+
       def each!
         while !empty?
           yield(remove)
         end
       end
-      
-      
+
+
       private
-      
+
       def _sift_up(start_)  # :nodoc:
         while start_ > 0
           parent_ = (start_ + 1) / 2 - 1
@@ -122,8 +122,8 @@ module Sawmill
           end
         end
       end
-      
-      
+
+
       def _sift_down(start_)  # :nodoc:
         length_ = self.size
         while length_ >= (child2_ = (start_ + 1) * 2)
@@ -143,11 +143,11 @@ module Sawmill
           end
         end
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
+
 end

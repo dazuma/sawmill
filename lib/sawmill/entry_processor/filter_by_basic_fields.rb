@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill entry processor that checks for entry field values.
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,23 +35,23 @@
 
 
 module Sawmill
-  
+
   module EntryProcessor
-    
-    
+
+
     # A basic filter that knows how to check level and progname.
-    # 
+    #
     # This is a boolean processor, so it merely returns true or false based
     # on the filter result. Use this in conjunction with an If processor to
     # actually perform other actions based on the result.
-    
+
     class FilterByBasicFields < Base
-      
-      
+
+
       # Create a new filter.
-      # 
+      #
       # Recognized options include:
-      # 
+      #
       # [<tt>:level</tt>]
       #   Lowest level that will be accepted. This should be either a
       #   Sawmill::Level object or an integer value or string/symbol that
@@ -77,7 +77,7 @@ module Sawmill
       # [<tt>:accept_unknown</tt>]
       #   If set to true, accepts all entries of type :unknown_data.
       #   Otherwise, rejects all such entries.
-      
+
       def initialize(opts_={})
         @level = opts_[:level]
         @progname = opts_[:progname]
@@ -86,36 +86,36 @@ module Sawmill
         @accept_incomparable_levels = opts_[:accept_incomparable_levels]
         @accept_unknown = opts_[:accept_unknown]
       end
-      
-      
+
+
       def begin_record(entry_)
         @accept_record_delimiters.nil? ? _check_filter(entry_) : @accept_record_delimiters
       end
-      
+
       def end_record(entry_)
         @accept_record_delimiters.nil? ? _check_filter(entry_) : @accept_record_delimiters
       end
-      
+
       def message(entry_)
         _check_filter(entry_)
       end
-      
+
       def attribute(entry_)
         @accept_attributes.nil? ? _check_filter(entry_) : @accept_attributes
       end
-      
+
       def unknown_data(entry_)
         @accept_unknown
       end
-      
+
       def finish
         nil
       end
-      
-      
+
+
       private
-      
-      
+
+
       def _check_filter(entry_)  # :nodoc:
         if @level
           level_ = entry_.level
@@ -135,11 +135,11 @@ module Sawmill
         return false if @progname && entry_.progname != @progname
         true
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
+
 end

@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill record processor that generates reports
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,21 +35,21 @@
 
 
 module Sawmill
-  
-  
+
+
   module RecordProcessor
-    
-    
+
+
     # This processor collects and formats reports from descendant
     # record processors.
-    
+
     class CompileReport < All
-      
-      
+
+
       # Create a report collection.
-      # 
+      #
       # Recognized options include:
-      # 
+      #
       # [<tt>:postprocessor</tt>]
       #   Postprocessor proc for individual reports.
       # [<tt>:separator</tt>]
@@ -60,7 +60,7 @@ module Sawmill
       # [<tt>:footer</tt>]
       #   Footer string for the final compiled report.
       #   Default is the empty string.
-      
+
       def initialize(*children_)
         opts_ = children_.last.kind_of?(::Hash) ? children_.pop : {}
         @postprocessor = opts_[:postprocessor]
@@ -69,32 +69,32 @@ module Sawmill
         @footer = opts_[:footer] || ''
         super(*children_)
       end
-      
-      
+
+
       # Separator string to be inserted between individual reports.
       attr_accessor :separator
-      
+
       # Header string for the final compiled report.
       attr_accessor :header
-      
+
       # Footer string for the final compiled report.
       attr_accessor :footer
-      
-      
+
+
       # Provide a postprocessor block for individual report values.
       # This block should take a single parameter and return a string
       # that should be included in the compiled report. It may also
       # return nil to indicate that the data should not be included.
-      
+
       def to_postprocess_value(&block_)
         @postprocessor = block_
       end
-      
-      
+
+
       # On finish, this processor calls finish on its descendants, converts
       # their values into strings and compiles them into a report. It then
       # returns that report as a string.
-      
+
       def finish
         values_ = super || []
         values_ = [values_] unless values_.kind_of?(::Array)
@@ -102,12 +102,12 @@ module Sawmill
         values_.compact!
         "#{@header}#{values_.join(@separator)}#{@footer}"
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

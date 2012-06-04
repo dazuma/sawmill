@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill entry processor that builds log records
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,36 +35,36 @@
 
 
 module Sawmill
-  
+
   module EntryProcessor
-    
-    
+
+
     # An entry processor that builds log records from a stream of entries,
     # and passes those log records to the given record processor.
-    
+
     class BuildRecords < Base
-      
-      
+
+
       # Create record builder emitting to the given record processor.
-      # 
+      #
       # Recognized options include:
-      # 
+      #
       # [<tt>:emit_incomplete_records_on_finish</tt>]
       #   When the processor is finished, any records that are still not
       #   complete will be emitted to the record processor anyway, even
       #   in their incomplete state.
-      
+
       def initialize(processor_, opts_={})
         @processor = processor_
         @records = {}
         @emit_incomplete_records_on_finish = opts_[:emit_incomplete_records_on_finish]
       end
-      
-      
+
+
       # Emit all currently incomplete records immediately in their
       # incomplete state. This clears those incomplete records, so note that
       # if they do get completed later, they will not be re-emitted.
-      
+
       def emit_incomplete_records
         if @records
           @records.values.each do |record_|
@@ -73,8 +73,8 @@ module Sawmill
           @records.clear
         end
       end
-      
-      
+
+
       def begin_record(entry_)
         return unless @records
         record_id_ = entry_.record_id
@@ -86,8 +86,8 @@ module Sawmill
           true
         end
       end
-      
-      
+
+
       def end_record(entry_)
         return unless @records
         record_ = @records.delete(entry_.record_id)
@@ -100,8 +100,8 @@ module Sawmill
           false
         end
       end
-      
-      
+
+
       def message(entry_)
         return unless @records
         record_ = @records[entry_.record_id]
@@ -113,8 +113,8 @@ module Sawmill
           false
         end
       end
-      
-      
+
+
       def attribute(entry_)
         return unless @records
         record_ = @records[entry_.record_id]
@@ -126,15 +126,15 @@ module Sawmill
           false
         end
       end
-      
-      
+
+
       def unknown_data(entry_)
         return unless @records
         @processor.extra_entry(entry_)
         false
       end
-      
-      
+
+
       def finish
         if @records
           emit_incomplete_records if @emit_incomplete_records_on_finish
@@ -144,17 +144,17 @@ module Sawmill
           nil
         end
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
-  
+
+
   # Sawmill::RecordBuilder is an alternate name for
   # Sawmill::EntryProcessor::BuildRecords
   RecordBuilder = EntryProcessor::BuildRecords
-  
-  
+
+
 end

@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill multi-stream parser utility
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,31 +35,31 @@
 
 
 module Sawmill
-  
-  
+
+
   # A logfile parser that parses log entries from multiple logfile streams,
   # sorts by timestamp, and sends them to a processor.
-  
+
   class MultiParser
-    
-    
+
+
     # Create a new parser that reads from the given streams.
-    # 
+    #
     # You should provide a processor to receive the data from the logfile.
     # The processor may be either an entry processor or a record processor.
     # You may also pass nil for the processor. In this case, the generated
     # log entries will not be sent to a processor but will still be returned
     # by the parse_one_entry method.
-    # 
+    #
     # Recognized options include:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
     # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
-    
+
     def initialize(io_array_, processor_, opts_={})
       @emit_incomplete_records_at_eof = opts_.delete(:emit_incomplete_records_at_eof)
       @heap = Util::Heap.new{ |a_, b_| a_[1].timestamp <=> b_[1].timestamp }
@@ -80,12 +80,12 @@ module Sawmill
       end
       @classifier = @processor ? EntryClassifier.new(@processor) : nil
     end
-    
-    
+
+
     # Parse one log entry from the streams and emit it to the processor.
     # Also returns the log entry.
     # Returns nil if EOF has been reached on all streams.
-    
+
     def parse_one_entry
       entry_ = @queue.dequeue
       unless entry_
@@ -102,18 +102,18 @@ module Sawmill
       @classifier.entry(entry_) if entry_
       entry_
     end
-    
-    
+
+
     # Parse until EOF is reached on all streams, and emit the log
     # entries to the processor.
-    
+
     def parse_all
       while parse_one_entry; end
     end
-    
-    
+
+
     private
-    
+
     def _enqueue(parser_)  # :nodoc:
       loop do
         entry_ = parser_.parse_one_entry
@@ -126,9 +126,9 @@ module Sawmill
         end
       end
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

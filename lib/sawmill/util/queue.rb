@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill queue utility
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,17 +35,17 @@
 
 
 module Sawmill
-  
+
   module Util
-    
-    
+
+
     # A simple queue that optionally provides an upper size limit.
-    
+
     class Queue
-      
-      
+
+
       # Recognized options include:
-      # 
+      #
       # [<tt>:limit</tt>]
       #   Size limit for the queue. If not specified, the queue can grow
       #   arbitrarily large.
@@ -53,7 +53,7 @@ module Sawmill
       #   If set to true, then when an item is added to a full queue, the
       #   oldest item is dropped. If set to false or not specified, then
       #   the new item is not added.
-      
+
       def initialize(opts_={})
         limit_ = opts_[:limit]
         @buffer = limit_ ? ::Array.new(limit_) : []
@@ -61,16 +61,16 @@ module Sawmill
         @pop_ptr = nil
         @drop_oldest = limit_ && opts_[:drop_oldest]
       end
-      
-      
+
+
       # Attempt to push an item on the queue.
-      # 
+      #
       # If the queue is full, then the behavior is determined by the
       # :drop_oldest setting provided to the constructor.
-      # 
+      #
       # Returns true if the object was pushed on the queue, or false if the
       # queue was full.
-      
+
       def enqueue(object_)
         result_ = true
         if @push_ptr
@@ -93,10 +93,10 @@ module Sawmill
         end
         result_
       end
-      
-      
+
+
       # Return the oldest item in the queue, or nil if the queue is empty.
-      
+
       def dequeue
         if @push_ptr
           if @pop_ptr
@@ -113,10 +113,10 @@ module Sawmill
           @buffer.shift
         end
       end
-      
-      
+
+
       # Return an array of the contents of the queue, in order.
-      
+
       def dequeue_all
         if @push_ptr
           if @pop_ptr
@@ -138,10 +138,10 @@ module Sawmill
           ret_
         end
       end
-      
-      
+
+
       # Return the size of the queue, which is 0 if the queue is empty.
-      
+
       def size
         if @push_ptr
           if @pop_ptr
@@ -154,11 +154,11 @@ module Sawmill
           @buffer.size
         end
       end
-      
-      
+
+
     end
-    
-    
+
+
   end
-  
+
 end

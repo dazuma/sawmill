@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill railtie
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,28 +39,28 @@ require 'rails/railtie'
 
 
 module Sawmill
-  
-  
+
+
   # Railtie that sets up a stats logger. Installs a
   # Sawmill::StatsMiddleware to enable a stats log.
-  # 
+  #
   # To install into a Rails app, include this line in your
   # config/application.rb:
   #   require 'sawmill/stats_railtie'
   # It should appear before your application configuration.
-  # 
+  #
   # You can then configure the stats logs using the standard rails
   # configuration mechanism. The configuration lives in the
   # config.sawmill_stats configuration namespace. See
   # Sawmill::StatsRailtie::Configuration for the list of options.
-  
+
   class StatsRailtie < ::Rails::Railtie
-    
-    
+
+
     # Configuration options. These are attributes of config.sawmill_stats.
-    
+
     class Configuration
-      
+
       def initialize  # :nodoc:
         @logfile = ::STDERR
         @fractional_second_digits = 2
@@ -79,11 +79,11 @@ module Sawmill
         @post_logger = nil
         @generated_logger = nil
       end
-      
+
       # The log file to write to. This should be either an IO object, or
       # a Sawmill::Rotater. Default is STDERR.
       attr_accessor :logfile
-      
+
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :fractional_second_digits
       # This option is passed to Sawmill::EntryProcessor::Format::new
@@ -94,12 +94,12 @@ module Sawmill
       attr_accessor :iso_8601_time
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :length_limit
-      
+
       # This option is passed to Sawmill::Logger::new
       attr_accessor :level
       # This option is passed to Sawmill::Logger::new
       attr_accessor :progname
-      
+
       # This option is passed to Sawmill::StatsMiddleware::new
       attr_accessor :stats_data_key
       # This option is passed to Sawmill::StatsMiddleware::new
@@ -110,11 +110,11 @@ module Sawmill
       attr_accessor :elapsed_time_stat
       # This option is passed to Sawmill::StatsMiddleware::new
       attr_accessor :request_id_stat
-      
+
       # Access the logger after it is generated
       attr_reader :generated_logger
-      
-      
+
+
       def pre_logger(proc_=false, &block_)
         if block_
           @pre_logger = block_
@@ -124,7 +124,7 @@ module Sawmill
         @pre_logger
       end
       attr_writer :pre_logger
-      
+
       def post_logger(proc_=false, &block_)
         if block_
           @post_logger = block_
@@ -134,17 +134,17 @@ module Sawmill
         @post_logger
       end
       attr_writer :post_logger
-      
+
       def _set_generated_logger(logger_)  # :nodoc:
         @generated_logger = logger_
       end
-      
+
     end
-    
-    
+
+
     config.sawmill_stats = Configuration.new
-    
-    
+
+
     initializer :initialize_sawmill_stats, :before => :initialize_logger do |app_|
       main_config_ = app_.config
       stats_config_ = main_config_.sawmill_stats
@@ -171,9 +171,9 @@ module Sawmill
         :pre_logger => stats_config_.pre_logger,
         :post_logger => stats_config_.post_logger)
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

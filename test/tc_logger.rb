@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests on the basic logger
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,19 +40,19 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestLogger < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @entries = ::Sawmill::EntryProcessor::SimpleQueue.new
         @logger = ::Sawmill::Logger.new(:processor => @entries)
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test basic log messages using the add method
-      
+
       def test_add
         @logger.add(:INFO, 'Hello 1')
         entry_ = @entries.dequeue
@@ -60,28 +60,28 @@ module Sawmill
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 1', entry_.message)
-        
+
         @logger.add(:ERROR, 'Hello 2', 'altprog')
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:ERROR), entry_.level)
         assert_equal('altprog', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 2', entry_.message)
-        
+
         @logger.add(:WARN){ 'Hello 3' }
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:WARN), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 3', entry_.message)
-        
+
         @logger.add(:DEBUG, 'Hello 4')
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test convenience logging methods
-      
+
       def test_convenience_add
         @logger.info('Hello 1')
         entry_ = @entries.dequeue
@@ -89,53 +89,53 @@ module Sawmill
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 1', entry_.message)
-        
+
         @logger.error('altprog'){ 'Hello 2' }
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:ERROR), entry_.level)
         assert_equal('altprog', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 2', entry_.message)
-        
+
         @logger.warn(){ 'Hello 3' }
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:WARN), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 3', entry_.message)
-        
+
         @logger.debug('Hello 4')
         assert_equal(0, @entries.size)
-        
+
         @logger.fatal('Hello 5')
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:FATAL), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 5', entry_.message)
-        
+
         @logger.any('Hello 6')
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:ANY), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 6', entry_.message)
-        
+
         @logger.unknown('Hello 7')
         entry_ = @entries.dequeue
         assert_equal(@levels.get(:ANY), entry_.level)
         assert_equal('sawmill', entry_.progname)
         assert_nil(entry_.record_id)
         assert_equal('Hello 7', entry_.message)
-        
+
         assert_raise(::NoMethodError) do
           @logger.always('Hello 8')
         end
       end
-      
-      
+
+
       # Test current level queries
-      
+
       def test_level_queries
         assert_equal(@levels.get(:INFO), @logger.level)
         assert_equal(false, @logger.debug?)
@@ -162,10 +162,10 @@ module Sawmill
         assert_equal(true, @logger.fatal?)
         assert_equal(true, @logger.any?)
       end
-      
-      
+
+
       # Test setting the progname
-      
+
       def test_setting_progname
         assert_equal('sawmill', @logger.progname)
         @logger.info('Hello 1')
@@ -179,10 +179,10 @@ module Sawmill
         assert_equal('rails', entry_.progname)
         assert_equal('Hello 2', entry_.message)
       end
-      
-      
+
+
       # Test record delimiters
-      
+
       def test_record_delimiters_auto_id
         id_ = @logger.begin_record
         assert_match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/, id_)
@@ -206,10 +206,10 @@ module Sawmill
         assert_equal(id_, entry_.record_id)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test record delimiters
-      
+
       def test_record_delimiters_custom_id
         @logger.begin_record('1234')
         @logger.info('Hello 2')
@@ -232,10 +232,10 @@ module Sawmill
         assert_equal('1234', entry_.record_id)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test record delimiters
-      
+
       def test_message_outside_record
         @logger.begin_record
         @logger.end_record
@@ -252,10 +252,10 @@ module Sawmill
         assert_equal('Hello 3', entry_.message)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test attribute
-      
+
       def test_attribute
         id_ = @logger.begin_record
         @logger.set_attribute('user', 'daniel')
@@ -276,10 +276,10 @@ module Sawmill
         assert_equal(id_, entry_.record_id)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
       # Test multi-attribute
-      
+
       def test_multi_attribute
         id_ = @logger.begin_record
         @logger.append_attribute('event', 'click')
@@ -309,9 +309,9 @@ module Sawmill
         assert_equal(id_, entry_.record_id)
         assert_equal(0, @entries.size)
       end
-      
-      
+
+
     end
-    
+
   end
 end

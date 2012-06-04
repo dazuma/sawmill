@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill railtie
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -39,29 +39,29 @@ require 'rails/railtie'
 
 
 module Sawmill
-  
-  
+
+
   # Railtie that replaces the default Rails logger with a Sawmill logger.
   # Sets the Rails logger to a Sawmill::Logger, and installs a
   # Sawmill::LogRecordMiddleware to enable record-based logging.
-  # 
+  #
   # To install into a Rails app, include this line in your
   # config/application.rb:
   #   require 'sawmill/railtie'
   # It should appear before your application configuration.
-  # 
+  #
   # You can then configure sawmill using the standard rails configuration
   # mechanism. The sawmill configuration lives in the config.sawmill
   # configuration namespace. See Sawmill::Railtie::Configuration for the
   # configuration options.
-  
+
   class Railtie < ::Rails::Railtie
-    
-    
+
+
     # Configuration options. These are attributes of config.sawmill.
-    
+
     class Configuration
-      
+
       def initialize  # :nodoc:
         @logfile = ::STDERR
         @include_id = false
@@ -82,11 +82,11 @@ module Sawmill
         @pre_logger = nil
         @post_logger = nil
       end
-      
+
       # The log file to write to. This should be either an IO object, or
       # a Sawmill::Rotater. Default is STDERR.
       attr_accessor :logfile
-      
+
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :include_id
       # This option is passed to Sawmill::EntryProcessor::Format::new
@@ -99,7 +99,7 @@ module Sawmill
       attr_accessor :iso_8601_time
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :length_limit
-      
+
       # This option is passed to Sawmill::Logger::new
       attr_accessor :level
       # This option is passed to Sawmill::Logger::new
@@ -110,7 +110,7 @@ module Sawmill
       attr_accessor :record_progname
       # This option is passed to Sawmill::Logger::new
       attr_accessor :record_id_generator
-      
+
       # This option is passed to Sawmill::LogRecordMiddleware::new
       attr_accessor :request_id_key
       # This option is passed to Sawmill::LogRecordMiddleware::new
@@ -119,8 +119,8 @@ module Sawmill
       attr_accessor :end_time_attribute
       # This option is passed to Sawmill::LogRecordMiddleware::new
       attr_accessor :elapsed_time_attribute
-      
-      
+
+
       def pre_logger(proc_=false, &block_)
         if block_
           @pre_logger = block_
@@ -130,7 +130,7 @@ module Sawmill
         @pre_logger
       end
       attr_writer :pre_logger
-      
+
       def post_logger(proc_=false, &block_)
         if block_
           @post_logger = block_
@@ -140,13 +140,13 @@ module Sawmill
         @post_logger
       end
       attr_writer :post_logger
-      
+
     end
-    
-    
+
+
     config.sawmill = Configuration.new
-    
-    
+
+
     initializer :initialize_sawmill, :before => :initialize_logger do |app_|
       myconfig_ = app_.config.sawmill
       formatter_ = Formatter.new(myconfig_.logfile || ::STDERR,
@@ -173,9 +173,9 @@ module Sawmill
         :pre_logger => myconfig_.pre_logger,
         :post_logger => myconfig_.post_logger)
     end
-    
-    
+
+
   end
-  
-  
+
+
 end

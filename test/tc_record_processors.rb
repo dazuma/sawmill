@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill: tests on record processors
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -40,18 +40,18 @@ require ::File.expand_path("#{::File.dirname(__FILE__)}/../lib/sawmill.rb")
 
 module Sawmill
   module Tests  # :nodoc:
-    
+
     class TestRecordProcessors < ::Test::Unit::TestCase  # :nodoc:
-      
-      
+
+
       def setup
         @records = ::Sawmill::RecordProcessor::SimpleQueue.new
         @levels = ::Sawmill::STANDARD_LEVELS
       end
-      
-      
+
+
       # Test a basic filter that checks the record ID
-      
+
       def test_basic_record_id_filter
         processor_ = ::Sawmill::RecordProcessor::build do
           If(FilterByRecordID('12345678'), @records)
@@ -66,10 +66,10 @@ module Sawmill
         assert_equal('12345678', @records.dequeue.record_id)
         assert_equal(0, @records.size)
       end
-      
-      
+
+
       # Test a basic filter that checks an attribute
-      
+
       def test_basic_attribute_filter
         processor_ = ::Sawmill::RecordProcessor::build do
           If(FilterByAttributes('user' => 'daniel'), @records)
@@ -87,10 +87,10 @@ module Sawmill
         assert_equal('2', @records.dequeue.record_id)
         assert_equal(0, @records.size)
       end
-      
-      
+
+
       # Test a basic filter that checks two attributes
-      
+
       def test_two_attributes_filter
         processor_ = ::Sawmill::RecordProcessor::build do
           If(FilterByAttributes('user' => 'daniel', 'type' => 'admin'), @records)
@@ -110,9 +110,9 @@ module Sawmill
         assert_equal('3', @records.dequeue.record_id)
         assert_equal(0, @records.size)
       end
-      
-      
+
+
     end
-    
+
   end
 end

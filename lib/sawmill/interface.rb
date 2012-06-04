@@ -1,15 +1,15 @@
 # -----------------------------------------------------------------------------
-# 
+#
 # Sawmill convenience interface
-# 
+#
 # -----------------------------------------------------------------------------
 # Copyright 2009 Daniel Azuma
-# 
+#
 # All rights reserved.
-# 
+#
 # Redistribution and use in source and binary forms, with or without
 # modification, are permitted provided that the following conditions are met:
-# 
+#
 # * Redistributions of source code must retain the above copyright notice,
 #   this list of conditions and the following disclaimer.
 # * Redistributions in binary form must reproduce the above copyright notice,
@@ -18,7 +18,7 @@
 # * Neither the name of the copyright holder, nor the names of any other
 #   contributors to this software, may be used to endorse or promote products
 #   derived from this software without specific prior written permission.
-# 
+#
 # THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
 # AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
 # IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
@@ -35,21 +35,21 @@
 
 
 # This module is a namespace for Sawmill.
-# 
+#
 # It also contains some convenience class methods.
 
 module Sawmill
-  
+
   class << self
-    
-    
+
+
     # Creates a new logger that writes to a single logfile.
     # You may provide either the path to the logfile, or an IO object to
     # write to, such as STDOUT.
-    # 
+    #
     # You may pass the same options taken by Sawmill::Logger#new and
     # Sawmill::EntryProcessor::Format#new, which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
@@ -85,7 +85,7 @@ module Sawmill
     # [<tt>:iso_8601_time</tt>]
     #   If true, outputs time in strict ISO 8601 format.
     #   If false (the default), outputs a slightly more readable format.
-    
+
     def simple_logger(filepath_=::STDOUT, opts_={})
       if filepath_.kind_of?(::String)
         io_ = ::File.open(filepath_)
@@ -97,29 +97,29 @@ module Sawmill
       processor_ = EntryProcessor::Format.new(io_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
-    
-    
+
+
     # Creates a new logger that writes to a logfile that rotates
     # automatically by "shifting". This is a standard rotation strategy
     # used by many unix tools.
-    # 
+    #
     # You must provide the logfile path, a shifting period, and a maximum
     # file size.
-    # 
+    #
     # The period specifies how often to rotate the logfile. Possible values
     # include <tt>:yearly</tt>, <tt>:monthly</tt>, <tt>:daily</tt>, and
     # <tt>:hourly</tt>. You may also specify an integer value, which is
     # interpreted as a number of seconds. Finally, you may pass nil to
     # disable checking of the file's age. If you do pass nil, you should
     # provide a maximum size.
-    # 
+    #
     # The maximum size is the maximum file size in bytes. You may provide
     # a number, or nil to disable checking of the file size.
-    # 
+    #
     # You may pass the same options taken by Sawmill::Logger#new,
     # Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
     # Sawmill::Rotater::ShiftingLogFile#new, which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
@@ -167,27 +167,27 @@ module Sawmill
     # [<tt>:encoding</tt>]
     #   Specify an encoding name for file data. (Ruby 1.9 only)
     #   If not specified, uses the default external encoding.
-    
+
     def shifting_logfile(filepath_, period_, max_size_, opts_={})
       rotater_ = Rotater.new(Rotater::ShiftingLogFile, opts_.merge(:file_path => filepath_,
         :max_file_size => max_size_, :shift_period => period_))
       processor_ = EntryProcessor::Format.new(rotater_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
-    
-    
+
+
     # Creates a new logger that writes to a logfile that rotates
     # automatically by tagging filenames with a datestamp.
-    # 
+    #
     # You must provide the file path prefix, and a turnover frequency.
     # Possible values for the turnover frequency are <tt>:yearly</tt>,
     # <tt>:monthly</tt>, <tt>:daily</tt>, <tt>:hourly</tt>, and
     # <tt>:never</tt>.
-    # 
+    #
     # You may pass the same options taken by Sawmill::Logger#new,
     # Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
     # Sawmill::Rotater::DateBasedLogFile#new, which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Use a custom Sawmill::LevelGroup. Normally, you should leave this
     #   set to the default, which is Sawmill::STANDARD_LEVELS.
@@ -238,31 +238,31 @@ module Sawmill
     # [<tt>:encoding</tt>]
     #   Specify an encoding name for file data. (Ruby 1.9 only)
     #   If not specified, uses the default external encoding.
-    
+
     def date_based_logfile(filepath_, frequency_, opts_={})
       rotater_ = Rotater.new(Rotater::DateBasedLogFile, opts_.merge(:path_prefix => filepath_,
         :turnover_frequency => frequency_))
       processor_ = EntryProcessor::Format.new(rotater_, opts_.dup)
       Logger.new(opts_.merge(:processor => processor_))
     end
-    
-    
+
+
     # Open one or more log files and run them through an entry processor.
     # The processor is built on the fly using the EntryProcessor DSL.
     # See EntryProcessor#build for more details.
-    # 
+    #
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
     # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
-    # 
+    #
     # Additionally, these options are recognized:
-    # 
+    #
     # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
@@ -273,29 +273,29 @@ module Sawmill
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.
-    
+
     def open_entries(globs_, opts_={}, &block_)
       processor_ = EntryProcessor.build(&block_)
       open_files(globs_, processor_, opts_.merge(:finish => true))
     end
-    
-    
+
+
     # Open one or more log files and run them through a record processor.
     # The processor is built on the fly using the RecordProcessor DSL.
     # See RecordProcessor#build for more details.
-    # 
+    #
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
     # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
-    # 
+    #
     # Additionally, these options are recognized:
-    # 
+    #
     # [<tt>:encoding</tt>]
     #   Specify an encoding for file data. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
@@ -306,28 +306,28 @@ module Sawmill
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.
-    
+
     def open_records(globs_, opts_={}, &block_)
       processor_ = RecordProcessor.build(&block_)
       open_files(globs_, processor_, opts_.merge(:finish => true))
     end
-    
-    
+
+
     # Open one or more log files and run them through the given
     # EntryProcessor or RecordProcessor.
-    # 
+    #
     # You may pass the same options taken by Sawmill::MultiParser#new,
     # which are:
-    # 
+    #
     # [<tt>:levels</tt>]
     #   Sawmill::LevelGroup to use to parse log levels.
     #   If not specified, Sawmill::STANDARD_LEVELS is used by default.
     # [<tt>:emit_incomplete_records_at_eof</tt>]
     #   If set to true, causes any incomplete log records to be emitted
     #   in their incomplete state when EOF is reached on all streams.
-    # 
+    #
     # Additionally, these options are recognized:
-    # 
+    #
     # [<tt>:finish</tt>]
     #   If set to true, the "finish" method is called on the processor
     #   after all files have been parsed, and the return value is returned.
@@ -342,7 +342,7 @@ module Sawmill
     #   Specify an encoding to transcode to. (Ruby 1.9 only.)
     #   You may specify an encoding name or an encoding object.
     #   If not specified, uses the encoding as read from the file.
-    
+
     def open_files(globs_, processor_, opts_={})
       finish_opt_ = opts_.delete(:finish)
       encoding_ = opts_.delete(:encoding)
@@ -393,8 +393,8 @@ module Sawmill
       end
       finish_opt_ ? processor_.finish : nil
     end
-    
-    
+
+
   end
-  
+
 end
