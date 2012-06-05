@@ -54,7 +54,7 @@ module Sawmill
         strings_ = []
         entry_groups_.each do |entries_|
           stringio_ = ::StringIO.new
-          formatter_ = ::Sawmill::EntryClassifier.new(::Sawmill::Formatter.new(stringio_, :fractional_second_digits => 9))
+          formatter_ = ::Sawmill::EntryClassifier.new(::Sawmill::Formatter.new(stringio_, :fractional_second_digits => 6))
           entries_.each do |entry_|
             formatter_.entry(entry_)
           end
@@ -68,7 +68,7 @@ module Sawmill
       # Makes sure they come out in the right order.
 
       def test_interleaved_entries
-        base_time_ = ::Time.now.utc
+        base_time_ = ::Time.gm(2012, 3, 14, 15, 9, 27)
         entries_ = []
         2.times do |i_|
           entries_ << ::Sawmill::Entry::UnknownData.new("Unknown #{i_}")
