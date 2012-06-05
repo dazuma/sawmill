@@ -1,0 +1,150 @@
+<!doctype html>
+<!-- The Time Machine GitHub pages theme was designed and developed by Jon Rohan, on Feb 7, 2012. -->
+<!-- Follow him for fun. http://twitter.com/jonrohan. Tail his code on http://github.com/jonrohan -->
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <link rel="stylesheet" href="stylesheets/stylesheet.css" media="screen"/>
+  <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="javascripts/script.js"></script>
+
+  <title>Sawmill</title>
+  <meta name="description" content="Ruby logger with advanced features for log analysis">
+
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+
+</head>
+
+<body>
+
+  <div class="wrapper">
+    <header>
+      <h1 class="title">Sawmill</h1>
+    </header>
+    <div id="container">
+      <p class="tagline">Ruby logger with advanced features for log analysis</p>
+      <div id="main" role="main">
+        <div class="download-bar">
+        <div class="inner">
+          <a href="https://github.com/dazuma/sawmill/tarball/master" class="download-button tar"><span>Download</span></a>
+          <a href="https://github.com/dazuma/sawmill/zipball/master" class="download-button zip"><span>Download</span></a>
+          <a href="https://github.com/dazuma/sawmill" class="code">View Sawmill on GitHub</a>
+        </div>
+        <span class="blc"></span><span class="trc"></span>
+        </div>
+        <article class="markdown-body">
+          <h2>Sawmill</h2>
+
+<p>Sawmill is a logging and log analysis system for Ruby.
+It extends the basic Ruby logging facility with log records and logfile parsing features.</p>
+
+<h3>What is it?</h3>
+
+<p>A user reported a bug in your Rails application, and now you have to figure out what happened. You can spend hours poring over megabytes of text log files, stretching your grep-fu to its snapping point... or you can use Sawmill.</p>
+
+<p>Your CEO wants to know how many people viewed the new product pages last week. You can write yet another arcane sed script looking for that elusive pattern in the log files... or you can use Sawmill.</p>
+
+<p>Sawmill is an extension to the standard ruby Logger mechanism that enables automated log analysis. Designed especially for web applications using Ruby on Rails and similar frameworks, Sawmill originated in the source to <a href="http://www.geopage.com">www.geopage.com</a>, where it has been analyzing the production Rails logs for more than three years.</p>
+
+<h3>Feature list</h3>
+
+<ul>
+<li>Drop-in compatible with standard ruby Logger class</li>
+<li>Custom log levels</li>
+<li>Process log entries as objects</li>
+<li>Group log entries into log records with unique record IDs and attributes</li>
+<li>Filtering and analysis of log entries and log records</li>
+<li>Write logfiles, optionally with one of several logfile rotation mechanisms</li>
+<li>Parse logfiles back into log entries and log records</li>
+<li>Log analysis framework</li>
+<li>Rack middleware for quick setup of web service logs</li>
+<li>Railtie for Rails 3 integration</li>
+</ul><h3>Requirements</h3>
+
+<ul>
+<li>Ruby 1.8.7 or later (Ruby 1.9.2 or later recommended), or JRuby 1.4 or later.</li>
+<li>Blockenspiel 0.4.3 or later.</li>
+</ul><h3>Installation</h3>
+
+<pre><code>gem install sawmill
+</code></pre>
+
+<h3>Known issues and limitations</h3>
+
+<p>Sawmill is currently under development, and some features are not yet complete or fully tested.</p>
+
+<h3>Development and support</h3>
+
+<p>Documentation is available at <a href="http://dazuma.github.com/sawmill">http://dazuma.github.com/sawmill</a></p>
+
+<p>Source code is hosted on Github at <a href="http://github.com/dazuma/sawmill">http://github.com/dazuma/sawmill</a></p>
+
+<p>Contributions are welcome. Fork the project on Github.</p>
+
+<p>Build status: <a href="http://travis-ci.org/dazuma/sawmill"><img src="https://secure.travis-ci.org/dazuma/sawmill.png" alt="Build Status"></a></p>
+
+<p>Report bugs on Github issues at <a href="http://github.org/dazuma/sawmill/issues">http://github.org/dazuma/sawmill/issues</a></p>
+
+<p>Contact the author at dazuma at gmail dot com.</p>
+
+<h3>Author / Credits</h3>
+
+<p>Sawmill is written by Daniel Azuma (<a href="http://www.daniel-azuma.com">http://www.daniel-azuma.com</a>).</p>
+
+<p>Development is supported by Pirq (<a href="http://www.pirq.com">http://www.pirq.com</a>).</p>
+
+<p>Continuous integration service provided by Travis-CI (<a href="http://travis-ci.org">http://travis-ci.org</a>).</p>
+
+<h3>License</h3>
+
+<p>Copyright 2009-2012 Daniel Azuma.</p>
+
+<p>All rights reserved.</p>
+
+<p>Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:</p>
+
+<ul>
+<li>Redistributions of source code must retain the above copyright notice,
+this list of conditions and the following disclaimer.</li>
+<li>Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.</li>
+<li>Neither the name of the copyright holder, nor the names of any other
+contributors to this software, may be used to endorse or promote products
+derived from this software without specific prior written permission.</li>
+</ul><p>THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE
+LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGE.</p>
+        </article>
+      </div>
+    </div>
+    <footer>
+      <div class="owner">
+      <p><a href="https://github.com/dazuma" class="avatar"><img src="https://secure.gravatar.com/avatar/e06aa8f63d2a1753a2b352bc1cabbde2?s=30&amp;d=https://a248.e.akamai.net/assets.github.com%2Fimages%2Fgravatars%2Fgravatar-140.png" width="48" height="48"/></a> <a href="https://github.com/dazuma">dazuma</a> maintains <a href="https://github.com/dazuma/sawmill">Sawmill</a></p>
+      </div>
+      <div class="creds">
+        <small>This page generated using <a href="https://pages.github.com/">GitHub Pages</a><br/>theme by <a href="http://twitter.com/jonrohan/">Jon Rohan</a></small>
+      </div>
+    </footer>
+  </div>
+  <div class="current-section">
+    <a href="#top">Scroll to top</a>
+    <a href="https://github.com/dazuma/sawmill/tarball/master" class="tar">tar</a><a href="https://github.com/dazuma/sawmill/zipball/master" class="zip">zip</a><a href="" class="code">source code</a>
+    <p class="name"></p>
+  </div>
+
+  
+</body>
+</html>
