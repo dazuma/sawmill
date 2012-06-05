@@ -39,9 +39,13 @@ Sawmill is currently under development, and some features are not yet complete o
 
 === Development and support
 
-Documentation is available at http://virtuoso.rubyforge.org/sawmill/README_rdoc.html
+Documentation is available at http://dazuma.github.com/sawmill
 
 Source code is hosted on Github at http://github.com/dazuma/sawmill
+
+Contributions are welcome. Fork the project on Github.
+
+Build status: {<img src="https://secure.travis-ci.org/dazuma/sawmill.png" />}[http://travis-ci.org/dazuma/sawmill]
 
 Report bugs on Github issues at http://github.org/dazuma/sawmill/issues
 
@@ -49,13 +53,15 @@ Contact the author at dazuma at gmail dot com.
 
 === Author / Credits
 
-Sawmill is written by Daniel Azuma (http://www.daniel-azuma.com/).
+Sawmill is written by Daniel Azuma (http://www.daniel-azuma.com).
 
-Development of Sawmill is sponsored by GeoPage (http://www.geopage.com/).
+Development is supported by Pirq (http://www.pirq.com).
+
+Continuous integration service provided by Travis-CI (http://travis-ci.org).
 
 === License
 
-Copyright 2009-2011 Daniel Azuma.
+Copyright 2009-2012 Daniel Azuma.
 
 All rights reserved.
 
