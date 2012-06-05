@@ -39,7 +39,7 @@ Sawmill is currently under development, and some features are not yet complete o
 
 === Development and support
 
-Documentation is available at http://dazuma.github.com/sawmill
+Documentation is available at http://dazuma.github.com/sawmill/rdoc
 
 Source code is hosted on Github at http://github.com/dazuma/sawmill
 
