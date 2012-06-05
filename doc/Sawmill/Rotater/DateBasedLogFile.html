@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Sawmill::Rotater::DateBasedLogFile - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/sawmill/rotater/date_based_log_file.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-c-simple_uniquifier">::simple_uniquifier</a>
+    
+    <li><a href="#method-i-before_write">#before_write</a>
+    
+    <li><a href="#method-i-close_handle">#close_handle</a>
+    
+    <li><a href="#method-i-open_handle">#open_handle</a>
+    
+    <li><a href="#method-i-preferred_handle">#preferred_handle</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Sawmill.html">Sawmill</a>
+  
+    <li><a href="../../Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="../../Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="../../Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="../../Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="../../Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="../../Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="../../Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="../../Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="../../Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="../../Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="../../Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="../../Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="../../Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="../../Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="../../Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="../../Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="../../Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="../../Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="../../Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="../../Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="../../Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="../../Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="../../Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="../../Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="../../Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="../../Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="../../Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="../../Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="../../Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="../../Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="../../Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="../../Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="../../Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="../../Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="../../Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Sawmill::Rotater::DateBasedLogFile</h1>
+
+  <div id="description" class="description">
+    
+<p>A rotation strategy that produces log files with the date stamp in the file
+name. For example, you could set up an hourly log rotation that produces
+the following files:</p>
+
+<pre>rails.2009-10-09-22.log
+rails.2009-10-09-23.log
+rails.2009-10-10-00.log
+rails.2009-10-10-01.log
+etc...</pre>
+
+<p>The exact format depends on the rotation frequency, which could be anywhere
+from yearly to hourly. For settings less frequent than hourly, fewer fields
+will appear in the date stamp portion of the file name.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(options_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a new date-based log file rotation strategy.</p>
+
+<p>Recognized options include:</p>
+<dl class="rdoc-list label-list"><dt><code>:turnover_frequency</code>
+<dd>
+<p>How often the log files should turn over. Allowed values are:
+<code>:yearly</code>, <code>:monthly</code>, <code>:daily</code>,
+<code>:hourly</code>, and <code>:never</code>.</p>
+</dd><dt><code>:basedir</code>
+<dd>
+<p>The base directory used if the filepath is a relative path. If not
+specified, the current working directory is used.</p>
+</dd><dt><code>:path_prefix</code>
+<dd>
+<p>The logfile path prefix. In the filename “rails.2009-10-11.log”, the prefix
+is “rails”. If not specified, defaults to “sawmill”.</p>
+</dd><dt><code>:path_suffix</code>
+<dd>
+<p>The logfile name prefix. In the filename “rails.2009-10-11.log”, the suffix
+is “.log”. If not specified, defaults to “.log”.</p>
+</dd><dt><code>:uniquifier</code>
+<dd>
+<p>If provided, log files are never reopened. (That is, they are opened with
+::File::CREAT | ::File::EXCL.) The value of this parameter must be a proc
+that returns an actual file name to attempt to open. This proc is called
+repeatedly until it either returns a file path that does not yet exist, or
+signals failure by returning nil. See the session on Uniquifiers below.</p>
+</dd><dt><code>:local_datestamps</code>
+<dd>
+<p>If true, use the local timezone to create datestamps. The default is to use
+UTC.</p>
+</dd></dl>
+
+<h3 id="method-c-new-label-Uniquifiers">Uniquifiers</h3>
+
+<p><a href="DateBasedLogFile.html">DateBasedLogFile</a> provides a facility
+for ensuring that log files are written to by only one process, by
+generating unique file names for log files. This facility is useful, for
+example, if you are deploying via Phusion Passenger where you may have a
+variable number of rails processes, and you want each process to own its
+own logfile so entries in log records are not interleaved.</p>
+
+<p>To activate this feature, pass a proc to the <code>:uniquifier</code>
+option. When <a href="DateBasedLogFile.html">DateBasedLogFile</a> wants to
+open a log file for writing, it first calls this proc. The proc should
+return a file path to try opening. <a
+href="DateBasedLogFile.html">DateBasedLogFile</a> then tries to open the
+file with ::File::CREAT | ::File::EXCL, which will succeed only if the file
+has not already been created (e.g. by another process). If the file already
+exists, the proc will be called again, and repeatedly until it either
+returns a path that has not yet been created, or nil indicating that it has
+given up.</p>
+
+<p>The proc is passed a single hash that provides information about what path
+to generate, as well as space for the proc to store any state it wishes to
+persist through the process. These keys are given to the proc by <a
+href="DateBasedLogFile.html">DateBasedLogFile</a>. Any other keys are
+available for use by the proc.</p>
+<dl class="rdoc-list label-list"><dt><code>:original_path</code>
+<dd>
+<p>The original file path generated by <a
+href="DateBasedLogFile.html">DateBasedLogFile</a>, which would have been
+used if there were no uniquifier.</p>
+</dd><dt><code>:last_path</code>
+<dd>
+<p>The last path generated by the proc, or nil if this is the first time this
+proc is called for a particular logfile.</p>
+</dd><dt><code>:basedir</code>
+<dd>
+<p>The basedir of the <a href="DateBasedLogFile.html">DateBasedLogFile</a>.</p>
+</dd><dt><code>:path_prefix</code>
+<dd>
+<p>The path_prefix of the <a
+href="DateBasedLogFile.html">DateBasedLogFile</a>.</p>
+</dd><dt><code>:path_suffix</code>
+<dd>
+<p>The path_suffix of the <a
+href="DateBasedLogFile.html">DateBasedLogFile</a>.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 128</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">options_</span>)
+  <span class="ruby-ivar">@turnover_frequency</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:turnover_frequency</span>] <span class="ruby-operator">||</span> <span class="ruby-value">:none</span>
+  <span class="ruby-ivar">@basedir</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:basedir</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options_</span>[<span class="ruby-value">:dirname</span>] <span class="ruby-operator">||</span> <span class="ruby-operator">::</span><span class="ruby-constant">Dir</span>.<span class="ruby-identifier">getwd</span>
+  <span class="ruby-ivar">@prefix</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:path_prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options_</span>[<span class="ruby-value">:prefix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">'sawmill'</span>
+  <span class="ruby-ivar">@suffix</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:path_suffix</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">options_</span>[<span class="ruby-value">:suffix</span>] <span class="ruby-operator">||</span> <span class="ruby-string">'.log'</span>
+  <span class="ruby-ivar">@suffix</span> = <span class="ruby-node">&quot;.#{@suffix}&quot;</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@suffix</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@suffix</span>[<span class="ruby-value">0</span>,<span class="ruby-value">1</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'.'</span>
+  <span class="ruby-ivar">@uniquifier</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:uniquifier</span>]
+  <span class="ruby-ivar">@local_datestamps</span> = <span class="ruby-identifier">options_</span>[<span class="ruby-value">:local_datestamps</span>]
+  <span class="ruby-ivar">@date_pattern</span> =
+    <span class="ruby-keyword">case</span> <span class="ruby-ivar">@turnover_frequency</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:yearly</span> <span class="ruby-keyword">then</span> <span class="ruby-string">&quot;%Y&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:monthly</span> <span class="ruby-keyword">then</span> <span class="ruby-string">&quot;%Y-%m&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:daily</span> <span class="ruby-keyword">then</span> <span class="ruby-string">&quot;%Y-%m-%d&quot;</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:hourly</span> <span class="ruby-keyword">then</span> <span class="ruby-string">&quot;%Y-%m-%d-%H&quot;</span>
+    <span class="ruby-keyword">else</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+      <div id="method-c-simple_uniquifier" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">simple_uniquifier</span><span
+            class="method-args">(opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns a simple uniquifier that inserts an incrementing number before the
+path suffix. i.e. if the non-uniquified filename is “rails.2009-10-11.log”,
+then these names are generated:</p>
+
+<pre>rails.2009-10-11.0.log
+rails.2009-10-11.1.log
+rails.2009-10-11.2.log
+etc.</pre>
+
+<p>The following options are available:</p>
+<dl class="rdoc-list label-list"><dt><code>:min_digits</code>
+<dd>
+<p>If provided, indicates the minimum number of digits for the unique number.
+For example, if :digits is set to 2, these names are generated:</p>
+
+<pre>rails.2009-10-11.00.log
+rails.2009-10-11.01.log
+rails.2009-10-11.02.log
+...
+rails.2009-10-11.09.log
+rails.2009-10-11.10.log
+rails.2009-10-11.11.log
+...
+rails.2009-10-11.99.log
+rails.2009-10-11.100.log
+rails.2009-10-11.101.log
+etc.</pre>
+
+<p>The default is 1.</p>
+</dd><dt><code>:start_value</code>
+<dd>
+<p>The first value for the unique number. Default is 0.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="simple_uniquifier-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 233</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">simple_uniquifier</span>(<span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-keyword">if</span> (<span class="ruby-identifier">digits_</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:min_digits</span>])
+    <span class="ruby-identifier">pattern_</span> = <span class="ruby-node">&quot;%s.%0#{digits_.to_i}d%s&quot;</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">pattern_</span> = <span class="ruby-string">&quot;%s.%d%s&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-operator">::</span><span class="ruby-constant">Proc</span>.<span class="ruby-identifier">new</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">hash_</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:last_path</span>]
+      <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:value</span>] <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">suffix_</span> = <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:path_suffix</span>]
+      <span class="ruby-identifier">orig_</span> = <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:original_path</span>]
+      <span class="ruby-identifier">suffix_len_</span> = <span class="ruby-identifier">suffix_</span>.<span class="ruby-identifier">length</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">suffix_len_</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">orig_</span>[<span class="ruby-operator">-</span><span class="ruby-identifier">suffix_len_</span>, <span class="ruby-identifier">suffix_len_</span>] <span class="ruby-operator">==</span> <span class="ruby-identifier">suffix_</span>
+        <span class="ruby-identifier">pre_</span> = <span class="ruby-identifier">orig_</span>[<span class="ruby-value">0</span>, <span class="ruby-identifier">orig_</span>.<span class="ruby-identifier">length</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">suffix_len_</span>]
+        <span class="ruby-identifier">post_</span> = <span class="ruby-identifier">suffix_</span>
+      <span class="ruby-keyword">else</span>
+        <span class="ruby-identifier">pre_</span> = <span class="ruby-identifier">orig_</span>
+        <span class="ruby-identifier">post_</span> = <span class="ruby-string">''</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:value</span>] = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:start_value</span>].<span class="ruby-identifier">to_i</span>
+      <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:pre</span>] = <span class="ruby-identifier">pre_</span>
+      <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:post</span>] = <span class="ruby-identifier">post_</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">pattern_</span> <span class="ruby-operator">%</span> [<span class="ruby-identifier">hash_</span>[<span class="ruby-value">:pre</span>], <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:value</span>], <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:post</span>]]
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- simple_uniquifier-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- simple_uniquifier-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-before_write" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">before_write</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Implements the rotation strategy contract.</p>
+          
+
+          
+          <div class="method-source-code" id="before_write-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 195</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">before_write</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- before_write-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- before_write-method -->
+
+    
+      <div id="method-i-close_handle" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">close_handle</span><span
+            class="method-args">(handle_, io_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Implements the rotation strategy contract.</p>
+          
+
+          
+          <div class="method-source-code" id="close_handle-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 188</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">close_handle</span>(<span class="ruby-identifier">handle_</span>, <span class="ruby-identifier">io_</span>)
+  <span class="ruby-identifier">io_</span>.<span class="ruby-identifier">close</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- close_handle-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- close_handle-method -->
+
+    
+      <div id="method-i-open_handle" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">open_handle</span><span
+            class="method-args">(handle_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Implements the rotation strategy contract.</p>
+          
+
+          
+          <div class="method-source-code" id="open_handle-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 162</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">open_handle</span>(<span class="ruby-identifier">handle_</span>)
+  <span class="ruby-identifier">path_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">expand_path</span>(<span class="ruby-ivar">@date_pattern</span> <span class="ruby-operator">?</span> <span class="ruby-node">&quot;#{@prefix}.#{handle_}#{@suffix}&quot;</span> <span class="ruby-operator">:</span> <span class="ruby-ivar">@prefix</span><span class="ruby-operator">+</span><span class="ruby-ivar">@suffix</span>, <span class="ruby-ivar">@basedir</span>)
+  <span class="ruby-identifier">file_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@uniquifier</span>
+    <span class="ruby-identifier">hash_</span> = {<span class="ruby-value">:path_prefix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@prefix</span>, <span class="ruby-value">:path_suffix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@suffix</span>, <span class="ruby-value">:basedir</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-ivar">@basedir</span>, <span class="ruby-value">:original_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">path_</span>.<span class="ruby-identifier">dup</span>, <span class="ruby-value">:last_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">nil</span>}
+    <span class="ruby-keyword">until</span> <span class="ruby-identifier">file_</span>
+      <span class="ruby-identifier">path_</span> = <span class="ruby-ivar">@uniquifier</span>.<span class="ruby-identifier">call</span>(<span class="ruby-identifier">hash_</span>)
+      <span class="ruby-keyword">unless</span> <span class="ruby-identifier">path_</span>
+        <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">NoUniqueLogFileError</span>, <span class="ruby-node">&quot;Could not find a unique log file path for #{hash_.inspect}&quot;</span>
+      <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">begin</span>
+        <span class="ruby-identifier">file_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path_</span>, <span class="ruby-operator">::</span><span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">CREAT</span> <span class="ruby-operator">|</span> <span class="ruby-operator">::</span><span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">EXCL</span> <span class="ruby-operator">|</span> <span class="ruby-operator">::</span><span class="ruby-constant">File</span><span class="ruby-operator">::</span><span class="ruby-constant">WRONLY</span>)
+      <span class="ruby-keyword">rescue</span> <span class="ruby-operator">::</span><span class="ruby-constant">Errno</span><span class="ruby-operator">::</span><span class="ruby-constant">EEXIST</span>
+        <span class="ruby-identifier">hash_</span>[<span class="ruby-value">:last_path</span>] = <span class="ruby-identifier">path_</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">file_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path_</span>, <span class="ruby-string">'a'</span>)
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">file_</span>.<span class="ruby-identifier">sync</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-identifier">file_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- open_handle-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- open_handle-method -->
+
+    
+      <div id="method-i-preferred_handle" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">preferred_handle</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Implements the rotation strategy contract.</p>
+          
+
+          
+          <div class="method-source-code" id="preferred_handle-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/rotater/date_based_log_file.rb, line 149</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">preferred_handle</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@date_pattern</span>
+    <span class="ruby-identifier">time_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>
+    <span class="ruby-identifier">time_</span>.<span class="ruby-identifier">utc</span> <span class="ruby-keyword">unless</span> <span class="ruby-ivar">@local_datestamps</span>
+    <span class="ruby-identifier">time_</span>.<span class="ruby-identifier">strftime</span>(<span class="ruby-ivar">@date_pattern</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-string">''</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- preferred_handle-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- preferred_handle-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

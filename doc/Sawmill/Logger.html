@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Sawmill::Logger - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/sawmill/logger.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-3C-3C">#&lt;&lt;</a>
+    
+    <li><a href="#method-i-add">#add</a>
+    
+    <li><a href="#method-i-append_attribute">#append_attribute</a>
+    
+    <li><a href="#method-i-attribute">#attribute</a>
+    
+    <li><a href="#method-i-attribute_level">#attribute_level</a>
+    
+    <li><a href="#method-i-attribute_level-3D">#attribute_level=</a>
+    
+    <li><a href="#method-i-begin_record">#begin_record</a>
+    
+    <li><a href="#method-i-close">#close</a>
+    
+    <li><a href="#method-i-current_record_id">#current_record_id</a>
+    
+    <li><a href="#method-i-end_record">#end_record</a>
+    
+    <li><a href="#method-i-level">#level</a>
+    
+    <li><a href="#method-i-level-3D">#level=</a>
+    
+    <li><a href="#method-i-level_group">#level_group</a>
+    
+    <li><a href="#method-i-log">#log</a>
+    
+    <li><a href="#method-i-method_missing">#method_missing</a>
+    
+    <li><a href="#method-i-progname">#progname</a>
+    
+    <li><a href="#method-i-progname-3D">#progname=</a>
+    
+    <li><a href="#method-i-record_progname">#record_progname</a>
+    
+    <li><a href="#method-i-record_progname-3D">#record_progname=</a>
+    
+    <li><a href="#method-i-set_attribute">#set_attribute</a>
+    
+    <li><a href="#method-i-sev_threshold">#sev_threshold</a>
+    
+    <li><a href="#method-i-sev_threshold-3D">#sev_threshold=</a>
+    
+    <li><a href="#method-i-to_generate_record_id">#to_generate_record_id</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Sawmill.html">Sawmill</a>
+  
+    <li><a href="../Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="../Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="../Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="../Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="../Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="../Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="../Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="../Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="../Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="../Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="../Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="../Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="../Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="../Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="../Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="../Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="../Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="../Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="../Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="../Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="../Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="../Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="../Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="../Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="../Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="../Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="../Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="../Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="../Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="../Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="../Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="../Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="../Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="../Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="../Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="../Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="../Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Sawmill::Logger</h1>
+
+  <div id="description" class="description">
+    
+<p>This is the <a href="../Sawmill.html">Sawmill</a> logger. It duck-types
+most of the API of the logger class from the ruby standard library, and
+adds capabilities specific to <a href="../Sawmill.html">Sawmill</a>.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a new logger.</p>
+
+<p>Supported options include:</p>
+<dl class="rdoc-list label-list"><dt><code>:level_group</code>
+<dd>
+<p>Use a custom <a href="LevelGroup.html">Sawmill::LevelGroup</a>. Normally,
+you should leave this set to the default, which is
+Sawmill::STANDARD_LEVELS.</p>
+</dd><dt><code>:level</code>
+<dd>
+<p>Default level to use for log messages when no level is explicitly provided.
+By default, this is set to the level group’s default, which in the case of
+the standard levels is :INFO.</p>
+</dd><dt><code>:attribute_level</code>
+<dd>
+<p>Default level to use for attributes when no level is explicitly provided.
+By default, this is set to the level group’s highest, level, which in the
+case of the standard levels is :ANY.</p>
+</dd><dt><code>:progname</code>
+<dd>
+<p>Progname to use in log messages. Default is “sawmill”.</p>
+</dd><dt><code>:record_progname</code>
+<dd>
+<p>Progname to use in special log entries dealing with log records (i.e.
+record delimiters and attribute messages). Default is the same as the
+normal progname setting.</p>
+</dd><dt><code>:record_id_generator</code>
+<dd>
+<p>A proc that generates and returns a new record ID if one is not explicitly
+passed into begin_record. If you do not provide a generator, the default
+one is used, which generates an ID using the variant 4 (random) UUID
+standard.</p>
+</dd><dt><code>:processor</code>
+<dd>
+<p>A processor for log entries generated by this logger. If not specified, log
+entries are written out to STDOUT.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 80</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-ivar">@level_group</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:level_group</span>] <span class="ruby-operator">||</span> <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:levels</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">STANDARD_LEVELS</span>
+  <span class="ruby-ivar">@level</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">opts_</span>[<span class="ruby-value">:level</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-value">:attribute_level</span>)
+    <span class="ruby-ivar">@attribute_level</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">opts_</span>[<span class="ruby-value">:attribute_level</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@attribute_level</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">highest</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@progname</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:progname</span>] <span class="ruby-operator">||</span> <span class="ruby-string">'sawmill'</span>
+  <span class="ruby-ivar">@record_progname</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:record_progname</span>]
+  <span class="ruby-ivar">@record_id_generator</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:record_id_generator</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">_get_default_record_id_generator</span>
+  <span class="ruby-ivar">@processor</span> = <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:processor</span>] <span class="ruby-operator">||</span> <span class="ruby-constant">Formatter</span>.<span class="ruby-identifier">new</span>(<span class="ruby-operator">::</span><span class="ruby-constant">STDOUT</span>)
+  <span class="ruby-ivar">@current_record_id</span> = <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-3C-3C" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">&lt;&lt;</span><span
+            class="method-args">(message_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits an “unknown” log entry. This is equivalent to the corresponding
+method in ruby’s logger class, which dumps the given string to the log
+device without any formatting. Normally, you would not use this method
+because it bypasses the log formatting and parsing capability.</p>
+          
+
+          
+          <div class="method-source-code" id="3C-3C-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 143</span>
+<span class="ruby-keyword">def</span> <span class="ruby-operator">&lt;&lt;</span>(<span class="ruby-identifier">message_</span>)
+  <span class="ruby-identifier">add</span>(<span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">default</span>, <span class="ruby-identifier">message_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- 3C-3C-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- 3C-3C-method -->
+
+    
+      <div id="method-i-add" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add</span><span
+            class="method-args">(level_, message_=nil, progname_=nil) { || ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emit a log message. This method has the same behavior as the corresponding
+method in ruby’s logger class.</p>
+          
+
+          
+          <div class="method-source-code" id="add-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 99</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add</span>(<span class="ruby-identifier">level_</span>, <span class="ruby-identifier">message_</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">progname_</span>=<span class="ruby-keyword">nil</span>, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">level_obj_</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">level_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownLevelError</span>, <span class="ruby-identifier">level_</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@level</span>
+  <span class="ruby-identifier">progname_</span> <span class="ruby-operator">||=</span> <span class="ruby-ivar">@progname</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">message_</span>.<span class="ruby-identifier">nil?</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_given?</span>
+      <span class="ruby-identifier">message_</span> = <span class="ruby-keyword">yield</span>
+    <span class="ruby-keyword">else</span>
+      <span class="ruby-identifier">message_</span> = <span class="ruby-identifier">progname_</span>
+      <span class="ruby-identifier">progname_</span> = <span class="ruby-ivar">@progname</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">message_</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">String</span>
+    <span class="ruby-comment"># Do nothing</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">Exception</span>
+    <span class="ruby-identifier">message_</span> = <span class="ruby-node">&quot;#{message_.message} (#{message_.class})\n&quot;</span> <span class="ruby-operator">+</span>
+      (<span class="ruby-identifier">message_</span>.<span class="ruby-identifier">backtrace</span> <span class="ruby-operator">||</span> []).<span class="ruby-identifier">join</span>(<span class="ruby-string">&quot;\n&quot;</span>)
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">message_</span> = <span class="ruby-identifier">message_</span>.<span class="ruby-identifier">inspect</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@processor</span>.<span class="ruby-identifier">message</span>(<span class="ruby-constant">Entry</span><span class="ruby-operator">::</span><span class="ruby-constant">Message</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">level_obj_</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>, <span class="ruby-identifier">progname_</span>, <span class="ruby-ivar">@current_record_id</span>, <span class="ruby-identifier">message_</span>))
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Logger.html#method-i-log">log</a>
+        </div>
+        
+
+        
+      </div><!-- add-method -->
+
+    
+      <div id="method-i-append_attribute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">append_attribute</span><span
+            class="method-args">(key_, value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits an append-attribute log entry in the current record. You must specify
+a key and a value as strings.</p>
+          
+
+          
+          <div class="method-source-code" id="append_attribute-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 226</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">append_attribute</span>(<span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>)
+  <span class="ruby-identifier">attribute</span>(<span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>, <span class="ruby-value">:append</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- append_attribute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- append_attribute-method -->
+
+    
+      <div id="method-i-attribute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attribute</span><span
+            class="method-args">(key_, value_, operation_=nil, level_=true, progname_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits an attribute log entry in the current record. You must specify a key
+and a value as strings, and an operation. The operation defaults to
+<code>:set</code> if not specified.</p>
+
+<p>If you specify a level, it will be used; otherwise the logger’s default
+attribute level is used. Raises <a
+href="Errors/UnknownLevelError.html">Errors::UnknownLevelError</a> if you
+specify a level that doesn’t exist.</p>
+          
+
+          
+          <div class="method-source-code" id="attribute-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 200</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attribute</span>(<span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>, <span class="ruby-identifier">operation_</span>=<span class="ruby-keyword">nil</span>, <span class="ruby-identifier">level_</span>=<span class="ruby-keyword">true</span>, <span class="ruby-identifier">progname_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_</span> <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+    <span class="ruby-identifier">level_obj_</span> = <span class="ruby-ivar">@attribute_level</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">level_obj_</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">level_</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownLevelError</span>, <span class="ruby-identifier">level_</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">true</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span> <span class="ruby-operator">&lt;</span> <span class="ruby-ivar">@level</span>
+  <span class="ruby-ivar">@processor</span>.<span class="ruby-identifier">attribute</span>(<span class="ruby-constant">Entry</span><span class="ruby-operator">::</span><span class="ruby-constant">Attribute</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">level_obj_</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>, <span class="ruby-identifier">progname_</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@record_progname</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@progname</span>, <span class="ruby-ivar">@current_record_id</span>, <span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>, <span class="ruby-identifier">operation_</span>))
+  <span class="ruby-keyword">true</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- attribute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- attribute-method -->
+
+    
+      <div id="method-i-attribute_level" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attribute_level</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the current attribute level setting for this logger as a <a
+href="Level.html">Sawmill::Level</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="attribute_level-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 299</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attribute_level</span>
+  <span class="ruby-ivar">@attribute_level</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- attribute_level-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- attribute_level-method -->
+
+    
+      <div id="method-i-attribute_level-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attribute_level=</span><span
+            class="method-args">(value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the current attribute level setting for this logger. You may specify
+the level as a string, a symbol, an integer, or a <a
+href="Level.html">Sawmill::Level</a>. Ruby’s logger constants such as
+::Logger::INFO will also work.</p>
+          
+
+          
+          <div class="method-source-code" id="attribute_level-3D-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 309</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attribute_level=</span>(<span class="ruby-identifier">value_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Level</span>)
+    <span class="ruby-ivar">@attribute_level</span> = <span class="ruby-identifier">value_</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">level_obj_</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">value_</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownLevelError</span>, <span class="ruby-identifier">value_</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@attribute_level</span> = <span class="ruby-identifier">level_obj_</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- attribute_level-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- attribute_level-3D-method -->
+
+    
+      <div id="method-i-begin_record" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">begin_record</span><span
+            class="method-args">(id_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits a <a href="Logger.html#method-i-begin_record">#begin_record</a> log
+entry. This begins a new log record.</p>
+
+<p>If you pass a string ID, that ID is used as the record ID for the new log
+record. If you leave it as nil, an ID is generated for you, using the
+record id generator for this logger. In either case, the record ID for the
+new record is returned.</p>
+
+<p>If you call this when a record is already open, the current record is
+automatically closed before the new record is opened. That is, an <a
+href="Logger.html#method-i-end_record">#end_record</a> is implicitly called
+in this case.</p>
+          
+
+          
+          <div class="method-source-code" id="begin_record-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 159</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">begin_record</span>(<span class="ruby-identifier">id_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">end_record</span> <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_record_id</span>
+  <span class="ruby-ivar">@current_record_id</span> = (<span class="ruby-identifier">id_</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@record_id_generator</span>.<span class="ruby-identifier">call</span>).<span class="ruby-identifier">to_s</span>
+  <span class="ruby-ivar">@processor</span>.<span class="ruby-identifier">begin_record</span>(<span class="ruby-constant">Entry</span><span class="ruby-operator">::</span><span class="ruby-constant">BeginRecord</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">highest</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>, <span class="ruby-ivar">@record_progname</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@progname</span>, <span class="ruby-ivar">@current_record_id</span>))
+  <span class="ruby-ivar">@current_record_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- begin_record-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- begin_record-method -->
+
+    
+      <div id="method-i-close" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">close</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Close the logger by finishing the log entry processor to which it is
+emitting log entries. Returns the value returned by the processor’s finish
+method.</p>
+          
+
+          
+          <div class="method-source-code" id="close-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 235</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">close</span>
+  <span class="ruby-ivar">@processor</span>.<span class="ruby-identifier">finish</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- close-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- close-method -->
+
+    
+      <div id="method-i-current_record_id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">current_record_id</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the record ID for the currently open log record, or nil if there is
+not a log record currently open.</p>
+          
+
+          
+          <div class="method-source-code" id="current_record_id-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 170</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">current_record_id</span>
+  <span class="ruby-ivar">@current_record_id</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- current_record_id-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- current_record_id-method -->
+
+    
+      <div id="method-i-end_record" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">end_record</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Ends the current log record by emitting an <a
+href="Logger.html#method-i-end_record">#end_record</a> log entry, if a
+record is currently open. Returns the record ID of the ended log record if
+one was open, or nil if no log record was open.</p>
+          
+
+          
+          <div class="method-source-code" id="end_record-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 179</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">end_record</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@current_record_id</span>
+    <span class="ruby-ivar">@processor</span>.<span class="ruby-identifier">end_record</span>(<span class="ruby-constant">Entry</span><span class="ruby-operator">::</span><span class="ruby-constant">EndRecord</span>.<span class="ruby-identifier">new</span>(<span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">highest</span>, <span class="ruby-operator">::</span><span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span>, <span class="ruby-ivar">@record_progname</span> <span class="ruby-operator">||</span> <span class="ruby-ivar">@progname</span>, <span class="ruby-ivar">@current_record_id</span>))
+    <span class="ruby-identifier">id_</span> = <span class="ruby-ivar">@current_record_id</span>
+    <span class="ruby-ivar">@current_record_id</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">id_</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- end_record-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- end_record-method -->
+
+    
+      <div id="method-i-level" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">level</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the current level setting for this logger as a <a
+href="Level.html">Sawmill::Level</a>.</p>
+          
+
+          
+          <div class="method-source-code" id="level-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 270</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">level</span>
+  <span class="ruby-ivar">@level</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- level-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Logger.html#method-i-sev_threshold">sev_threshold</a>
+        </div>
+        
+
+        
+      </div><!-- level-method -->
+
+    
+      <div id="method-i-level-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">level=</span><span
+            class="method-args">(value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the current level setting for this logger. You may specify the level as
+a string, a symbol, an integer, or a <a
+href="Level.html">Sawmill::Level</a>. Ruby’s logger constants such as
+::Logger::INFO will also work.</p>
+          
+
+          
+          <div class="method-source-code" id="level-3D-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 280</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">level=</span>(<span class="ruby-identifier">value_</span>)
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-constant">Level</span>)
+    <span class="ruby-ivar">@level</span> = <span class="ruby-identifier">value_</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">level_obj_</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">get</span>(<span class="ruby-identifier">value_</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">level_obj_</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">UnknownLevelError</span>, <span class="ruby-identifier">value_</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@level</span> = <span class="ruby-identifier">level_obj_</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- level-3D-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Logger.html#method-i-sev_threshold-3D">sev_threshold=</a>
+        </div>
+        
+
+        
+      </div><!-- level-3D-method -->
+
+    
+      <div id="method-i-level_group" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">level_group</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the <a href="LevelGroup.html">LevelGroup</a> in use by this <a
+href="Logger.html">Logger</a>. This setting cannot be changed once the
+logger is constructed.</p>
+          
+
+          
+          <div class="method-source-code" id="level_group-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 325</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">level_group</span>
+  <span class="ruby-ivar">@level_group</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- level_group-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- level_group-method -->
+
+    
+      <div id="method-i-log" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">log</span><span
+            class="method-args">(level_, message_=nil, progname_=nil, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Logger.html#method-i-add">add</a>
+        </div>
+        
+      </div><!-- log-method -->
+
+    
+      <div id="method-i-method_missing" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">method_missing</span><span
+            class="method-args">(method_, *args_, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>You may call additional methods on the logger as shortcuts to log messages
+at specific levels, or to query whether the logger is logging to a given
+level. These methods match the corresponding methods in the classic ruby
+logger object, except that they are configurable for custom level schemes.</p>
+
+<p>For example, in the standard level scheme, the method “info” is defined, so
+you may call:</p>
+
+<pre>logger.info(&quot;MainApp&quot;) { &quot;Received connection from #{ip}&quot; }
+# ...
+logger.info &quot;Waiting for input from user&quot;
+# ...
+logger.info { &quot;User typed #{input}&quot; }</pre>
+
+<p>You may also call:</p>
+
+<pre>logger.info?  # Returns true if INFO messages are accepted</pre>
+
+<p>Methods available in the standard level scheme are as follows:</p>
+<ul><li>
+<p><code>debug</code></p>
+</li><li>
+<p><code>info</code></p>
+</li><li>
+<p><code>warn</code></p>
+</li><li>
+<p><code>error</code></p>
+</li><li>
+<p><code>fatal</code></p>
+</li><li>
+<p><code>unknown</code></p>
+</li><li>
+<p><code>any</code></p>
+</li></ul>
+
+<p>The “unknown” and “any” methods both correspond to the <code>ANY</code>
+level. The latter is the preferred name under <a
+href="../Sawmill.html">Sawmill</a>. The former is for backward
+compatibility with ruby’s classic logger.</p>
+          
+
+          
+          <div class="method-source-code" id="method_missing-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 373</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">method_missing</span>(<span class="ruby-identifier">method_</span>, *<span class="ruby-identifier">args_</span>, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">method_name_</span> = <span class="ruby-identifier">method_</span>.<span class="ruby-identifier">to_s</span>
+  <span class="ruby-identifier">question_</span> = <span class="ruby-identifier">method_name_</span>[<span class="ruby-value">-1</span><span class="ruby-operator">..</span><span class="ruby-value">-1</span>] <span class="ruby-operator">==</span> <span class="ruby-string">'?'</span>
+  <span class="ruby-identifier">method_name_</span> = <span class="ruby-identifier">method_name_</span>[<span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">-2</span>] <span class="ruby-keyword">if</span> <span class="ruby-identifier">question_</span>
+  <span class="ruby-identifier">level_</span> = <span class="ruby-ivar">@level_group</span>.<span class="ruby-identifier">lookup_method</span>(<span class="ruby-identifier">method_name_</span>)
+  <span class="ruby-keyword">return</span> <span class="ruby-keyword">super</span>(<span class="ruby-identifier">method_</span>, *<span class="ruby-identifier">args_</span>, &amp;<span class="ruby-identifier">block_</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">level_</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">question_</span>
+    <span class="ruby-identifier">level_</span> <span class="ruby-operator">&gt;=</span> <span class="ruby-ivar">@level</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">add</span>(<span class="ruby-identifier">level_</span>, <span class="ruby-keyword">nil</span>, <span class="ruby-identifier">args_</span>[<span class="ruby-value">0</span>], &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- method_missing-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- method_missing-method -->
+
+    
+      <div id="method-i-progname" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">progname</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the current progname setting for this logger</p>
+          
+
+          
+          <div class="method-source-code" id="progname-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 242</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">progname</span>
+  <span class="ruby-ivar">@progname</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- progname-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- progname-method -->
+
+    
+      <div id="method-i-progname-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">progname=</span><span
+            class="method-args">(value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the current progname setting for this logger</p>
+          
+
+          
+          <div class="method-source-code" id="progname-3D-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 249</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">progname=</span>(<span class="ruby-identifier">value_</span>)
+  <span class="ruby-ivar">@progname</span> = <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r\s+/</span>, <span class="ruby-string">''</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- progname-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- progname-3D-method -->
+
+    
+      <div id="method-i-record_progname" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">record_progname</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the current record progname setting for this logger</p>
+          
+
+          
+          <div class="method-source-code" id="record_progname-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 256</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">record_progname</span>
+  <span class="ruby-ivar">@record_progname</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- record_progname-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- record_progname-method -->
+
+    
+      <div id="method-i-record_progname-3D" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">record_progname=</span><span
+            class="method-args">(value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Set the current record progname setting for this logger</p>
+          
+
+          
+          <div class="method-source-code" id="record_progname-3D-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 263</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">record_progname=</span>(<span class="ruby-identifier">value_</span>)
+  <span class="ruby-ivar">@record_progname</span> = <span class="ruby-identifier">value_</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">gsub</span>(<span class="ruby-regexp">%r\s+/</span>, <span class="ruby-string">''</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- record_progname-3D-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- record_progname-3D-method -->
+
+    
+      <div id="method-i-set_attribute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">set_attribute</span><span
+            class="method-args">(key_, value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Emits a set-attribute log entry in the current record. You must specify a
+key and a value as strings.</p>
+          
+
+          
+          <div class="method-source-code" id="set_attribute-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 218</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">set_attribute</span>(<span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>)
+  <span class="ruby-identifier">attribute</span>(<span class="ruby-identifier">key_</span>, <span class="ruby-identifier">value_</span>, <span class="ruby-value">:set</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- set_attribute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- set_attribute-method -->
+
+    
+      <div id="method-i-sev_threshold" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">sev_threshold</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Logger.html#method-i-level">level</a>
+        </div>
+        
+      </div><!-- sev_threshold-method -->
+
+    
+      <div id="method-i-sev_threshold-3D" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">sev_threshold=</span><span
+            class="method-args">(value_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Logger.html#method-i-level-3D">level=</a>
+        </div>
+        
+      </div><!-- sev_threshold-3D-method -->
+
+    
+      <div id="method-i-to_generate_record_id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">to_generate_record_id</span><span
+            class="method-args">(&block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Provide a block that generates and returns a unique record ID string. This
+block will be called when <a
+href="Logger.html#method-i-begin_record">#begin_record</a> is called
+without an explicit ID provided. If you do not provide a block, <a
+href="../Sawmill.html">Sawmill</a> will use a default generator which uses
+the variant 4 (random) UUID standard.</p>
+          
+
+          
+          <div class="method-source-code" id="to_generate_record_id-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/logger.rb, line 335</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">to_generate_record_id</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-ivar">@record_id_generator</span> = <span class="ruby-identifier">block_</span> <span class="ruby-operator">||</span> <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">_get_default_record_id_generator</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- to_generate_record_id-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- to_generate_record_id-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

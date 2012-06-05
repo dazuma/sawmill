@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Sawmill::Record - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../index.html">Home</a>
+    <a href="../table_of_contents.html#classes">Classes</a>
+    <a href="../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/sawmill/record.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link">Object
+  
+</nav>
+
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-new">::new</a>
+    
+    <li><a href="#method-i-add_entry">#add_entry</a>
+    
+    <li><a href="#method-i-all_entries">#all_entries</a>
+    
+    <li><a href="#method-i-all_messages">#all_messages</a>
+    
+    <li><a href="#method-i-attribute">#attribute</a>
+    
+    <li><a href="#method-i-attribute_keys">#attribute_keys</a>
+    
+    <li><a href="#method-i-begin_timestamp">#begin_timestamp</a>
+    
+    <li><a href="#method-i-complete-3F">#complete?</a>
+    
+    <li><a href="#method-i-compute">#compute</a>
+    
+    <li><a href="#method-i-each_entry">#each_entry</a>
+    
+    <li><a href="#method-i-each_message">#each_message</a>
+    
+    <li><a href="#method-i-end_timestamp">#end_timestamp</a>
+    
+    <li><a href="#method-i-entry_count">#entry_count</a>
+    
+    <li><a href="#method-i-message_count">#message_count</a>
+    
+    <li><a href="#method-i-record_id">#record_id</a>
+    
+    <li><a href="#method-i-size">#size</a>
+    
+    <li><a href="#method-i-started-3F">#started?</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../Sawmill.html">Sawmill</a>
+  
+    <li><a href="../Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="../Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="../Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="../Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="../Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="../Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="../Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="../Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="../Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="../Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="../Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="../Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="../Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="../Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="../Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="../Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="../Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="../Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="../Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="../Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="../Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="../Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="../Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="../Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="../Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="../Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="../Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="../Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="../Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="../Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="../Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="../Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="../Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="../Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="../Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="../Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="../Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="../Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="../Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Sawmill::Record</h1>
+
+  <div id="description" class="description">
+    
+<p>A log record.</p>
+
+<p>Log records are sequences of related log entries with a common record ID,
+beginning with a begin_record and ending with an end_record. Log records
+therefore can be analyzed as a group, for example to measure the time taken
+by an aggregate action such as a website request.</p>
+
+<p>Log records must follow a particular protocol:</p>
+<ul><li>
+<p>The first entry must be begin_record.</p>
+</li><li>
+<p>The last entry must be end_record.</p>
+</li><li>
+<p>No other begin_record or end_record entries may be present.</p>
+</li><li>
+<p>All entries must have the same non-nil record_id.</p>
+</li><li>
+<p>Entries must be in nondecreasing order of timestamp.</p>
+</li></ul>
+
+<p>The only exception to these rules are incomplete log records, in which the
+final end_record is not present.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-new" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">new</span><span
+            class="method-args">(entries_=nil)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Create a log record.</p>
+
+<p>You may optionally pass in an array of log entries to populate the record
+either partially or completely. If you do, note that <a
+href="Errors/IllegalRecordError.html">Errors::IllegalRecordError</a> may be
+raised if the log entries do not follow the log record protocol– e.g. if
+the first entry is not a begin_record, etc.</p>
+          
+
+          
+          <div class="method-source-code" id="new-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 69</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize</span>(<span class="ruby-identifier">entries_</span>=<span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@started</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@complete</span> = <span class="ruby-keyword">false</span>
+  <span class="ruby-ivar">@message_count</span> = <span class="ruby-value">0</span>
+  <span class="ruby-ivar">@entries</span> = []
+  <span class="ruby-ivar">@attributes</span> = {}
+  <span class="ruby-ivar">@computations</span> = {}
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">entries_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">entries_</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span>
+    <span class="ruby-identifier">entries_</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry_</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">add_entry</span>(<span class="ruby-identifier">entry_</span>)
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- new-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- new-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Instance Methods</h3>
+
+    
+      <div id="method-i-add_entry" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_entry</span><span
+            class="method-args">(entry_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Append a log entry to this record.</p>
+
+<p>Entries must be added in order. Raises <a
+href="Errors/IllegalRecordError.html">Errors::IllegalRecordError</a> if the
+log record protocol is violated</p>
+          
+
+          
+          <div class="method-source-code" id="add_entry-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_entry</span>(<span class="ruby-identifier">entry_</span>)
+  <span class="ruby-identifier">empty_</span> = <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">==</span> <span class="ruby-value">0</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:unknown_data</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;You cannot add an unknown_data entry to a record&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">empty_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">!=</span> <span class="ruby-value">:begin_record</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;First entry in a record must be a begin_record&quot;</span>
+  <span class="ruby-keyword">elsif</span> <span class="ruby-operator">!</span><span class="ruby-identifier">empty_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:begin_record</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;Extra begin_record found&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@complete</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;Cannot have entries after end_record&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">empty_</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">record_id</span>.<span class="ruby-identifier">nil?</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;Entry has no record_id&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">last_</span> = <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">last</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_</span>.<span class="ruby-identifier">record_id</span> <span class="ruby-operator">!=</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">record_id</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;Entry has a mismatching record_id&quot;</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">last_</span>.<span class="ruby-identifier">timestamp</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">timestamp</span>
+      <span class="ruby-identifier">raise</span> <span class="ruby-constant">Errors</span><span class="ruby-operator">::</span><span class="ruby-constant">IllegalRecordError</span>, <span class="ruby-string">&quot;Entry's timestamp is earlier than the previous entry&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">case</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:begin_record</span>
+    <span class="ruby-ivar">@started</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:end_record</span>
+    <span class="ruby-ivar">@complete</span> = <span class="ruby-keyword">true</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:attribute</span>
+    <span class="ruby-keyword">case</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">operation</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:set</span>
+      <span class="ruby-ivar">@attributes</span>[<span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">key</span>] = <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">value</span>
+    <span class="ruby-keyword">when</span> <span class="ruby-value">:append</span>
+      <span class="ruby-identifier">val_</span> = <span class="ruby-ivar">@attributes</span>[<span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">key</span>]
+      <span class="ruby-keyword">case</span> <span class="ruby-identifier">val_</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">Array</span>
+        <span class="ruby-identifier">val_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">value</span>
+      <span class="ruby-keyword">when</span> <span class="ruby-operator">::</span><span class="ruby-constant">String</span>
+        <span class="ruby-ivar">@attributes</span>[<span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">key</span>] = [<span class="ruby-identifier">val_</span>, <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">value</span>]
+      <span class="ruby-keyword">when</span> <span class="ruby-keyword">nil</span>
+        <span class="ruby-ivar">@attributes</span>[<span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">key</span>] = [<span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">value</span>]
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">when</span> <span class="ruby-value">:message</span>
+    <span class="ruby-ivar">@message_count</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@entries</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">entry_</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- add_entry-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- add_entry-method -->
+
+    
+      <div id="method-i-all_entries" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_entries</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns an array of all log entries.</p>
+          
+
+          
+          <div class="method-source-code" id="all_entries-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 234</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">all_entries</span>
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">dup</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_entries-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_entries-method -->
+
+    
+      <div id="method-i-all_messages" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">all_messages</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns an array of all log message entries.</p>
+          
+
+          
+          <div class="method-source-code" id="all_messages-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 241</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">all_messages</span>
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">find_all</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">entry_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:message</span> }
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- all_messages-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- all_messages-method -->
+
+    
+      <div id="method-i-attribute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attribute</span><span
+            class="method-args">(key_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get the value of the given attribute. Returns a string if the attribute has
+a single value. Returns an array of strings if the attribute has multiple
+values. Returns nil if the attribute is not set.</p>
+          
+
+          
+          <div class="method-source-code" id="attribute-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 251</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attribute</span>(<span class="ruby-identifier">key_</span>)
+  <span class="ruby-ivar">@attributes</span>[<span class="ruby-identifier">key_</span>.<span class="ruby-identifier">to_s</span>]
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- attribute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- attribute-method -->
+
+    
+      <div id="method-i-attribute_keys" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">attribute_keys</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Get an array of attribute keys present in this log record.</p>
+          
+
+          
+          <div class="method-source-code" id="attribute_keys-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 258</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">attribute_keys</span>
+  <span class="ruby-ivar">@attributes</span>.<span class="ruby-identifier">keys</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- attribute_keys-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- attribute_keys-method -->
+
+    
+      <div id="method-i-begin_timestamp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">begin_timestamp</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the beginning timestamp as a Time object, if the log record has
+been started, or nil otherwise.</p>
+          
+
+          
+          <div class="method-source-code" id="begin_timestamp-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 185</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">begin_timestamp</span>
+  <span class="ruby-ivar">@started</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">timestamp</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- begin_timestamp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- begin_timestamp-method -->
+
+    
+      <div id="method-i-complete-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">complete?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the final end_record has been added.</p>
+          
+
+          
+          <div class="method-source-code" id="complete-3F-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 170</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">complete?</span>
+  <span class="ruby-ivar">@complete</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- complete-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- complete-3F-method -->
+
+    
+      <div id="method-i-compute" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">compute</span><span
+            class="method-args">(key_) { |self| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Compute and cache a value. This is a convenient way for <a
+href="RecordProcessor.html">RecordProcessor</a> objects to share computed
+information about a record.</p>
+
+<p>Returns the computed value with the given key. If the given key has not
+been computed yet, computes it by calling the given block and passing self.</p>
+          
+
+          
+          <div class="method-source-code" id="compute-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 271</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">compute</span>(<span class="ruby-identifier">key_</span>)
+  <span class="ruby-ivar">@computations</span>[<span class="ruby-identifier">key_</span>] <span class="ruby-operator">||=</span> <span class="ruby-keyword">yield</span> <span class="ruby-keyword">self</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- compute-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- compute-method -->
+
+    
+      <div id="method-i-each_entry" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">each_entry</span><span
+            class="method-args">(&block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Iterate over all log entries, passing each to the given block.</p>
+          
+
+          
+          <div class="method-source-code" id="each_entry-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 216</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">each_entry</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">each</span>(&amp;<span class="ruby-identifier">block_</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- each_entry-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- each_entry-method -->
+
+    
+      <div id="method-i-each_message" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">each_message</span><span
+            class="method-args">() { |entry_| ... }</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Iterate over all log message entries, passing each to the given block.</p>
+          
+
+          
+          <div class="method-source-code" id="each_message-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 223</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">each_message</span>
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">entry_</span><span class="ruby-operator">|</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">entry_</span>.<span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value">:message</span>
+      <span class="ruby-keyword">yield</span> <span class="ruby-identifier">entry_</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- each_message-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- each_message-method -->
+
+    
+      <div id="method-i-end_timestamp" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">end_timestamp</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the ending timestamp as a Time object, if the log record has been
+completed, or nil otherwise.</p>
+          
+
+          
+          <div class="method-source-code" id="end_timestamp-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 193</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">end_timestamp</span>
+  <span class="ruby-ivar">@complete</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">last</span>.<span class="ruby-identifier">timestamp</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- end_timestamp-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- end_timestamp-method -->
+
+    
+      <div id="method-i-entry_count" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">entry_count</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the number of log entries currently in this record.</p>
+          
+
+          
+          <div class="method-source-code" id="entry_count-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 200</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">entry_count</span>
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">size</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- entry_count-source -->
+          
+        </div>
+
+        
+        <div class="aliases">
+          Also aliased as: <a href="Record.html#method-i-size">size</a>
+        </div>
+        
+
+        
+      </div><!-- entry_count-method -->
+
+    
+      <div id="method-i-message_count" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">message_count</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the number of message entries currently in this record.</p>
+          
+
+          
+          <div class="method-source-code" id="message_count-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 209</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">message_count</span>
+  <span class="ruby-ivar">@message_count</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- message_count-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- message_count-method -->
+
+    
+      <div id="method-i-record_id" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">record_id</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns the record ID as a string.</p>
+          
+
+          
+          <div class="method-source-code" id="record_id-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 177</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">record_id</span>
+  <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">size</span> <span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span> <span class="ruby-operator">?</span> <span class="ruby-ivar">@entries</span>.<span class="ruby-identifier">first</span>.<span class="ruby-identifier">record_id</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- record_id-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- record_id-method -->
+
+    
+      <div id="method-i-size" class="method-detail method-alias">
+        
+        <div class="method-heading">
+          <span class="method-name">size</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+
+          
+        </div>
+
+        
+
+        
+        <div class="aliases">
+          Alias for: <a href="Record.html#method-i-entry_count">entry_count</a>
+        </div>
+        
+      </div><!-- size-method -->
+
+    
+      <div id="method-i-started-3F" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">started?</span><span
+            class="method-args">()</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Returns true if the initial begin_record has been added.</p>
+          
+
+          
+          <div class="method-source-code" id="started-3F-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/record.rb, line 163</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">started?</span>
+  <span class="ruby-ivar">@started</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- started-3F-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- started-3F-method -->
+
+    
+    </section><!-- public-instance-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>class Sawmill::Errors::NoUniqueLogFileError - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "../../";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="../../js/darkfish.js"></script>
+
+
+<body id="top" class="class">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="../../index.html">Home</a>
+    <a href="../../table_of_contents.html#classes">Classes</a>
+    <a href="../../table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/sawmill/errors.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    <nav id="parent-class-section" class="section">
+  <h3 class="section-header">Parent</h3>
+  
+  <p class="link"><a href="SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+</nav>
+
+    
+    
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="../../History_rdoc.html">History</a>
+  
+    <li class="file"><a href="../../README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="../../Sawmill.html">Sawmill</a>
+  
+    <li><a href="../../Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="../../Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="../../Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="../../Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="../../Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="../../Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="../../Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="../../Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="../../Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="../../Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="../../Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="../../Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="../../Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="../../Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="../../Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="../../Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="../../Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="../../Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="../../Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="../../Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="../../Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="../../Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="../../Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="../../Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="../../Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="../../Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="../../Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="../../Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="../../Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="../../Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="../../Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="../../Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="../../Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="../../Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="../../Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="../../Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="class">class Sawmill::Errors::NoUniqueLogFileError</h1>
+
+  <div id="description" class="description">
+    
+<p>Could not open a log file because a uniquifier failed.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    <!-- Methods -->
+    
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

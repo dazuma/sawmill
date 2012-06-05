@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>History - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body class="file">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Sawmill.html">Sawmill</a>
+  
+    <li><a href="./Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="./Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="./Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="./Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="./Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="./Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="./Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="./Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="./Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="./Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="./Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="./Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="./Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="./Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="./Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="./Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="./Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="./Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="./Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="./Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="./Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="./Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="./Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="./Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="./Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="./Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="./Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="./Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="./Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="./Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="./Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="./Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="./Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="./Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="./Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="./Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="./Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation" class="description">
+  
+<h3 id="label-0.1.16+%2F+2012-06-04">0.1.16 / 2012-06-04</h3>
+<ul><li>
+<p>The :local_time and :iso_8601_time arguments to <a
+href="Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+didn’t have their advertised effect. Fixed.</p>
+</li><li>
+<p>The :emit_incomplete_records_on_finish argument to <a
+href="Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+didn’t have its advertised effect. Fixed.</p>
+</li><li>
+<p>Fixed a few warnings.</p>
+</li><li>
+<p>Travis CI integration.</p>
+</li></ul>
+
+<h3 id="label-0.1.15+%2F+2011-10-24">0.1.15 / 2011-10-24</h3>
+<ul><li>
+<p>0.1.14 was inadvertently released before testing was complete. Fixed
+several stats logs issues.</p>
+</li></ul>
+
+<h3 id="label-0.1.14+%2F+2011-10-24">0.1.14 / 2011-10-24</h3>
+<ul><li>
+<p>Support for stats logs.</p>
+</li></ul>
+
+<h3 id="label-0.1.13+%2F+2011-07-16">0.1.13 / 2011-07-16</h3>
+<ul><li>
+<p>Rack middleware supports elapsed time attribute.</p>
+</li><li>
+<p>Rack middleware can run pre-request and post-request logging tasks.</p>
+</li><li>
+<p>A .gemspec file is now available for gem building and bundler git
+integration.</p>
+</li><li>
+<p>Cleaned up docs a little</p>
+</li></ul>
+
+<h3 id="label-0.1.12+%2F+2010-11-01">0.1.12 / 2010-11-01</h3>
+<ul><li>
+<p>A date-based rotater can now force log files to be written to by only one
+process. Useful in environments where you have an unknown number of
+processes(i.e. a Passenger-based deployment), each of which needs a
+separate log file.</p>
+</li><li>
+<p>Provided a Railtie for easy integration into a Rails 3 application.</p>
+</li><li>
+<p>The record_progname and attribute_level can now be set on a logger after
+creation.</p>
+</li></ul>
+
+<h3 id="label-0.1.11+%2F+2010-10-19">0.1.11 / 2010-10-19</h3>
+<ul><li>
+<p>Fixed a missing require.</p>
+</li></ul>
+
+<h3 id="label-0.0.10+%2F+2010-01-31">0.0.10 / 2010-01-31</h3>
+<ul><li>
+<p>Fixed a rotater issue that sometimes caused rotation to occur one record
+too late.</p>
+</li></ul>
+
+<h3 id="label-0.0.9+%2F+2010-01-28">0.0.9 / 2010-01-28</h3>
+<ul><li>
+<p>Some minor documentation cleanup.</p>
+</li><li>
+<p>Added Logger#level_group.</p>
+</li></ul>
+
+<h3 id="label-0.0.8+%2F+2009-12-09">0.0.8 / 2009-12-09</h3>
+<ul><li>
+<p>The rotater crashed when obtaining an IO handle under Ruby 1.9. Fixed.</p>
+</li></ul>
+
+<h3 id="label-0.0.6+%2F+2009-11-23">0.0.6 / 2009-11-23</h3>
+<ul><li>
+<p>In some cases (notably under Ruby 1.9), the default record ID generator
+created UUIDs that were twice as long as they should have been. Fixed.</p>
+</li></ul>
+
+<h3 id="label-0.0.5+%2F+2009-11-08">0.0.5 / 2009-11-08</h3>
+<ul><li>
+<p>API CHANGE: Reworked how string encoding is specified. Default encoding for
+both reading and writing is now ASCII-8BIT unless specified in the API or
+within the file as a parser directive.</p>
+</li><li>
+<p>Handle encoding errors more gracefully by replacing characters rather than
+raising exceptions.</p>
+</li><li>
+<p>Added a parser directive to set logfile encoding.</p>
+</li><li>
+<p>Versionomy is no longer a hard dependency– it is now used only if
+available.</p>
+</li></ul>
+
+<h3 id="label-0.0.4+%2F+2009-11-06">0.0.4 / 2009-11-06</h3>
+<ul><li>
+<p>API CHANGE: Renamed DateBasedLogFile options :prefix and :suffix to
+:path_prefix and :path_suffix</p>
+</li><li>
+<p>API CHANGE: Renamed ShiftingLogFile options :filepath and :max_logfile_size
+to :file_path and :max_file_size</p>
+</li><li>
+<p>Encoding can now be specified in file reading and writing methods (Rotaters
+and convenience interface methods)</p>
+</li></ul>
+
+<h3 id="label-0.0.3+%2F+2009-10-31">0.0.3 / 2009-10-31</h3>
+<ul><li>
+<p>API CHANGE: Renamed processor close methods to “finish” and introduced
+return value semantics for passing “final” information back up the
+processor tree.</p>
+</li><li>
+<p>API CHANGE: Renamed :dirname options to :basedir on both rotater strategies</p>
+</li><li>
+<p>API CHANGE: Renamed :filename option to :filepath on ShiftingLogFile</p>
+</li><li>
+<p>API CHANGE: Renamed :local_timezone option to :local_datestamps on
+DateBasedLogFile</p>
+</li><li>
+<p>API CHANGE: Renamed FilterBasicFields to FilterByBasicFields</p>
+</li><li>
+<p>Added FilterByBlock processors</p>
+</li><li>
+<p>Added CompileReport processors</p>
+</li><li>
+<p>Processors can now add custom methods to the processor building DSL.</p>
+</li><li>
+<p>Added a bunch of convenience methods to the toplevel <a
+href="Sawmill.html">Sawmill</a> module.</p>
+</li><li>
+<p>Entries can be truncated at a particular length when formatting.</p>
+</li><li>
+<p>Records can compute and cache values.</p>
+</li><li>
+<p>Support length limits when formatting entries.</p>
+</li><li>
+<p>Fixed a few more bugs related to processors.</p>
+</li><li>
+<p>More work on the RDocs</p>
+</li></ul>
+
+<h3 id="label-0.0.2+%2F+2009-10-28">0.0.2 / 2009-10-28</h3>
+<ul><li>
+<p>Added multi-parser utility.</p>
+</li><li>
+<p>Fixed several bugs involving parsing and formatting.</p>
+</li><li>
+<p>Logger uses activesupport’s SecureRandom on Ruby 1.8 if available.</p>
+</li></ul>
+
+<h3 id="label-0.0.1+%2F+2009-10-28">0.0.1 / 2009-10-28</h3>
+<ul><li>
+<p>Initial test release</p>
+</li></ul>
+
+</div>
+
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+

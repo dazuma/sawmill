@@ -1,0 +1,909 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+
+<title>module Sawmill - Sawmill 0.1.16 Documentation</title>
+
+<link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script type="text/javascript" charset="utf-8" src="./js/jquery.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/navigation.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search_index.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/search.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/searcher.js"></script>
+<script type="text/javascript" charset="utf-8" src="./js/darkfish.js"></script>
+
+
+<body id="top" class="module">
+<nav id="metadata">
+  <nav id="home-section" class="section">
+  <h3 class="section-header">
+    <a href="./index.html">Home</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </h3>
+</nav>
+
+
+  <nav id="search-section" class="section project-section" class="initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <h3 class="section-header">
+      <input type="text" name="search" placeholder="Search" id="search-field"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </h3>
+  </form>
+
+  <ul id="search-results" class="initially-hidden"></ul>
+</nav>
+
+
+  <div id="file-metadata">
+    <nav id="file-list-section" class="section">
+  <h3 class="section-header">Defined In</h3>
+  <ul>
+    <li>lib/sawmill/entry.rb
+    <li>lib/sawmill/entry_classifier.rb
+    <li>lib/sawmill/entry_processor/build_records.rb
+    <li>lib/sawmill/entry_processor/compile_report.rb
+    <li>lib/sawmill/entry_processor/conditionals.rb
+    <li>lib/sawmill/entry_processor/count_entries.rb
+    <li>lib/sawmill/entry_processor/filter_by_basic_fields.rb
+    <li>lib/sawmill/entry_processor/filter_by_block.rb
+    <li>lib/sawmill/entry_processor/format.rb
+    <li>lib/sawmill/entry_processor/interpret_stats.rb
+    <li>lib/sawmill/entry_processor/simple_queue.rb
+    <li>lib/sawmill/entry_processor.rb
+    <li>lib/sawmill/errors.rb
+    <li>lib/sawmill/interface.rb
+    <li>lib/sawmill/level.rb
+    <li>lib/sawmill/log_record_middleware.rb
+    <li>lib/sawmill/logger.rb
+    <li>lib/sawmill/multi_parser.rb
+    <li>lib/sawmill/parser.rb
+    <li>lib/sawmill/railtie.rb
+    <li>lib/sawmill/record.rb
+    <li>lib/sawmill/record_processor/compile_report.rb
+    <li>lib/sawmill/record_processor/conditionals.rb
+    <li>lib/sawmill/record_processor/count_records.rb
+    <li>lib/sawmill/record_processor/decompose.rb
+    <li>lib/sawmill/record_processor/filter_by_attributes.rb
+    <li>lib/sawmill/record_processor/filter_by_block.rb
+    <li>lib/sawmill/record_processor/filter_by_record_id.rb
+    <li>lib/sawmill/record_processor/format.rb
+    <li>lib/sawmill/record_processor/simple_queue.rb
+    <li>lib/sawmill/record_processor.rb
+    <li>lib/sawmill/rotater/base.rb
+    <li>lib/sawmill/rotater/date_based_log_file.rb
+    <li>lib/sawmill/rotater/shifting_log_file.rb
+    <li>lib/sawmill/rotater.rb
+    <li>lib/sawmill/stats_middleware.rb
+    <li>lib/sawmill/stats_railtie.rb
+    <li>lib/sawmill/util/heap.rb
+    <li>lib/sawmill/util/processor_tools.rb
+    <li>lib/sawmill/util/queue.rb
+    <li>lib/sawmill/version.rb
+    <li>lib/sawmill.rb
+  </ul>
+</nav>
+
+    
+  </div>
+
+  <div id="class-metadata">
+    
+    
+    
+    <!-- Method Quickref -->
+<nav id="method-list-section" class="section">
+  <h3 class="section-header">Methods</h3>
+
+  <ul class="link-list">
+    
+    <li><a href="#method-c-date_based_logfile">::date_based_logfile</a>
+    
+    <li><a href="#method-c-open_entries">::open_entries</a>
+    
+    <li><a href="#method-c-open_files">::open_files</a>
+    
+    <li><a href="#method-c-open_records">::open_records</a>
+    
+    <li><a href="#method-c-shifting_logfile">::shifting_logfile</a>
+    
+    <li><a href="#method-c-simple_logger">::simple_logger</a>
+    
+  </ul>
+</nav>
+
+  </div>
+
+  <div id="project-metadata">
+    <nav id="fileindex-section" class="section project-section">
+  <h3 class="section-header">Pages</h3>
+
+  <ul>
+  
+    <li class="file"><a href="./History_rdoc.html">History</a>
+  
+    <li class="file"><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</nav>
+
+    <nav id="classindex-section" class="section project-section">
+  <h3 class="section-header">Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./Sawmill.html">Sawmill</a>
+  
+    <li><a href="./Sawmill/Entry.html">Sawmill::Entry</a>
+  
+    <li><a href="./Sawmill/Entry/Attribute.html">Sawmill::Entry::Attribute</a>
+  
+    <li><a href="./Sawmill/Entry/BeginRecord.html">Sawmill::Entry::BeginRecord</a>
+  
+    <li><a href="./Sawmill/Entry/EndRecord.html">Sawmill::Entry::EndRecord</a>
+  
+    <li><a href="./Sawmill/Entry/Message.html">Sawmill::Entry::Message</a>
+  
+    <li><a href="./Sawmill/Entry/UnknownData.html">Sawmill::Entry::UnknownData</a>
+  
+    <li><a href="./Sawmill/EntryClassifier.html">Sawmill::EntryClassifier</a>
+  
+    <li><a href="./Sawmill/EntryProcessor.html">Sawmill::EntryProcessor</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/All.html">Sawmill::EntryProcessor::All</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/And.html">Sawmill::EntryProcessor::And</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Any.html">Sawmill::EntryProcessor::Any</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Base.html">Sawmill::EntryProcessor::Base</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/CompileReport.html">Sawmill::EntryProcessor::CompileReport</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/CountEntries.html">Sawmill::EntryProcessor::CountEntries</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/If.html">Sawmill::EntryProcessor::If</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/InterpretStats.html">Sawmill::EntryProcessor::InterpretStats</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Not.html">Sawmill::EntryProcessor::Not</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/Or.html">Sawmill::EntryProcessor::Or</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/SimpleQueue.html">Sawmill::EntryProcessor::SimpleQueue</a>
+  
+    <li><a href="./Sawmill/Errors.html">Sawmill::Errors</a>
+  
+    <li><a href="./Sawmill/Errors/DSLMethodError.html">Sawmill::Errors::DSLMethodError</a>
+  
+    <li><a href="./Sawmill/Errors/IllegalRecordError.html">Sawmill::Errors::IllegalRecordError</a>
+  
+    <li><a href="./Sawmill/Errors/NoUniqueLogFileError.html">Sawmill::Errors::NoUniqueLogFileError</a>
+  
+    <li><a href="./Sawmill/Errors/SawmillError.html">Sawmill::Errors::SawmillError</a>
+  
+    <li><a href="./Sawmill/Errors/UnknownLevelError.html">Sawmill::Errors::UnknownLevelError</a>
+  
+    <li><a href="./Sawmill/Level.html">Sawmill::Level</a>
+  
+    <li><a href="./Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>
+  
+    <li><a href="./Sawmill/LevelGroup/Builder.html">Sawmill::LevelGroup::Builder</a>
+  
+    <li><a href="./Sawmill/LogRecordMiddleware.html">Sawmill::LogRecordMiddleware</a>
+  
+    <li><a href="./Sawmill/Logger.html">Sawmill::Logger</a>
+  
+    <li><a href="./Sawmill/MultiParser.html">Sawmill::MultiParser</a>
+  
+    <li><a href="./Sawmill/Parser.html">Sawmill::Parser</a>
+  
+    <li><a href="./Sawmill/Railtie.html">Sawmill::Railtie</a>
+  
+    <li><a href="./Sawmill/Railtie/Configuration.html">Sawmill::Railtie::Configuration</a>
+  
+    <li><a href="./Sawmill/Record.html">Sawmill::Record</a>
+  
+    <li><a href="./Sawmill/RecordProcessor.html">Sawmill::RecordProcessor</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/All.html">Sawmill::RecordProcessor::All</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/And.html">Sawmill::RecordProcessor::And</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Any.html">Sawmill::RecordProcessor::Any</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Base.html">Sawmill::RecordProcessor::Base</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/CompileReport.html">Sawmill::RecordProcessor::CompileReport</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/CountRecords.html">Sawmill::RecordProcessor::CountRecords</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Decompose.html">Sawmill::RecordProcessor::Decompose</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByAttributes.html">Sawmill::RecordProcessor::FilterByAttributes</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByBlock.html">Sawmill::RecordProcessor::FilterByBlock</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/FilterByRecordID.html">Sawmill::RecordProcessor::FilterByRecordID</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Format.html">Sawmill::RecordProcessor::Format</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/If.html">Sawmill::RecordProcessor::If</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Not.html">Sawmill::RecordProcessor::Not</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/Or.html">Sawmill::RecordProcessor::Or</a>
+  
+    <li><a href="./Sawmill/RecordProcessor/SimpleQueue.html">Sawmill::RecordProcessor::SimpleQueue</a>
+  
+    <li><a href="./Sawmill/Rotater.html">Sawmill::Rotater</a>
+  
+    <li><a href="./Sawmill/Rotater/Base.html">Sawmill::Rotater::Base</a>
+  
+    <li><a href="./Sawmill/Rotater/Channel.html">Sawmill::Rotater::Channel</a>
+  
+    <li><a href="./Sawmill/Rotater/DateBasedLogFile.html">Sawmill::Rotater::DateBasedLogFile</a>
+  
+    <li><a href="./Sawmill/Rotater/ShiftingLogFile.html">Sawmill::Rotater::ShiftingLogFile</a>
+  
+    <li><a href="./Sawmill/StatsMiddleware.html">Sawmill::StatsMiddleware</a>
+  
+    <li><a href="./Sawmill/StatsRailtie.html">Sawmill::StatsRailtie</a>
+  
+    <li><a href="./Sawmill/StatsRailtie/Configuration.html">Sawmill::StatsRailtie::Configuration</a>
+  
+    <li><a href="./Sawmill/Util.html">Sawmill::Util</a>
+  
+    <li><a href="./Sawmill/Util/Heap.html">Sawmill::Util::Heap</a>
+  
+    <li><a href="./Sawmill/Util/ProcessorTools.html">Sawmill::Util::ProcessorTools</a>
+  
+    <li><a href="./Sawmill/Util/Queue.html">Sawmill::Util::Queue</a>
+  
+  </ul>
+</nav>
+
+  </div>
+</nav>
+
+<div id="documentation">
+  <h1 class="module">module Sawmill</h1>
+
+  <div id="description" class="description">
+    
+<p>This module is a namespace for <a href="Sawmill.html">Sawmill</a>.</p>
+
+<p>It also contains some convenience class methods.</p>
+
+  </div><!-- description -->
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+    <!-- Constants -->
+    <section id="constants-list" class="section">
+      <h3 class="section-header">Constants</h3>
+      <dl>
+      
+        <dt id="Formatter">Formatter
+        
+        <dd class="description"><p>Sawmill::Formatter is an alternate name for <a
+href="Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a></p>
+        
+      
+        <dt id="RecordBuilder">RecordBuilder
+        
+        <dd class="description"><p>Sawmill::RecordBuilder is an alternate name for <a
+href="Sawmill/EntryProcessor/BuildRecords.html">Sawmill::EntryProcessor::BuildRecords</a></p>
+        
+      
+        <dt id="STANDARD_LEVELS">STANDARD_LEVELS
+        
+        <dd class="description"><p>A <a href="Sawmill/LevelGroup.html">LevelGroup</a> that corresponds to the
+classic ruby logger levels.</p>
+        
+      
+        <dt id="VERSION">VERSION
+        
+        <dd class="description"><p>Current gem version, as a Versionomy::Value if the versionomy library is
+available, or as a frozen string if not.</p>
+        
+      
+        <dt id="VERSION_STRING">VERSION_STRING
+        
+        <dd class="description"><p>Current gem version, as a frozen string.</p>
+        
+      
+      </dl>
+    </section>
+    
+
+    
+
+    <!-- Methods -->
+    
+     <section id="public-class-5Buntitled-5D-method-details" class="method-section section">
+      <h3 class="section-header">Public Class Methods</h3>
+
+    
+      <div id="method-c-date_based_logfile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">date_based_logfile</span><span
+            class="method-args">(filepath_, frequency_, opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Creates a new logger that writes to a logfile that rotates automatically by
+tagging filenames with a datestamp.</p>
+
+<p>You must provide the file path prefix, and a turnover frequency. Possible
+values for the turnover frequency are <code>:yearly</code>,
+<code>:monthly</code>, <code>:daily</code>, <code>:hourly</code>, and
+<code>:never</code>.</p>
+
+<p>You may pass the same options taken by Sawmill::Logger#new,
+Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
+Sawmill::Rotater::DateBasedLogFile#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p>Use a custom <a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>.
+Normally, you should leave this set to the default, which is
+Sawmill::STANDARD_LEVELS.</p>
+</dd><dt><code>:level</code>
+<dd>
+<p>Default level to use for log messages when no level is explicitly provided.
+By default, this is set to the level group’s default, which in the case of
+the standard levels is :INFO.</p>
+</dd><dt><code>:attribute_level</code>
+<dd>
+<p>Default level to use for attributes when no level is explicitly provided.
+By default, this is set to the level group’s highest, level, which in the
+case of the standard levels is :ANY.</p>
+</dd><dt><code>:progname</code>
+<dd>
+<p>Progname to use in log messages. Default is “sawmill”.</p>
+</dd><dt><code>:record_progname</code>
+<dd>
+<p>Progname to use in special log entries dealing with log records (i.e.
+record delimiters and attribute messages). Default is the same as the
+normal progname setting.</p>
+</dd><dt><code>:record_id_generator</code>
+<dd>
+<p>A proc that generates and returns a new record ID if one is not explicitly
+passed into begin_record. If you do not provide a generator, the default
+one is used, which generates an ID using the variant 4 (random) UUID
+standard.</p>
+</dd><dt><code>:include_id</code>
+<dd>
+<p>Write the record ID in every log entry. Default is false.</p>
+</dd><dt><code>:fractional_second_digits</code>
+<dd>
+<p>Number of digits of fractional seconds to write in timestamps. Default is
+2. Accepted values are 0 to 6.</p>
+</dd><dt><code>:level_width</code>
+<dd>
+<p>Column width of the level field.</p>
+</dd><dt><code>:local_time</code>
+<dd>
+<p>If true, outputs local time with the timezone offset indicator. If false
+(the default), outputs UTC.</p>
+</dd><dt><code>:iso_8601_time</code>
+<dd>
+<p>If true, outputs time in strict ISO 8601 format. If false (the default),
+outputs a slightly more readable format.</p>
+</dd><dt><code>:omit_directives</code>
+<dd>
+<p>If true, omit standard logfile directives. Default is false.</p>
+</dd><dt><code>:basedir</code>
+<dd>
+<p>The base directory used if the filepath is a relative path. If not
+specified, the current working directory is used.</p>
+</dd><dt><code>:name_suffix</code>
+<dd>
+<p>The logfile name suffix. In the filename “rails.2009-10-11.log”, the suffix
+is “.log”. If not specified, defaults to “.log”.</p>
+</dd><dt><code>:local_datestamps</code>
+<dd>
+<p>If true, use the local timezone to create datestamps. The default is to use
+UTC.</p>
+</dd><dt><code>:encoding</code>
+<dd>
+<p>Specify an encoding name for file data. (Ruby 1.9 only) If not specified,
+uses the default external encoding.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="date_based_logfile-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 242</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">date_based_logfile</span>(<span class="ruby-identifier">filepath_</span>, <span class="ruby-identifier">frequency_</span>, <span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-identifier">rotater_</span> = <span class="ruby-constant">Rotater</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Rotater</span><span class="ruby-operator">::</span><span class="ruby-constant">DateBasedLogFile</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:path_prefix</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filepath_</span>,
+    <span class="ruby-value">:turnover_frequency</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">frequency_</span>))
+  <span class="ruby-identifier">processor_</span> = <span class="ruby-constant">EntryProcessor</span><span class="ruby-operator">::</span><span class="ruby-constant">Format</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">rotater_</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">dup</span>)
+  <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:processor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">processor_</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- date_based_logfile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- date_based_logfile-method -->
+
+    
+      <div id="method-c-open_entries" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">open_entries</span><span
+            class="method-args">(globs_, opts_={}, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Open one or more log files and run them through an entry processor. The
+processor is built on the fly using the <a
+href="Sawmill/EntryProcessor.html">EntryProcessor</a> DSL. See
+EntryProcessor#build for more details.</p>
+
+<p>You may pass the same options taken by Sawmill::MultiParser#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p><a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a> to use to parse
+log levels. If not specified, Sawmill::STANDARD_LEVELS is used by default.</p>
+</dd><dt><code>:emit_incomplete_records_at_eof</code>
+<dd>
+<p>If set to true, causes any incomplete log records to be emitted in their
+incomplete state when EOF is reached on all streams.</p>
+</dd></dl>
+
+<p>Additionally, these options are recognized:</p>
+<dl class="rdoc-list label-list"><dt><code>:encoding</code>
+<dd>
+<p>Specify an encoding for file data. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, reads raw bytes
+(e.g. defaults to ‘ASCII-8BIT’). Note that the encoding may also be
+modified by the file itself, if an appropriate parser directive is
+encountered.</p>
+</dd><dt><code>:internal_encoding</code>
+<dd>
+<p>Specify an encoding to transcode to. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, uses the encoding as
+read from the file.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="open_entries-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 277</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">open_entries</span>(<span class="ruby-identifier">globs_</span>, <span class="ruby-identifier">opts_</span>={}, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">processor_</span> = <span class="ruby-constant">EntryProcessor</span>.<span class="ruby-identifier">build</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">open_files</span>(<span class="ruby-identifier">globs_</span>, <span class="ruby-identifier">processor_</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:finish</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- open_entries-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- open_entries-method -->
+
+    
+      <div id="method-c-open_files" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">open_files</span><span
+            class="method-args">(globs_, processor_, opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Open one or more log files and run them through the given <a
+href="Sawmill/EntryProcessor.html">EntryProcessor</a> or <a
+href="Sawmill/RecordProcessor.html">RecordProcessor</a>.</p>
+
+<p>You may pass the same options taken by Sawmill::MultiParser#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p><a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a> to use to parse
+log levels. If not specified, Sawmill::STANDARD_LEVELS is used by default.</p>
+</dd><dt><code>:emit_incomplete_records_at_eof</code>
+<dd>
+<p>If set to true, causes any incomplete log records to be emitted in their
+incomplete state when EOF is reached on all streams.</p>
+</dd></dl>
+
+<p>Additionally, these options are recognized:</p>
+<dl class="rdoc-list label-list"><dt><code>:finish</code>
+<dd>
+<p>If set to true, the “finish” method is called on the processor after all
+files have been parsed, and the return value is returned. Otherwise, the
+processor is left open and nil is returned.</p>
+</dd><dt><code>:encoding</code>
+<dd>
+<p>Specify an encoding for file data. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, reads raw bytes
+(e.g. defaults to ‘ASCII-8BIT’). Note that the encoding may also be
+modified by the file itself, if an appropriate parser directive is
+encountered.</p>
+</dd><dt><code>:internal_encoding</code>
+<dd>
+<p>Specify an encoding to transcode to. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, uses the encoding as
+read from the file.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="open_files-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 346</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">open_files</span>(<span class="ruby-identifier">globs_</span>, <span class="ruby-identifier">processor_</span>, <span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-identifier">finish_opt_</span> = <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:finish</span>)
+  <span class="ruby-identifier">encoding_</span> = <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:encoding</span>)
+  <span class="ruby-identifier">internal_encoding_</span> = <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value">:internal_encoding</span>)
+  <span class="ruby-identifier">mode_</span> = <span class="ruby-string">'r'</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-keyword">defined?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span>)
+    <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-identifier">encoding_</span>
+      <span class="ruby-identifier">encoding_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span><span class="ruby-operator">::</span><span class="ruby-constant">ASCII_8BIT</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">encoding_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">encoding_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:name</span>)
+      <span class="ruby-identifier">encoding_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">encoding_</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">internal_encoding_</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">internal_encoding_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:name</span>)
+      <span class="ruby-identifier">internal_encoding_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">Encoding</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">internal_encoding_</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">encoding_</span>
+      <span class="ruby-identifier">mode_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-node">&quot;:#{encoding_.name}&quot;</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">encoding_</span> = <span class="ruby-keyword">nil</span>
+    <span class="ruby-identifier">internal_encoding_</span> = <span class="ruby-keyword">nil</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">globs_</span> = [<span class="ruby-identifier">globs_</span>] <span class="ruby-keyword">unless</span> <span class="ruby-identifier">globs_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">Array</span>)
+  <span class="ruby-identifier">io_array_</span> = []
+  <span class="ruby-identifier">encoding_array_</span> = []
+  <span class="ruby-identifier">internal_encoding_array_</span> = []
+  <span class="ruby-keyword">begin</span>
+    <span class="ruby-identifier">globs_</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">glob_</span><span class="ruby-operator">|</span>
+      <span class="ruby-operator">::</span><span class="ruby-constant">Dir</span>.<span class="ruby-identifier">glob</span>(<span class="ruby-identifier">glob_</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">path_</span><span class="ruby-operator">|</span>
+        <span class="ruby-keyword">if</span> <span class="ruby-identifier">path_</span> <span class="ruby-operator">=~</span> <span class="ruby-regexp">%r\.gz$/</span>
+          <span class="ruby-identifier">io_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path_</span>, <span class="ruby-string">'rb'</span>)
+          <span class="ruby-identifier">io_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-operator">::</span><span class="ruby-constant">Zlib</span><span class="ruby-operator">::</span><span class="ruby-constant">GzipReader</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">io_</span>)
+          <span class="ruby-identifier">encoding_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">encoding_</span>
+          <span class="ruby-identifier">internal_encoding_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">internal_encoding_</span>
+        <span class="ruby-keyword">else</span>
+          <span class="ruby-identifier">io_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">path_</span>, <span class="ruby-identifier">mode_</span>)
+          <span class="ruby-identifier">encoding_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-keyword">nil</span>
+          <span class="ruby-identifier">internal_encoding_array_</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">internal_encoding_</span>
+        <span class="ruby-keyword">end</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:encoding_array</span>] = <span class="ruby-identifier">encoding_array_</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">encoding_array_</span>.<span class="ruby-identifier">find</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">elem_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem_</span> }
+    <span class="ruby-identifier">opts_</span>[<span class="ruby-value">:internal_encoding_array</span>] = <span class="ruby-identifier">internal_encoding_array_</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">internal_encoding_array_</span>.<span class="ruby-identifier">find</span>{ <span class="ruby-operator">|</span><span class="ruby-identifier">elem_</span><span class="ruby-operator">|</span> <span class="ruby-identifier">elem_</span> }
+    <span class="ruby-constant">MultiParser</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">io_array_</span>, <span class="ruby-identifier">processor_</span>, <span class="ruby-identifier">opts_</span>).<span class="ruby-identifier">parse_all</span>
+  <span class="ruby-keyword">ensure</span>
+    <span class="ruby-identifier">io_array_</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">io_</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">io_</span>.<span class="ruby-identifier">close</span> <span class="ruby-keyword">rescue</span> <span class="ruby-keyword">nil</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">finish_opt_</span> <span class="ruby-operator">?</span> <span class="ruby-identifier">processor_</span>.<span class="ruby-identifier">finish</span> <span class="ruby-operator">:</span> <span class="ruby-keyword">nil</span>
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- open_files-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- open_files-method -->
+
+    
+      <div id="method-c-open_records" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">open_records</span><span
+            class="method-args">(globs_, opts_={}, &block_)</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Open one or more log files and run them through a record processor. The
+processor is built on the fly using the <a
+href="Sawmill/RecordProcessor.html">RecordProcessor</a> DSL. See
+RecordProcessor#build for more details.</p>
+
+<p>You may pass the same options taken by Sawmill::MultiParser#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p><a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a> to use to parse
+log levels. If not specified, Sawmill::STANDARD_LEVELS is used by default.</p>
+</dd><dt><code>:emit_incomplete_records_at_eof</code>
+<dd>
+<p>If set to true, causes any incomplete log records to be emitted in their
+incomplete state when EOF is reached on all streams.</p>
+</dd></dl>
+
+<p>Additionally, these options are recognized:</p>
+<dl class="rdoc-list label-list"><dt><code>:encoding</code>
+<dd>
+<p>Specify an encoding for file data. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, reads raw bytes
+(e.g. defaults to ‘ASCII-8BIT’). Note that the encoding may also be
+modified by the file itself, if an appropriate parser directive is
+encountered.</p>
+</dd><dt><code>:internal_encoding</code>
+<dd>
+<p>Specify an encoding to transcode to. (Ruby 1.9 only.) You may specify an
+encoding name or an encoding object. If not specified, uses the encoding as
+read from the file.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="open_records-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 310</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">open_records</span>(<span class="ruby-identifier">globs_</span>, <span class="ruby-identifier">opts_</span>={}, &amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">processor_</span> = <span class="ruby-constant">RecordProcessor</span>.<span class="ruby-identifier">build</span>(&amp;<span class="ruby-identifier">block_</span>)
+  <span class="ruby-identifier">open_files</span>(<span class="ruby-identifier">globs_</span>, <span class="ruby-identifier">processor_</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:finish</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword">true</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- open_records-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- open_records-method -->
+
+    
+      <div id="method-c-shifting_logfile" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">shifting_logfile</span><span
+            class="method-args">(filepath_, period_, max_size_, opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Creates a new logger that writes to a logfile that rotates automatically by
+“shifting”. This is a standard rotation strategy used by many unix tools.</p>
+
+<p>You must provide the logfile path, a shifting period, and a maximum file
+size.</p>
+
+<p>The period specifies how often to rotate the logfile. Possible values
+include <code>:yearly</code>, <code>:monthly</code>, <code>:daily</code>,
+and <code>:hourly</code>. You may also specify an integer value, which is
+interpreted as a number of seconds. Finally, you may pass nil to disable
+checking of the file’s age. If you do pass nil, you should provide a
+maximum size.</p>
+
+<p>The maximum size is the maximum file size in bytes. You may provide a
+number, or nil to disable checking of the file size.</p>
+
+<p>You may pass the same options taken by Sawmill::Logger#new,
+Sawmill::EntryProcessor::Format#new, Sawmill::Rotater#new, and
+Sawmill::Rotater::ShiftingLogFile#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p>Use a custom <a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>.
+Normally, you should leave this set to the default, which is
+Sawmill::STANDARD_LEVELS.</p>
+</dd><dt><code>:level</code>
+<dd>
+<p>Default level to use for log messages when no level is explicitly provided.
+By default, this is set to the level group’s default, which in the case of
+the standard levels is :INFO.</p>
+</dd><dt><code>:attribute_level</code>
+<dd>
+<p>Default level to use for attributes when no level is explicitly provided.
+By default, this is set to the level group’s highest, level, which in the
+case of the standard levels is :ANY.</p>
+</dd><dt><code>:progname</code>
+<dd>
+<p>Progname to use in log messages. Default is “sawmill”.</p>
+</dd><dt><code>:record_progname</code>
+<dd>
+<p>Progname to use in special log entries dealing with log records (i.e.
+record delimiters and attribute messages). Default is the same as the
+normal progname setting.</p>
+</dd><dt><code>:record_id_generator</code>
+<dd>
+<p>A proc that generates and returns a new record ID if one is not explicitly
+passed into begin_record. If you do not provide a generator, the default
+one is used, which generates an ID using the variant 4 (random) UUID
+standard.</p>
+</dd><dt><code>:include_id</code>
+<dd>
+<p>Write the record ID in every log entry. Default is false.</p>
+</dd><dt><code>:fractional_second_digits</code>
+<dd>
+<p>Number of digits of fractional seconds to write in timestamps. Default is
+2. Accepted values are 0 to 6.</p>
+</dd><dt><code>:level_width</code>
+<dd>
+<p>Column width of the level field.</p>
+</dd><dt><code>:local_time</code>
+<dd>
+<p>If true, outputs local time with the timezone offset indicator. If false
+(the default), outputs UTC.</p>
+</dd><dt><code>:iso_8601_time</code>
+<dd>
+<p>If true, outputs time in strict ISO 8601 format. If false (the default),
+outputs a slightly more readable format.</p>
+</dd><dt><code>:omit_directives</code>
+<dd>
+<p>If true, omit standard logfile directives. Default is false.</p>
+</dd><dt><code>:basedir</code>
+<dd>
+<p>The base directory used if the filepath is a relative path. If not
+specified, the current working directory is used.</p>
+</dd><dt><code>:history_size</code>
+<dd>
+<p>The maximum number of old logfiles (files with indexes) to keep. Files
+beyond this history size will be automatically deleted. Default is 1. This
+value must be at least 1.</p>
+</dd><dt><code>:encoding</code>
+<dd>
+<p>Specify an encoding name for file data. (Ruby 1.9 only) If not specified,
+uses the default external encoding.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="shifting_logfile-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 171</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">shifting_logfile</span>(<span class="ruby-identifier">filepath_</span>, <span class="ruby-identifier">period_</span>, <span class="ruby-identifier">max_size_</span>, <span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-identifier">rotater_</span> = <span class="ruby-constant">Rotater</span>.<span class="ruby-identifier">new</span>(<span class="ruby-constant">Rotater</span><span class="ruby-operator">::</span><span class="ruby-constant">ShiftingLogFile</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:file_path</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filepath_</span>,
+    <span class="ruby-value">:max_file_size</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">max_size_</span>, <span class="ruby-value">:shift_period</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">period_</span>))
+  <span class="ruby-identifier">processor_</span> = <span class="ruby-constant">EntryProcessor</span><span class="ruby-operator">::</span><span class="ruby-constant">Format</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">rotater_</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">dup</span>)
+  <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:processor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">processor_</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- shifting_logfile-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- shifting_logfile-method -->
+
+    
+      <div id="method-c-simple_logger" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">simple_logger</span><span
+            class="method-args">(filepath_=::STDOUT, opts_={})</span>
+          <span class="method-click-advice">click to toggle source</span>
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Creates a new logger that writes to a single logfile. You may provide
+either the path to the logfile, or an IO object to write to, such as
+STDOUT.</p>
+
+<p>You may pass the same options taken by Sawmill::Logger#new and
+Sawmill::EntryProcessor::Format#new, which are:</p>
+<dl class="rdoc-list label-list"><dt><code>:levels</code>
+<dd>
+<p>Use a custom <a href="Sawmill/LevelGroup.html">Sawmill::LevelGroup</a>.
+Normally, you should leave this set to the default, which is
+Sawmill::STANDARD_LEVELS.</p>
+</dd><dt><code>:level</code>
+<dd>
+<p>Default level to use for log messages when no level is explicitly provided.
+By default, this is set to the level group’s default, which in the case of
+the standard levels is :INFO.</p>
+</dd><dt><code>:attribute_level</code>
+<dd>
+<p>Default level to use for attributes when no level is explicitly provided.
+By default, this is set to the level group’s highest, level, which in the
+case of the standard levels is :ANY.</p>
+</dd><dt><code>:progname</code>
+<dd>
+<p>Progname to use in log messages. Default is “sawmill”.</p>
+</dd><dt><code>:record_progname</code>
+<dd>
+<p>Progname to use in special log entries dealing with log records (i.e.
+record delimiters and attribute messages). Default is the same as the
+normal progname setting.</p>
+</dd><dt><code>:record_id_generator</code>
+<dd>
+<p>A proc that generates and returns a new record ID if one is not explicitly
+passed into begin_record. If you do not provide a generator, the default
+one is used, which generates an ID using the variant 4 (random) UUID
+standard.</p>
+</dd><dt><code>:include_id</code>
+<dd>
+<p>Write the record ID in every log entry. Default is false.</p>
+</dd><dt><code>:fractional_second_digits</code>
+<dd>
+<p>Number of digits of fractional seconds to write in timestamps. Default is
+2. Accepted values are 0 to 6.</p>
+</dd><dt><code>:level_width</code>
+<dd>
+<p>Column width of the level field.</p>
+</dd><dt><code>:local_time</code>
+<dd>
+<p>If true, outputs local time with the timezone offset indicator. If false
+(the default), outputs UTC.</p>
+</dd><dt><code>:iso_8601_time</code>
+<dd>
+<p>If true, outputs time in strict ISO 8601 format. If false (the default),
+outputs a slightly more readable format.</p>
+</dd></dl>
+          
+
+          
+          <div class="method-source-code" id="simple_logger-source">
+            <pre><span class="ruby-comment"># File lib/sawmill/interface.rb, line 89</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">simple_logger</span>(<span class="ruby-identifier">filepath_</span>=<span class="ruby-operator">::</span><span class="ruby-constant">STDOUT</span>, <span class="ruby-identifier">opts_</span>={})
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filepath_</span>.<span class="ruby-identifier">kind_of?</span>(<span class="ruby-operator">::</span><span class="ruby-constant">String</span>)
+    <span class="ruby-identifier">io_</span> = <span class="ruby-operator">::</span><span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-identifier">filepath_</span>)
+  <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">filepath_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:write</span>) <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">filepath_</span>.<span class="ruby-identifier">respond_to?</span>(<span class="ruby-value">:close</span>)
+    <span class="ruby-identifier">io_</span> = <span class="ruby-identifier">filepath_</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">raise</span> <span class="ruby-operator">::</span><span class="ruby-constant">ArgumentError</span>, <span class="ruby-string">&quot;You must pass a file path or an IO object&quot;</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">processor_</span> = <span class="ruby-constant">EntryProcessor</span><span class="ruby-operator">::</span><span class="ruby-constant">Format</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">io_</span>, <span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">dup</span>)
+  <span class="ruby-constant">Logger</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">opts_</span>.<span class="ruby-identifier">merge</span>(<span class="ruby-value">:processor</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">processor_</span>))
+<span class="ruby-keyword">end</span></pre>
+          </div><!-- simple_logger-source -->
+          
+        </div>
+
+        
+
+        
+      </div><!-- simple_logger-method -->
+
+    
+    </section><!-- public-class-method-details -->
+  
+  </section><!-- 5Buntitled-5D -->
+
+</div><!-- documentation -->
+
+
+<footer id="validator-badges">
+  <p><a href="http://validator.w3.org/check/referer">[Validate]</a>
+  <p>Generated by <a href="https://github.com/rdoc/rdoc">RDoc</a> 3.12.
+  <p>Generated with the <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish Rdoc Generator</a> 3.
+</footer>
+
