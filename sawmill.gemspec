@@ -38,7 +38,7 @@
   s_.name = 'sawmill'
   s_.summary = 'Sawmill is a logging and log analysis system for Ruby.'
   s_.description = "Sawmill is a logging and log analysis system for Ruby. It extends the basic Ruby logging facility with log records and parsing abilities."
-  s_.version = "#{::File.read('Version').strip}.build#{::Time.now.utc.strftime('%Y%m%d%H%M%S')}"
+  s_.version = "#{::File.read('Version').strip}.nonrelease"
   s_.author = 'Daniel Azuma'
   s_.email = 'dazuma@gmail.com'
   s_.homepage = 'http://dazuma.github.com/sawmill'
