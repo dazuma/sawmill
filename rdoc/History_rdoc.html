@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>History - Sawmill 0.1.16 Documentation</title>
+<title>History - Sawmill 0.1.17 Documentation</title>
 
 <link type="text/css" media="screen" href="./rdoc.css" rel="stylesheet">
 
@@ -96,6 +96,8 @@
     <li><a href="./Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
   
     <li><a href="./Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="./Sawmill/EntryProcessor/FilterByMessage.html">Sawmill::EntryProcessor::FilterByMessage</a>
   
     <li><a href="./Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
   
@@ -205,6 +207,18 @@
 
 <div id="documentation" class="description">
   
+<h3 id="label-0.1.17+%2F+2012-12-14">0.1.17 / 2012-12-14</h3>
+<ul><li>
+<p>The Rails config now supports an entry_filter setting, which lets you
+pre-filter log entries before they get handed over to the formatter.</p>
+</li><li>
+<p>Implemented <a
+href="Sawmill/EntryProcessor/FilterByMessage.html">Sawmill::EntryProcessor::FilterByMessage</a>.</p>
+</li><li>
+<p>The gemspec no longer includes the timestamp in the version, so that
+bundler can pull from github. (Reported by corneverbruggen)</p>
+</li></ul>
+
 <h3 id="label-0.1.16+%2F+2012-06-04">0.1.16 / 2012-06-04</h3>
 <ul><li>
 <p>The :local_time and :iso_8601_time arguments to <a

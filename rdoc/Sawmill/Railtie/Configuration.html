@@ -4,7 +4,7 @@
 <head>
 <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
 
-<title>class Sawmill::Railtie::Configuration - Sawmill 0.1.16 Documentation</title>
+<title>class Sawmill::Railtie::Configuration - Sawmill 0.1.17 Documentation</title>
 
 <link type="text/css" media="screen" href="../../rdoc.css" rel="stylesheet">
 
@@ -132,6 +132,8 @@
     <li><a href="../../Sawmill/EntryProcessor/FilterByBasicFields.html">Sawmill::EntryProcessor::FilterByBasicFields</a>
   
     <li><a href="../../Sawmill/EntryProcessor/FilterByBlock.html">Sawmill::EntryProcessor::FilterByBlock</a>
+  
+    <li><a href="../../Sawmill/EntryProcessor/FilterByMessage.html">Sawmill::EntryProcessor::FilterByMessage</a>
   
     <li><a href="../../Sawmill/EntryProcessor/Format.html">Sawmill::EntryProcessor::Format</a>
   
@@ -303,6 +305,20 @@ href="../LogRecordMiddleware.html#method-c-new">Sawmill::LogRecordMiddleware.new
         
         <p>This option is passed to <a
 href="../LogRecordMiddleware.html#method-c-new">Sawmill::LogRecordMiddleware.new</a></p>
+        
+        </div>
+      </div>
+      
+      <div id="attribute-i-entry_filter" class="method-detail">
+        <div class="method-heading attribute-method-heading">
+          <span class="method-name">entry_filter</span><span
+            class="attribute-access-type">[RW]</span>
+        </div>
+
+        <div class="method-description">
+        
+        <p>An optional filter to run on log entries before they get passed to the
+formatter.</p>
         
         </div>
       </div>
@@ -540,7 +556,7 @@ href="../LogRecordMiddleware.html#method-c-new">Sawmill::LogRecordMiddleware.new
 
           
           <div class="method-source-code" id="post_logger-source">
-            <pre><span class="ruby-comment"># File lib/sawmill/railtie.rb, line 134</span>
+            <pre><span class="ruby-comment"># File lib/sawmill/railtie.rb, line 139</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">post_logger</span>(<span class="ruby-identifier">proc_</span>=<span class="ruby-keyword">false</span>, &amp;<span class="ruby-identifier">block_</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_</span>
     <span class="ruby-ivar">@post_logger</span> = <span class="ruby-identifier">block_</span>
@@ -575,7 +591,7 @@ href="../LogRecordMiddleware.html#method-c-new">Sawmill::LogRecordMiddleware.new
 
           
           <div class="method-source-code" id="pre_logger-source">
-            <pre><span class="ruby-comment"># File lib/sawmill/railtie.rb, line 124</span>
+            <pre><span class="ruby-comment"># File lib/sawmill/railtie.rb, line 129</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">pre_logger</span>(<span class="ruby-identifier">proc_</span>=<span class="ruby-keyword">false</span>, &amp;<span class="ruby-identifier">block_</span>)
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">block_</span>
     <span class="ruby-ivar">@pre_logger</span> = <span class="ruby-identifier">block_</span>
