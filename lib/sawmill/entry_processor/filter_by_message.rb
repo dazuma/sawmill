@@ -1,6 +1,6 @@
 # -----------------------------------------------------------------------------
 #
-# Gemfile used for CI testing.
+# Sawmill entry processor that checks message content.
 #
 # -----------------------------------------------------------------------------
 # Copyright 2012 Daniel Azuma
@@ -34,11 +34,63 @@
 ;
 
 
-source "http://rubygems.org"
+module Sawmill
 
-gemspec
+  module EntryProcessor
 
-group(:test) do
-  gem('rake', '>= 10.0')
-  gem('rdoc', '>= 3.12')
+
+    # A basic filter that knows how to check message content.
+    #
+    # This is a boolean processor, so it merely returns true or false based
+    # on the filter result. Use this in conjunction with an If processor to
+    # actually perform other actions based on the result.
+
+    class FilterByMessage < Base
+
+
+      # Create a new filter. you must provide content, which can be a
+      # string or a regex.
+      #
+      # Recognized options include:
+      #
+      # [<tt>:accept_non_messages</tt>]
+      #   If set to true, accepts entries that are not messages. Otherwise,
+      #   if set to false or not specified, rejects such entries.
+
+      def initialize(content_, opts_={})
+        @content = content_
+        @accept_non_messages = opts_[:accept_non_messages] ? true : false
+      end
+
+
+      def begin_record(entry_)
+        @accept_non_messages
+      end
+
+      def end_record(entry_)
+        @accept_non_messages
+      end
+
+      def message(entry_)
+        @content === entry_.message
+      end
+
+      def attribute(entry_)
+        @accept_non_messages
+      end
+
+      def unknown_data(entry_)
+        @accept_non_messages
+      end
+
+      def finish
+        nil
+      end
+
+
+    end
+
+
+  end
+
 end

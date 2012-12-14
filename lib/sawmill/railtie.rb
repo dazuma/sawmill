@@ -81,11 +81,16 @@ module Sawmill
         @elapsed_time_attribute = nil
         @pre_logger = nil
         @post_logger = nil
+        @entry_filter = nil
       end
 
       # The log file to write to. This should be either an IO object, or
       # a Sawmill::Rotater. Default is STDERR.
       attr_accessor :logfile
+
+      # An optional filter to run on log entries before they get passed
+      # to the formatter.
+      attr_accessor :entry_filter
 
       # This option is passed to Sawmill::EntryProcessor::Format::new
       attr_accessor :include_id
@@ -156,8 +161,13 @@ module Sawmill
         :local_time => myconfig_.local_time,
         :iso_8601_time => myconfig_.iso_8601_time,
         :length_limit => myconfig_.length_limit)
+      if (filter_ = myconfig_.entry_filter)
+        processor_ = EntryProcessor::If.new(filter_, formatter_)
+      else
+        processor_ = formatter_
+      end
       logger_ = Logger.new(
-        :processor => formatter_,
+        :processor => processor_,
         :level => myconfig_.level,
         :attribute_level  => myconfig_.attribute_level,
         :progname => myconfig_.progname,

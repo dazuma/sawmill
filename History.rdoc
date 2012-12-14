@@ -1,5 +1,7 @@
-=== 0.1.17 / 2012-??-??
+=== 0.1.17 / 2012-12-14
 
+* The Rails config now supports an entry_filter setting, which lets you pre-filter log entries before they get handed over to the formatter.
+* Implemented Sawmill::EntryProcessor::FilterByMessage.
 * The gemspec no longer includes the timestamp in the version, so that bundler can pull from github. (Reported by corneverbruggen)
 
 === 0.1.16 / 2012-06-04

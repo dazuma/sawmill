@@ -81,6 +81,21 @@ module Sawmill
       end
 
 
+      # Test a message filter
+
+      def test_basic_message_filter
+        processor_ = ::Sawmill::EntryProcessor::build do
+          If(FilterByMessage(/hello/), @entries)
+        end
+        @logger = ::Sawmill::Logger.new(:processor => processor_)
+        @logger.info('hi Hello')
+        @logger.info('ho hello')
+        @logger.info('he Hello')
+        assert_equal('ho hello', @entries.dequeue.message)
+        assert_equal(0, @entries.size)
+      end
+
+
       # Test an "AND" filter
 
       def test_conjunction_and
